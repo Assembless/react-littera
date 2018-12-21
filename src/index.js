@@ -1,2 +1,2 @@
-export {default as Littera} from './Littera';
-export {default as withLittera} from './withLittera';
+export { default as LitteraProvider } from './LitteraProvider';
+export { default as withLittera } from './withLittera';
