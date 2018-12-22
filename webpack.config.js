@@ -51,7 +51,6 @@ module.exports = (env) => {
   return {
     ...config,
     devtool: 'cheap-module-eval-source-map',
-    mode: isProd ? 'production' : 'development',
     devServer: {
       contentBase: outputPaths.example,
       compress: true,
