@@ -50,7 +50,7 @@ export default withLittera(translation)(ExampleComponent);
 
 Give it a try on _codesandbox_
 
-[![Code Sandbox](https://codesandbox.io/static/img/play-codesandbox.svg)](https://codesandbox.io/s/n5wlmrwwm4)
+[![Code Sandbox](https://codesandbox.io/static/img/play-codesandbox.svg)](https://codesandbox.io/s/6299pk9r1r)
 
 #### Translations example
 
