@@ -1,15 +1,20 @@
-import React from 'react';
-import { render } from 'react-dom';
-import { LitteraProvider } from '../../src';
+import React, { useState } from "react";
+import { render } from "react-dom";
+import LitteraProvider from "../../src";
 
-import SimpleText from './simpleText';
-import { setLanguage } from '../../src/LitteraProvider';
+import ExampleButton from "./ExampleButton";
 
-const App = () => (
-  <LitteraProvider language="de_DE">
-    <SimpleText super="test" />
-    <button onClick={() => setLanguage("pl_PL")}>Change language</button>
-  </LitteraProvider>
-);
+const App = () => {
+    const [language, setLanguage] = useState("en_US");
+    const languages = ["en_US", "de_DE", "pl_PL"];
 
-render(<App />, document.getElementById('root'));
+    const nextLanguage = () => languages[languages.indexOf(language) + 1] || languages[0];
+
+    return (
+        <LitteraProvider language={language}>
+            <ExampleButton onClick={() => setLanguage(nextLanguage())} />
+        </LitteraProvider>
+    );
+};
+
+render(<App />, document.getElementById("root"));

@@ -1,2 +1,5 @@
-export { default as LitteraProvider } from './LitteraProvider';
-export { default as withLittera } from './withLittera';
+import LitteraProvider, { LitteraContext } from "./LitteraProvider";
+import withLittera from "./withLittera";
+
+export { withLittera, LitteraContext };
+export default LitteraProvider;
