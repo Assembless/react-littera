@@ -5,8 +5,22 @@
 [![npm](https://img.shields.io/npm/v/react-littera.svg?style=for-the-badge)](https://www.npmjs.com/package/react-littera)
 [![npm](https://img.shields.io/npm/dt/react-littera.svg?style=for-the-badge)](https://www.npmjs.com/package/react-littera)
 [![](https://img.shields.io/github/license/DRFR0ST/react-littera.svg?style=for-the-badge)](https://github.com/DRFR0ST/react-littera)
-[![](https://img.shields.io/codecov/c/github/DRFR0ST/react-littera.svg?style=for-the-badge)](https://codecov.io/gh/DRFR0ST/react-littera)
-[![](https://img.shields.io/librariesio/github/DRFR0ST/react-littera.svg?style=for-the-badge)](https://libraries.io/github/DRFR0ST/react-littera)
+
+## About
+
+This tool was created to help create and maintain translations in React applications. All translations are kept in objects contained in each component. The object has nested strings and each string is a translation for a language (e.g. `en_US: "Welcome"`).
+
+Following the example above, the whole object might look like this:
+
+```javascript
+welcome: {
+    en_US: "Welcome",
+    pl_PL: "Witamy",
+    de_DE: "Willkommen"
+}
+```
+
+This makes the maintenance and development much easier as you don't have to go through a long JSON file looking for the translation key and each translation is applied directly in one component.
 
 ## Install
 
@@ -24,9 +38,7 @@ yarn add react-littera
 
 or clone/download the repository.
 
-## Examples
-
-The basic concept is that you declare an object with keys and for each language, strings with a translation and pass it to the `withLittera` HOC.
+## Example
 
 ```javascript
 import React from "react";
@@ -65,6 +77,12 @@ Give it a try on _codesandbox_
 ```
 
 which can be then accessed from props as `translated`.
+
+## API
+
+`LitteraProvider` => Component providing the context for a specific language. You can pass a **language**(string) and **preset**(object) prop. To use `withLittera` properly, you have to wrap your component with this provider.
+
+`withLittera` => You feed it with translations and a component which then gets the translated object passed via prop (e.g. `withLittera(translations)(Component)`).
 
 ## Build instructions
 
