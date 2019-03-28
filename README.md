@@ -38,7 +38,9 @@ yarn add react-littera
 
 or clone/download the repository.
 
-## Example
+## Examples
+
+#### Using a HOC
 
 ```javascript
 import React from "react";
@@ -53,11 +55,37 @@ const translations = {
     }
 };
 
-const ExampleComponent = ({ translated }) => {
+class ExampleComponent extends React.Component {
+    render() {
+        return <button>{this.props.translated.example}</button>;
+    }
+}
+
+export default withLittera(translation)(ExampleComponent);
+```
+
+#### Using a Hook
+
+```javascript
+import React from "react";
+import { useLittera } from "react-littera";
+
+// Object containing translations for each key...
+const translations = {
+    example: {
+        en_US: "Example",
+        pl_PL: "Przykład",
+        de_DE: "Beispiel"
+    }
+};
+
+const ExampleComponent = () => {
+    const [translated] = useLittera(translations);
+
     return <button>{translated.example}</button>;
 };
 
-export default withLittera(translation)(ExampleComponent);
+export default ExampleComponent;
 ```
 
 Give it a try on _codesandbox_
@@ -76,13 +104,15 @@ Give it a try on _codesandbox_
 }
 ```
 
-which can be then accessed from props as `translated`.
+`props.translated.unique.example` will equal `"Example"`, if language is set to `en_US`.
 
 ## API
 
-`LitteraProvider` => Component providing the context for a specific language. You can pass a **language**(string) and **preset**(object) prop. To use `withLittera` properly, you have to wrap your component with this provider.
+`LitteraProvider` => Component providing the context for a specific language. You can pass a **language** [string] and **preset** [object] prop. To use `withLittera` properly, you have to wrap your component with this provider.
 
-`withLittera` => You feed it with translations and a component which then gets the translated object passed via prop (e.g. `withLittera(translations)(Component)`).
+`withLittera` => A HOC, you feed it with translations [object] and a component which then gets the translated object passed via prop (e.g. `withLittera(translations)(Component)`).
+
+`useLittera` => A Hook, you feed it with translations (object) and it returns `translated` [object] and `language` [string].
 
 ## Build instructions
 
