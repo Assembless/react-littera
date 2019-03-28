@@ -2,7 +2,6 @@ language: node_js
 node_js:
   - "8.8.1"
 install:
-  - npm install -g yarn
-  - yarn install
+  - npm install
 script:
-  - yarn run ci
+  - npm run ci
