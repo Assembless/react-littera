@@ -15,7 +15,8 @@ const ExampleText = () => {
 
     return (
         <h4>
-            {language} => {translated.welcome}
+            {language} =>
+            {translated.welcome}
         </h4>
     );
 };

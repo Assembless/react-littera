@@ -1,12 +1,12 @@
 import React from "react";
-import { LitteraContext } from "./";
+import { LitteraContext } from ".";
 
-const withLittera = translations => Component => {
-    return function WrapperComponent(props) {
+const withLittera = translations => Component =>
+    function WrapperComponent(props) {
         return (
             <LitteraContext.Consumer>
                 {state => {
-                    let translated = {};
+                    const translated = {};
 
                     const transes =
                         typeof translations === "function"
@@ -20,6 +20,5 @@ const withLittera = translations => Component => {
             </LitteraContext.Consumer>
         );
     };
-};
 
 export default withLittera;

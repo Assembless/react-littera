@@ -11,7 +11,7 @@ const translations = {
 };
 
 const ExampleButton = ({ translated, onClick }) => (
-    <button onClick={onClick}>{translated["example"]}</button>
+    <button onClick={onClick}>{translated.example}</button>
 );
 
 export default withLittera(translations)(ExampleButton);
