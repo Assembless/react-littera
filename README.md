@@ -2,6 +2,7 @@
 
 🌐 Lightweight react library for handling translations.
 
+[![Travis (.com)](https://img.shields.io/travis/com/DRFR0ST/react-littera.svg?style=for-the-badge)](https://travis-ci.com/DRFR0ST/react-littera)
 [![npm](https://img.shields.io/npm/v/react-littera.svg?style=for-the-badge)](https://www.npmjs.com/package/react-littera)
 [![npm](https://img.shields.io/npm/dt/react-littera.svg?style=for-the-badge)](https://www.npmjs.com/package/react-littera)
 [![](https://img.shields.io/github/license/DRFR0ST/react-littera.svg?style=for-the-badge)](https://github.com/DRFR0ST/react-littera)
