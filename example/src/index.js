@@ -2,8 +2,11 @@ import React, { useState } from "react";
 import { render } from "react-dom";
 import LitteraProvider from "../../src";
 
-import ExampleButton from "./ExampleButton";
-import ExampleText from "./ExampleText";
+import ExampleButton from "./components/ExampleButton";
+import ExampleText from "./components/ExampleText";
+import Home from "./components/Home";
+
+import "./index.css";
 
 const preset = {
     "unique.hello": {
@@ -20,10 +23,12 @@ const App = () => {
     const nextLanguage = () => languages[languages.indexOf(language) + 1] || languages[0];
 
     return (
-        <LitteraProvider language={language} preset={preset}>
-            <ExampleText />
-            <ExampleButton onClick={() => setLanguage(nextLanguage())} />
-        </LitteraProvider>
+        <Home>
+            <LitteraProvider language={language} preset={preset}>
+                <ExampleText />
+                <ExampleButton onClick={() => setLanguage(nextLanguage())} />
+            </LitteraProvider>
+        </Home>
     );
 };
 

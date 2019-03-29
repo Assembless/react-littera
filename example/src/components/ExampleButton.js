@@ -1,6 +1,6 @@
 import React from "react";
 import PropTypes from "prop-types";
-import { withLittera } from "../../src";
+import { withLittera } from "../../../src";
 
 const translations = {
     example: {

@@ -4,7 +4,12 @@ const HtmlWebpackPlugin = require("html-webpack-plugin");
 module.exports = env => {
     const isProd = env.prod === true;
     const isExample = env.example === true;
-    const type = isExample ? "example" : "lib";
+    const isDocs = env.docs === true;
+    let type = null;
+
+    if (isExample) type = "example";
+    if (isDocs) type = "docs";
+    if (!type) type = "lib";
 
     // eslint-disable-next-line no-console
     console.log(`Compiling: ${type} in mode: ${isProd ? "production" : "dev"}`);
@@ -31,6 +36,14 @@ module.exports = env => {
                     test: /\.(js|jsx)$/,
                     use: "babel-loader",
                     exclude: /node_modules/
+                },
+                {
+                    test: /\.css$/,
+                    use: ["style-loader", "css-loader"]
+                },
+                {
+                    test: /\.svg$/,
+                    loader: "raw-loader"
                 }
             ]
         }
