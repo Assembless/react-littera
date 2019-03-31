@@ -1,8 +1,7 @@
 import React, { useState } from "react";
 import injectSheet from "react-jss";
 import Flag from "react-world-flags";
-import image_one from "../static/images/undraw_elements_cipa.svg";
-import { useLittera } from "../../../src";
+import { useLittera } from "../../../../src";
 
 const styles = {
     root: {

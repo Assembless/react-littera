@@ -24,7 +24,11 @@ const App = () => {
 
     return (
         <Home>
-            <LitteraProvider language={language} preset={preset}>
+            <LitteraProvider
+                language={language}
+                preset={preset}
+                setLanguage={_language => setLanguage(_language)}
+            >
                 <ExampleText />
                 <ExampleButton onClick={() => setLanguage(nextLanguage())} />
             </LitteraProvider>
