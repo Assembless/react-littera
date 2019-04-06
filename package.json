@@ -73,7 +73,7 @@
   "bugs": {
     "url": "https://github.com/DRFR0ST/react-littera/issues"
   },
-  "homepage": "https://github.com/DRFR0ST/react-littera#readme",
+  "homepage": "https://drfr0st.github.io/react-littera/",
   "husky": {
     "hooks": {
       "pre-commit": "pretty-quick --staged"
