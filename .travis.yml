@@ -1,7 +1,18 @@
 language: node_js
 node_js:
-  - "8.8.1"
-install:
-  - npm install
+  - "stable"
+cache:
+  directories:
+    - node_modules
 script:
-  - npm run ci
+  - npm test
+  - npm run test:coverage
+  - npm run build:example
+
+deploy:
+  provider: pages
+  skip_cleanup: true
+  github_token: $github_token
+  local_dir: docs/dist
+  on:
+    branch: master
