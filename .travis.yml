@@ -8,10 +8,11 @@ script:
   - npm test
   - npm run test:coverage
   - npm run build:docs
-# deploy:
-#   provider: pages
-#   skip_cleanup: true
-#   github_token: $github_token
-#   local_dir: docs/dist
-#   on:
-#     branch: master
+
+deploy:
+  provider: pages
+  skip_cleanup: true
+  github_token: $github_token
+  local_dir: docs/dist
+  on:
+    branch: master
