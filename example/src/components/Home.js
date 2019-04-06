@@ -6,10 +6,11 @@ import image_one from "../static/images/starman.svg";
 import { Header, About, Setup, API, Examples, Footer } from "./Segments/";
 
 const styles = {
-    root: {}
+    root: {},
+    timeSwitch: {}
 };
 
-const Home = ({ classes, children }) => {
+const Home = ({ classes, children, switchTheme }) => {
     return (
         <React.Fragment>
             <Header />
@@ -18,6 +19,9 @@ const Home = ({ classes, children }) => {
             <Setup />
             <API />
             <Footer />
+            <button onClick={() => switchTheme()} className={classes.timeSwitch}>
+                time switch
+            </button>
         </React.Fragment>
     );
 };

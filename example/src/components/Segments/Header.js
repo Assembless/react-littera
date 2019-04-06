@@ -3,11 +3,11 @@ import injectSheet from "react-jss";
 
 import image_one from "../../static/images/starman.svg";
 
-const styles = {
+const styles = theme => ({
     root: {
         width: "100%",
         height: "calc(100vh - 1rem)",
-        background: "#1c1922",
+        background: theme.palette.background, //"#1c1922",
         position: "relative",
         padding: "1rem 0 0 0",
         display: "block"
@@ -50,7 +50,7 @@ const styles = {
         color: "#fafafa",
         boxShadow: "0px 0px 66px 9px rgba(158, 102, 255, 0.25)"
     }
-};
+});
 
 const Header = ({ classes, children }) => {
     return (
