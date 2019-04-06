@@ -2,17 +2,18 @@ import { useContext, useState, useEffect } from "react";
 import { LitteraContext } from ".";
 
 const useLittera = translations => {
-    const [translated, setTranslated] = useState({});
-    const { language, preset } = useContext(LitteraContext);
+    const { language, preset, setLanguage } = useContext(LitteraContext);
 
-    useEffect(() => {
-        const _t =
-            typeof translations === "function" ? { ...translations(preset) } : { ...translations };
+    let translated = {};
 
-        Object.keys(_t).forEach(e => setTranslated({ ...translated, [e]: _t[e][language] }));
-    }, [language]);
+    const _t =
+        typeof translations === "function" ? { ...translations(preset) } : { ...translations };
 
-    return [translated, language];
+    Object.keys(_t).forEach(e => {
+        translated = { ...translated, [e]: _t[e][language] };
+    });
+
+    return [translated, language, setLanguage];
 };
 
 export default useLittera;

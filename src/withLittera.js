@@ -15,7 +15,14 @@ const withLittera = translations => Component =>
 
                     Object.keys(transes).forEach(e => (translated[e] = transes[e][state.language]));
 
-                    return <Component {...props} translated={translated} />;
+                    return (
+                        <Component
+                            {...props}
+                            translated={translated}
+                            language={state.language}
+                            setLanguage={state.setLanguage}
+                        />
+                    );
                 }}
             </LitteraContext.Consumer>
         );
