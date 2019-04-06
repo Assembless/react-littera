@@ -4,10 +4,10 @@
   "description": "🌐 Lightweight react library for handling translations.",
   "main": "dist/index.js",
   "scripts": {
-    "start": "webpack-dev-server --host 0.0.0.0 --port 3001 --env.example",
-    "serve": "serve ./example/dist",
+    "start": "webpack-dev-server --host 0.0.0.0 --port 3001 --env.docs",
+    "serve": "serve ./docs/dist",
     "build": "webpack --config webpack.config.js --env.prod --define process.env.NODE_ENV=\"'production'\"",
-    "build:example": "webpack --config webpack.config.js --env.prod --env.example --define process.env.NODE_ENV=\"'production'\"",
+    "build:docs": "webpack --config webpack.config.js --env.prod --env.docs --define process.env.NODE_ENV=\"'production'\"",
     "prepublish": "npm run build",
     "test": "jest --config=jest.config.json",
     "test:watch": "jest --config=jest.config.json --watch",

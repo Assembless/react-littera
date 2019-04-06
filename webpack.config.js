@@ -15,12 +15,12 @@ module.exports = env => {
     console.log(`Compiling: ${type} in mode: ${isProd ? "production" : "dev"}`);
 
     const entries = {
-        example: "./example/src/index.js",
+        docs: "./docs/src/index.js",
         lib: "./src/index.js"
     };
 
     const outputPaths = {
-        example: path.resolve(__dirname, "example/dist"),
+        docs: path.resolve(__dirname, "docs/dist"),
         lib: path.resolve(__dirname, "dist")
     };
 
@@ -72,7 +72,7 @@ module.exports = env => {
         },
         plugins: [
             new HtmlWebpackPlugin({
-                template: "./example/src/index.ejs"
+                template: "./docs/src/index.ejs"
             })
         ]
     };
