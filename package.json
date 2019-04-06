@@ -13,7 +13,9 @@
     "test:watch": "jest --config=jest.config.json --watch",
     "test:coverage": "jest --config=jest.config.json --coverage",
     "lint": "eslint . --ext .js",
-    "ci": "run-p lint build test:coverage"
+    "ci": "run-p lint build test:coverage",
+    "predeploy": "npm run build:docs",
+    "deploy": "gh-pages -d docs/dist"
   },
   "peerDependencies": {
     "prop-types": "^15.6.0",
@@ -86,6 +88,7 @@
     }
   },
   "dependencies": {
+    "gh-pages": "^2.0.1",
     "react-highlight": "^0.12.0"
   }
 }
