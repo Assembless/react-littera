@@ -4,10 +4,7 @@
   "description": "🌐 Lightweight react library for handling translations.",
   "main": "dist/index.js",
   "scripts": {
-    "start": "webpack-dev-server --host 0.0.0.0 --port 3001 --env.docs",
-    "serve": "serve ./docs/dist",
     "build": "webpack --config webpack.config.js --env.prod --define process.env.NODE_ENV=\"'production'\"",
-    "build:docs": "webpack --config webpack.config.js --env.prod --env.docs --define process.env.NODE_ENV=\"'production'\"",
     "prepublish": "npm run build",
     "test": "jest --config=jest.config.json",
     "test:watch": "jest --config=jest.config.json --watch",
@@ -45,19 +42,10 @@
     "pretty-quick": "^1.10.0",
     "react": "^16.8.5",
     "react-dom": "^16.8.5",
-    "react-router-dom": "^4.1.1",
     "react-test-renderer": "16.7.0",
-    "serve": "^10.1.2",
     "webpack": "^4.29.6",
     "webpack-cli": "^3.3.0",
-    "webpack-dev-server": "^3.2.1",
-    "css-loader": "^2.1.1",
-    "highlight": "^0.2.4",
-    "raw-loader": "^2.0.0",
-    "react-icons": "^3.5.0",
-    "react-jss": "^8.6.1",
-    "react-world-flags": "^1.3.0",
-    "style-loader": "^0.23.1"
+    "webpack-dev-server": "^3.2.1"
   },
   "repository": {
     "type": "git",
@@ -85,7 +73,5 @@
       "modules": true
     }
   },
-  "dependencies": {
-    "react-highlight": "^0.12.0"
-  }
+  "dependencies": {}
 }
