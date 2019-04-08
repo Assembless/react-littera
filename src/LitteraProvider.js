@@ -7,9 +7,6 @@ export const LitteraContext = React.createContext({
 });
 
 class LitteraProvider extends React.Component {
-    componentDidMount() {
-        console.log("PROPS", this.props);
-    }
     render() {
         return (
             <LitteraContext.Provider
