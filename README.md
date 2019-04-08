@@ -54,11 +54,7 @@ function App() {
 
   return (
     <div className="App">
-      <LitteraProvider
-        language={language}
-        preset={preset}
-        setLanguage={setLanguage}
-      >
+      <LitteraProvider language={language} setLanguage={setLanguage}>
         <ChildComponents />
       </LitteraProvider>
     </div>
