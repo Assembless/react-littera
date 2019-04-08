@@ -40,9 +40,45 @@ yarn add react-littera
 
 or clone/download the repository.
 
-## Examples
+## Usage
 
-#### Using a HOC
+First you have to wrap your components with a provider and feed it some data.
+```javascript
+import React, { useState } from "react";
+import ReactDOM from "react-dom";
+
+import LitteraProvider from "react-littera";
+
+function App() {
+  const [language, setLanguage] = useState("en_US");
+
+  return (
+    <div className="App">
+      <LitteraProvider
+        language={language}
+        preset={preset}
+        setLanguage={setLanguage}
+      >
+        <ChildComponents />
+      </LitteraProvider>
+    </div>
+  );
+}
+
+const rootElement = document.getElementById("root");
+ReactDOM.render(<App />, rootElement);
+
+```
+
+Now you can make use of Littera by adding translations directly into your component.
+
+Here we have two options:
+
+
+- **HOC**: If it's a class component.
+- **Hook**: If it's a functional component.
+
+#### Example with a HOC
 
 ```javascript
 import React from "react";
@@ -66,7 +102,7 @@ class ExampleComponent extends React.Component {
 export default withLittera(translation)(ExampleComponent);
 ```
 
-#### Using a Hook
+#### Example with a Hook
 
 ```javascript
 import React from "react";
@@ -82,7 +118,7 @@ const translations = {
 };
 
 const ExampleComponent = () => {
-    const [translated] = useLittera(translations);
+    const [translated] = useLittera(translations); // returns translated, language and setLanguage
 
     return <button>{translated.example}</button>;
 };
@@ -104,7 +140,7 @@ Give it a try on _codesandbox_
 
 ```javascript
 {
-  "unique.example": {
+  example: {
     en_US: "Example",
     pl_PL: "Przykład",
     de_DE: "Beispiel"
@@ -112,15 +148,15 @@ Give it a try on _codesandbox_
 }
 ```
 
-`props.translated.unique.example` will equal `"Example"`, if language is set to `en_US`.
+`props.translated.example` will equal `"Example"`, if language is set to `en_US`.
 
 ## API
 
-`LitteraProvider` => Component providing the context for a specific language. You can pass a **language** [string] and **preset** [object] prop. To use `withLittera` properly, you have to wrap your component with this provider.
+`LitteraProvider` => Component providing the context for a specific language. You can pass a **language** [string] and **preset** [object] prop. To use `withLittera` and `useLittera` properly, you have to wrap your component with this provider.
 
-`withLittera` => A HOC, you feed it with translations [object] and a component which then gets the translated object passed via prop (e.g. `withLittera(translations)(Component)`).
+`withLittera` => A HOC, you feed it with translations [object] and a component which then gets the "translated" object passed via prop (e.g. `withLittera(translations)(Component)`). Passed with props: `translated` [object], `language` [string] and `setLanguage` [func].
 
-`useLittera` => A Hook, you feed it with translations (object) and it returns `translated` [object] and `language` [string].
+`useLittera` => A Hook, you feed it with translations [object] and it returns `translated` [object], `language` [string] and `setLanguage` [func].
 
 ## Build instructions
 
