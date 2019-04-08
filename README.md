@@ -1,6 +1,6 @@
 # react-littera
 
-🌐 Lightweight react library for handling translations.
+🌐 Lightweight react library for managing translations.
 
 ![Travis (.org)](https://img.shields.io/travis/DRFR0ST/react-littera.svg?style=for-the-badge)
 [![npm](https://img.shields.io/npm/v/react-littera.svg?style=for-the-badge)](https://www.npmjs.com/package/react-littera)
@@ -10,9 +10,9 @@
 
 ## About
 
-This tool was created to help create and maintain translations in React applications. All translations are kept in objects contained in each component. The object has nested strings and each string is a translation for a language (e.g. `en_US: "Welcome"`).
+This tool was created to help manage and maintain translations in React applications. All translations are kept in objects contained in each component. The object has nested strings and each string is a translation for a language (e.g. `en_US: "Welcome"`).
 
-Following the example above, the whole object might look like this:
+Following the example above, the whole translations object might look like this:
 
 ```javascript
 welcome: {
@@ -22,17 +22,17 @@ welcome: {
 }
 ```
 
-This makes the maintenance and development much easier as you don't have to go through a long JSON file looking for the translation key and each translation is applied directly in one component.
+This makes the maintenance and development much easier as you don't have to go through a long JSON/YAML file looking for the translation key because each translation is declared directly in the component it will be used in.
 
 ## Install
 
-Using npm
+via npm
 
 ```
 npm install react-littera
 ```
 
-Using yarn
+via yarn
 
 ```
 yarn add react-littera
@@ -165,11 +165,8 @@ After cloning the repo, install all dependencies using `npm install`.
 Build:
 `npm run build`
 
-Start example:
-`npm run start`
-
 Test the library:
-`npm test:watch`
+`npm test`
 
 ## License
 
