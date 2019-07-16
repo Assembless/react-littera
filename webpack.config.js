@@ -1,4 +1,5 @@
 const path = require("path");
+const CopyPlugin = require('copy-webpack-plugin');
 
 module.exports = env => {
     const isProd = env.prod === true;
@@ -15,12 +16,19 @@ module.exports = env => {
         lib: path.resolve(__dirname, "dist")
     };
 
+    const plugins = [
+      new CopyPlugin([
+        { from: 'public', to: 'dist' },
+      ]),
+    ],
+
     const config = {
         entry: entries[type],
         output: {
             path: outputPaths[type],
             filename: "index.js"
         },
+        plugins,
         module: {
             rules: [
                 {
