@@ -45,7 +45,8 @@
     "react-test-renderer": "16.7.0",
     "webpack": "^4.29.6",
     "webpack-cli": "^3.3.0",
-    "webpack-dev-server": "^3.2.1"
+    "webpack-dev-server": "^3.2.1",
+    "copy-webpack-plugin": "^5.0.3"
   },
   "repository": {
     "type": "git",
