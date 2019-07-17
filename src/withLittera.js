@@ -1,6 +1,10 @@
 import React from "react";
 import { LitteraContext } from ".";
 
+/**
+ * Translation HOC.
+ * @param {Object} translations
+ */
 const withLittera = translations => Component =>
     function WrapperComponent(props) {
         return (

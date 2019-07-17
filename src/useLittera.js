@@ -1,6 +1,11 @@
 import { useContext } from "react";
 import { LitteraContext } from ".";
 
+/**
+ * Translation hook.
+ * @argument {Object} translations
+ * @returns {Array} Hook returns `translated` object, active `language` string and `setLanguage` function.
+ */
 const useLittera = translations => {
     const { language, preset, setLanguage } = useContext(LitteraContext);
 

@@ -6,6 +6,13 @@ export const LitteraContext = React.createContext({
     setLanguage: () => {}
 });
 
+/**
+ * Context Provider for Littera
+ * @public
+ * @param {String} language Active language
+ * @param {Object} preset Set of predefined translations
+ * @param {Func} setLanguage Callback handling the setLanguage event.
+ */
 class LitteraProvider extends React.Component {
     render() {
         return (
