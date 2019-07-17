@@ -43,6 +43,7 @@ or clone/download the repository.
 ## Usage
 
 First you have to wrap your components with a provider and feed it some data.
+
 ```javascript
 import React, { useState } from "react";
 import ReactDOM from "react-dom";
@@ -50,29 +51,27 @@ import ReactDOM from "react-dom";
 import LitteraProvider from "react-littera";
 
 function App() {
-  const [language, setLanguage] = useState("en_US");
+    const [language, setLanguage] = useState("en_US");
 
-  return (
-    <div className="App">
-      <LitteraProvider language={language} setLanguage={setLanguage}>
-        <ChildComponents />
-      </LitteraProvider>
-    </div>
-  );
+    return (
+        <div className="App">
+            <LitteraProvider language={language} setLanguage={setLanguage}>
+                <ChildComponents />
+            </LitteraProvider>
+        </div>
+    );
 }
 
 const rootElement = document.getElementById("root");
 ReactDOM.render(<App />, rootElement);
-
 ```
 
 Now you can make use of Littera by adding translations directly into your component.
 
 Here we have two options:
 
-
-- **HOC**: If it's a class component.
-- **Hook**: If it's a functional component.
+-   **HOC**: If it's a class component.
+-   **Hook**: If it's a functional component.
 
 #### Example with a HOC
 
