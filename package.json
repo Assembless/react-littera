@@ -5,7 +5,7 @@
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
   "scripts": {
-    "build": "webpack --config webpack.config.js --env.prod --define process.env.NODE_ENV=\"'production'\" && docs:build",
+    "build": "webpack --config webpack.config.js --env.prod --define process.env.NODE_ENV=\"'production'\"",
     "prepublish": "npm run build",
     "docs:start": "cd ./docs && yarn start",
     "docs:build": "cd ./docs && yarn build",
