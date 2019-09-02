@@ -8,3 +8,14 @@ script:
   - npm test
   - npm run test:coverage
   - npm run build
+  - cd docs
+  - npm install
+  - npm build
+deploy:
+  provider: pages
+  skip_cleanup: true
+  local_dir: docs/build
+  github_token: $GITHUB_TOKEN
+  keep_history: true
+  on:
+    branch: master
