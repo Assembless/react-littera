@@ -4,6 +4,7 @@ node_js:
 cache:
   directories:
     - node_modules
+    - docs/node_modules
 script:
   - npm test
   - npm run test:coverage
@@ -11,6 +12,7 @@ script:
   - cd docs
   - npm install
   - npm run build
+  - cd ..
 deploy:
   provider: pages
   skip_cleanup: true
