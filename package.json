@@ -5,8 +5,10 @@
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
   "scripts": {
-    "build": "webpack --config webpack.config.js --env.prod --define process.env.NODE_ENV=\"'production'\"",
+    "build": "webpack --config webpack.config.js --env.prod --define process.env.NODE_ENV=\"'production'\" && docs:build",
     "prepublish": "npm run build",
+    "docs:start": "cd ./docs && yarn start",
+    "docs:build": "cd ./docs && yarn build",
     "test": "jest --config=jest.config.json",
     "test:watch": "jest --config=jest.config.json --watch",
     "test:coverage": "jest --config=jest.config.json --coverage",
