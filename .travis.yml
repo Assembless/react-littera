@@ -9,8 +9,8 @@ script:
   - npm run test:coverage
   - npm run build
   - cd docs
-  - npm install
-  - npm build
+  - npm run install
+  - npm run build
 deploy:
   provider: pages
   skip_cleanup: true
