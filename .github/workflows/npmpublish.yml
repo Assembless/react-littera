@@ -27,14 +27,15 @@ jobs:
      steps:
       - name: Checkout
         uses: actions/checkout@master
+        
       - name: Build and Deploy
         uses: JamesIves/github-pages-deploy-action@master
         env:
           ACCESS_TOKEN: ${{ secrets.ACCESS_TOKEN }}
           BASE_BRANCH: master
           BRANCH: gh-pages
-          FOLDER: build
-          BUILD_SCRIPT: cd docs && npm install && npm run-script build
+          FOLDER: docs/build
+          BUILD_SCRIPT: cd docs && npm install && npm run-script build --max_old_space_size=4096 && cd ..
           
   publish-npm:
     needs: build
