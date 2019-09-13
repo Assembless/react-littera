@@ -54,14 +54,8 @@ const About = ({ classes, children }) => {
                     <div className={classes.intro_text}>
                         <h3>ABOUT</h3>
                         <p>
-                            Lorem ipsum dolor sit amet, consectetur adipiscing elit. Suspendisse
-                            egestas massa quis nibh tempus tristique. Donec gravida tempus blandit.
-                            Mauris nibh nibh, vehicula nec nisi eget, ullamcorper tincidunt nulla.
-                            Sed neque ante, maximus viverra elit vitae, eleifend pulvinar enim.
-                            Proin vitae vestibulum lorem, eget pulvinar ex. Donec porttitor viverra
-                            mauris sit amet imperdiet. Curabitur bibendum orci quis lorem suscipit
-                            dignissim. Quisque in nunc felis. Nam eleifend sagittis sem, vel
-                            convallis lacus.
+                            This tool was created to help manage and maintain translations in React
+                            applications.
                         </p>
                     </div>
                 </div>
