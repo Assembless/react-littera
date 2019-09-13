@@ -33,7 +33,7 @@ jobs:
           ACCESS_TOKEN: ${{ secrets.ACCESS_TOKEN }}
           BASE_BRANCH: master
           BRANCH: gh-pages
-          FOLDER: docs/build
+          FOLDER: build
           BUILD_SCRIPT: cd docs && npm build
           
   publish-npm:
