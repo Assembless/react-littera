@@ -4,9 +4,6 @@
   "description": "🌐 Lightweight react library for handling translations.",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
-  "publishConfig": {
-    "registry": "https://npm.pkg.github.com/@DRFR0ST"
-  },
   "scripts": {
     "build": "webpack --config webpack.config.js --env.prod --define process.env.NODE_ENV=\"'production'\"",
     "docs:start": "cd ./docs && yarn start",
