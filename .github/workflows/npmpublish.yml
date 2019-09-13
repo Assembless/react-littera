@@ -27,32 +27,23 @@ jobs:
     steps:
     - uses: actions/checkout@master
 
-    - name: setup node
+    - name: Setup node
       uses: actions/setup-node@v1
       with:
         node-version: '10.16'
-        
-    - name: switch directory
-      run: cd docs
 
-    - name: install
-      run: yarn install
+    - name: Install
+      run: cd docs && yarn install
 
-    - name: build
-      run: yarn build
+    - name: Build
+      run: cd docs && yarn build
 
-    - name: export
-      run: yarn export
-
-    - name: add nojekyll
-      run: touch ./out/.nojekyll
-
-    - name: deploy
+    - name: Deploy
       uses: peaceiris/actions-gh-pages@v2.2.0
       env:
         ACTIONS_DEPLOY_KEY: ${{ secrets.GITHUB_TOKEN }}
         PUBLISH_BRANCH: gh-pages
-        PUBLISH_DIR: ./out
+        PUBLISH_DIR: ./docs/build
           
   publish-npm:
     needs: build
