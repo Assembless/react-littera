@@ -34,7 +34,7 @@ jobs:
           BASE_BRANCH: master
           BRANCH: gh-pages
           FOLDER: build
-          BUILD_SCRIPT: cd docs && npm build
+          BUILD_SCRIPT: cd docs && npm install && npm run-script build
           
   publish-npm:
     needs: build
