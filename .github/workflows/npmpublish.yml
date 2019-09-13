@@ -21,21 +21,36 @@ jobs:
       - run: npm install
       - run: npm test
       - run: npm build
-      
+          
   publish-docs:
-     runs-on: ubuntu-latest
-     steps:
-      - name: Checkout
-        uses: actions/checkout@master
-        
-      - name: Build and Deploy
-        uses: JamesIves/github-pages-deploy-action@master
-        env:
-          ACCESS_TOKEN: ${{ secrets.ACCESS_TOKEN }}
-          BASE_BRANCH: master
-          BRANCH: gh-pages
-          FOLDER: build
-          BUILD_SCRIPT: cd docs && npm install && npm run-script build && cd ..
+    runs-on: ubuntu-18.04
+    steps:
+    - uses: actions/checkout@master
+
+    - name: setup node
+      uses: actions/setup-node@v1
+      with:
+        node-version: '10.16'
+
+    - name: install
+      run: cd docs
+      run: yarn install
+
+    - name: build
+      run: yarn build
+
+    - name: export
+      run: yarn export
+
+    - name: add nojekyll
+      run: touch ./out/.nojekyll
+
+    - name: deploy
+      uses: peaceiris/actions-gh-pages@v2.2.0
+      env:
+        ACTIONS_DEPLOY_KEY: ${{ secrets.GITHUB_TOKEN }}
+        PUBLISH_BRANCH: gh-pages
+        PUBLISH_DIR: ./out
           
   publish-npm:
     needs: build
