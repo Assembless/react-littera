@@ -31,9 +31,11 @@ jobs:
       uses: actions/setup-node@v1
       with:
         node-version: '10.16'
+        
+    - name: switch directory
+      run: cd docs
 
     - name: install
-      run: cd docs
       run: yarn install
 
     - name: build
