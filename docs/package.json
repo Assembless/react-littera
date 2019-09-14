@@ -2,6 +2,7 @@
   "name": "docs",
   "version": "0.1.0",
   "private": true,
+  "homepage": "https://drfr0st.github.io/react-littera",
   "dependencies": {
     "@babel/core": "7.5.5",
     "@svgr/webpack": "4.3.2",
