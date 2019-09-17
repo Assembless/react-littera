@@ -8,20 +8,6 @@ import PropTypes from "prop-types";
  */
 class FlexWrapper extends PureComponent {
     /**
-     * @description Exclude props which have been already used.
-     * @returns {object}
-     */
-    filterProps() {
-        const propTypes = Object.keys(FlexWrapper.propTypes),
-            props = { ...this.props };
-
-        // Delete all props defined in PropTypes.
-        for (var i = 0; i < propTypes.length; i++) delete props[propTypes[i]];
-
-        return props;
-    }
-
-    /**
      * @description Include props which contain flex container style.
      * @returns {object}
      */
@@ -39,7 +25,7 @@ class FlexWrapper extends PureComponent {
 
     render() {
         return (
-            <div style={this.composeStyle()} {...this.filterProps()}>
+            <div style={this.composeStyle()}>
                 {this.props.children}
             </div>
         );
