@@ -35,7 +35,7 @@ const Footer = ({ classes, children }) => {
     return (
         <div className={classes.root}>
             <div className={classes.content}>
-                <p>react-littera</p>
+                <p>Copyright © 2019 Mike Eling</p>
                 <div className={classes.links}>
                     <a href="https://github.com/DRFR0ST/react-littera">GitHub</a>
                     <a href="https://github.com/DRFR0ST/react-littera/packages/22522">
