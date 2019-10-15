@@ -64,7 +64,7 @@
   "bugs": {
     "url": "https://github.com/DRFR0ST/react-littera/issues"
   },
-  "homepage": "https://drfr0st.github.io/react-littera/",
+  "homepage": "https://littera.mike-eling.dev/",
   "parserOptions": {
     "ecmaFeatures": {
       "jsx": true,
