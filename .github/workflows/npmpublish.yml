@@ -44,3 +44,13 @@ jobs:
         ACTIONS_DEPLOY_KEY: ${{ secrets.ACTIONS_DEPLOY_KEY }}
         PUBLISH_BRANCH: gh-pages
         PUBLISH_DIR: ./docs/build
+  
+  publish-lib: 
+    runs-on: ubuntu-18.04
+    needs: build
+    steps:
+      - uses: primer/publish@master
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          NPM_AUTH_TOKEN: ${{ secrets.NPM_AUTH_TOKEN }}
+          args: '--dry-run -- --unsafe-perm'
