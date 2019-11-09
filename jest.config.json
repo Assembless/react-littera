@@ -1,6 +1,6 @@
 {
-  "collectCoverageFrom": ["src/**/*.js"],
-  "coveragePathIgnorePatterns": ["/node_modules/", "<rootDir>/src/example", "<rootDir>/src/index"],
+  "collectCoverageFrom": ["src/**/*.(ts|tsx|js)"],
+  "coveragePathIgnorePatterns": ["/node_modules/", "<rootDir>/docs/", "<rootDir>/src/index"],
   "coverageThreshold": {
     "global": {
       "branches": 0,
@@ -9,9 +9,10 @@
       "statements": 0
     }
   },
+  "testMatch": ["**/__tests__/**/*.+(ts|tsx|js)", "**/?(*.)+(spec|test).+(ts|tsx|js)"],
   "transform": {
-    ".*": "<rootDir>/node_modules/babel-jest"
+    "^.+\\.(ts|tsx)?$": "ts-jest",
+    ".*": "babel-jest"
   },
-  "setupTestFrameworkScriptFile": "<rootDir>/tests/setup.js",
   "modulePathIgnorePatterns": ["docs/"]
 }
