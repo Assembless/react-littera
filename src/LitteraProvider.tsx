@@ -1,7 +1,7 @@
-import React, { FunctionComponent, createContext } from 'react'
+import * as React from 'react'
 import { ILitteraProvider } from '../types'
 
-export const LitteraContext = createContext({
+export const LitteraContext = React.createContext({
   language: 'en_US',
   preset: {},
   setLanguage: () => {},
@@ -14,10 +14,11 @@ export const LitteraContext = createContext({
  * @param {Object} preset Set of predefined translations
  * @param {Function} setLanguage Callback handling the setLanguage event.
  */
-const LitteraProvider: FunctionComponent<ILitteraProvider> = ({
+const LitteraProvider: React.FunctionComponent<ILitteraProvider> = ({
   language,
   preset,
   setLanguage,
+  children,
 }) => {
   return (
     <LitteraContext.Provider
@@ -27,7 +28,7 @@ const LitteraProvider: FunctionComponent<ILitteraProvider> = ({
         setLanguage: language => setLanguage(language),
       }}
     >
-      {this.props.children}
+      {children}
     </LitteraContext.Provider>
   )
 }

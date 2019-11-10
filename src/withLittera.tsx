@@ -1,4 +1,4 @@
-import React, { FunctionComponent } from 'react'
+import * as React from 'react'
 import { LitteraContext } from './LitteraProvider'
 import { ITranslations } from '../types'
 
@@ -7,7 +7,9 @@ import { ITranslations } from '../types'
  * @param {Function | ITranslations} translations
  * @returns {FunctionComponent}
  */
-const withLittera = (translations: Function | ITranslations) => (Component: FunctionComponent) =>
+const withLittera = (translations: Function | ITranslations) => (
+  Component: React.FunctionComponent
+) =>
   function WrapperComponent(props) {
     return (
       <LitteraContext.Consumer>
