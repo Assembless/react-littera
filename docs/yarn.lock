@@ -8036,10 +8036,10 @@ react-jss@^8.6.1:
     prop-types "^15.6.0"
     theming "^1.3.0"
 
-react-littera@^1.2.0:
-  version "1.2.0"
-  resolved "https://registry.yarnpkg.com/react-littera/-/react-littera-1.2.0.tgz#9cf5665e88ce417a428bc58f68167cd396b0cd7b"
-  integrity sha512-XdTxfO1fc0/2hcO7ul1D9mqPULbHxKyur81/2gP2nX0VhOTAgYg6bjsq7sCHxw6k2oOFCo0YRc6KPLmivTKFdw==
+react-littera@^1.2.2:
+  version "1.2.2"
+  resolved "https://registry.yarnpkg.com/react-littera/-/react-littera-1.2.2.tgz#3d2a6c681dc7b19aa091841d41d61dc42349c06a"
+  integrity sha512-teurGp7epIO5/cJ3YUAsfWBFVY5G2xWv8gHv9tgu3n5gi4/79UKvJH6HKk4Wg1SbFqOsFH0HcyM/BbTdme6zeg==
 
 react-undraw@^1.14.0:
   version "1.14.0"
