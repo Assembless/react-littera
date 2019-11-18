@@ -49,8 +49,10 @@ jobs:
     runs-on: ubuntu-18.04
     needs: build
     steps:
-      - uses: primer/publish@master
+      - name: Publish to npm
+        uses: actions/npm@master
+        continue-on-error: true
         env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           NPM_AUTH_TOKEN: ${{ secrets.NPM_AUTH_TOKEN }}
-          args: '--dry-run -- --unsafe-perm --dir=./'
+        with:
+          args: publish
