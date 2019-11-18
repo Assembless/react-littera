@@ -1,16 +1,16 @@
 {
   "files": {
-    "main.css": "/static/css/main.8a3e115b.chunk.css",
-    "main.js": "/static/js/main.e58cc4d1.chunk.js",
-    "runtime~main.js": "/static/js/runtime~main.5ee5188c.js",
-    "static/js/2.e0065b76.chunk.js": "/static/js/2.e0065b76.chunk.js",
-    "index.html": "/index.html",
-    "precache-manifest.8fd6cf6ff739e64e395b6633b6dc95e8.js": "/precache-manifest.8fd6cf6ff739e64e395b6633b6dc95e8.js",
-    "service-worker.js": "/service-worker.js",
-    "static/css/main.8a3e115b.chunk.css.map": "/static/css/main.8a3e115b.chunk.css.map",
-    "static/media/about.svg": "/static/media/about.d523bbb3.svg",
-    "static/media/api_2.svg": "/static/media/api_2.fbb6ab42.svg",
-    "static/media/starman.svg": "/static/media/starman.c40e30bb.svg",
-    "static/media/undraw_elements_cipa.svg": "/static/media/undraw_elements_cipa.f4f8301f.svg"
+    "main.css": "/react-littera/static/css/main.8a3e115b.chunk.css",
+    "main.js": "/react-littera/static/js/main.0dbc9320.chunk.js",
+    "runtime~main.js": "/react-littera/static/js/runtime~main.c618e6c5.js",
+    "static/js/2.e0065b76.chunk.js": "/react-littera/static/js/2.e0065b76.chunk.js",
+    "index.html": "/react-littera/index.html",
+    "precache-manifest.faba85e30c0cafab0b113e0e48a7fde8.js": "/react-littera/precache-manifest.faba85e30c0cafab0b113e0e48a7fde8.js",
+    "service-worker.js": "/react-littera/service-worker.js",
+    "static/css/main.8a3e115b.chunk.css.map": "/react-littera/static/css/main.8a3e115b.chunk.css.map",
+    "static/media/about.svg": "/react-littera/static/media/about.d523bbb3.svg",
+    "static/media/api_2.svg": "/react-littera/static/media/api_2.fbb6ab42.svg",
+    "static/media/starman.svg": "/react-littera/static/media/starman.c40e30bb.svg",
+    "static/media/undraw_elements_cipa.svg": "/react-littera/static/media/undraw_elements_cipa.f4f8301f.svg"
   }
 }
