@@ -1,6 +1,7 @@
-import LitteraProvider, { LitteraContext } from './LitteraProvider'
-import withLittera from './withLittera'
-import useLittera from './useLittera'
+import LitteraProvider from "./LitteraProvider";
 
-export { withLittera, LitteraContext, useLittera }
-export default LitteraProvider
+export { LitteraContext } from "./LitteraProvider";
+export { default as withLittera } from "./withLittera";
+export { default as useLittera } from "./useLittera";
+
+export default LitteraProvider;
