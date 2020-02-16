@@ -1,5 +1,5 @@
 import * as React from 'react'
-import { ILitteraProvider } from '../types'
+import { ILitteraProvider } from '../types/index.d'
 
 export const LitteraContext = React.createContext({
   language: 'en_US',
