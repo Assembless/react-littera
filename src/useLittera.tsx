@@ -1,6 +1,6 @@
 import * as React from 'react'
 import { LitteraContext } from '.'
-import { ITranslations } from '../types'
+import { ITranslations } from "../types/index.d";
 
 /**
  * Hook for managing translations.
