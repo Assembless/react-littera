@@ -15,7 +15,6 @@ jobs:
       with:
         node-version: '10.16'
 
-    - name: Install Lib
     - run: yarn install
     - run: yarn test
     - run: yarn build
