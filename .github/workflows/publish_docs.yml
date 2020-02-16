@@ -1,5 +1,9 @@
 name: Publish Docs
 
+on:
+  release:
+    types: [published]
+
 jobs:     
   publish-docs:
     runs-on: ubuntu-18.04
@@ -11,6 +15,11 @@ jobs:
       with:
         node-version: '10.16'
 
+    - name: Install Lib
+    - run: yarn install
+    - run: yarn test
+    - run: yarn build
+      
     - name: Install
       run: cd docs && yarn install
 
