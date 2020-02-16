@@ -1,8 +1,9 @@
 import * as React from 'react'
 import { ILitteraProvider } from '../types'
+import { getLocale } from "./utils/methods";
 
 export const LitteraContext = React.createContext({
-  language: 'en_US',
+  language: getLocale(),
   preset: {},
   setLanguage: () => {},
 })
