@@ -1,6 +1,6 @@
 import * as React from "react";
 import { renderHook, act } from "@testing-library/react-hooks";
-import useLittera from "../src/_useLittera";
+import useLittera from "../src/useLittera";
 import LitteraProvider from "../src/LitteraProvider";
 import { ITranslations } from "../src";
 
@@ -38,8 +38,6 @@ const wrapper = ({ children }) => {
   );
 };
 
-const flushPromises = () => new Promise(setImmediate);
-
 describe("useLittera", () => {
   it("should return locale", () => {
     const render = renderHook(() => useLittera(mockTranslations), { wrapper });
@@ -52,11 +50,17 @@ describe("useLittera", () => {
     const render = renderHook(() => useLittera(mockTranslations), { wrapper });
     const [, actions] = render.result.current;
 
+    expect(actions.getLocale()).toBe("pl_PL");
+
     act(() => {
       actions.setLocale("en_US");
     });
 
-    expect(actions.getLocale()).toBe("en_US");
+    setImmediate(() =>
+      setTimeout(() => {
+        expect(actions.getLocale()).toBe("en_US");
+      }, 100)
+    );
   });
 
   it("should return correct translation", () => {
@@ -71,5 +75,12 @@ describe("useLittera", () => {
     const [translated] = render.result.current;
 
     expect(translated.simpleExample).toBe("Prosty Przykład");
+  });
+
+  it("should return empty object when empty translations given", () => {
+    const render = renderHook(() => useLittera({}), { wrapper });
+    const [translated] = render.result.current;
+
+    expect(JSON.stringify(translated)).toBe(JSON.stringify({}));
   });
 });
