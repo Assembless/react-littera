@@ -1,11 +1,10 @@
-import * as React from 'react'
-import { ILitteraProvider } from '../types/index.d'
+import * as React from "react";
+import { ILitteraProvider } from "../types/index.d";
 
-export const LitteraContext = React.createContext({
-  language: 'en_US',
-  preset: {},
-  setLanguage: () => {},
-})
+export const LitteraContext = React.createContext<ILitteraProvider>({
+  language: "en_US",
+  preset: {}
+});
 
 /**
  * Context Provider for Littera
@@ -18,19 +17,19 @@ const LitteraProvider: React.FunctionComponent<ILitteraProvider> = ({
   language,
   preset,
   setLanguage,
-  children,
+  children
 }) => {
   return (
     <LitteraContext.Provider
       value={{
         language: language,
         preset: preset,
-        setLanguage: language => setLanguage(language),
+        setLanguage
       }}
     >
       {children}
     </LitteraContext.Provider>
-  )
-}
+  );
+};
 
-export default LitteraProvider
+export default LitteraProvider;

@@ -4,8 +4,15 @@ export interface ITranslations {
   };
 }
 
+export type ITranslationsFunction = ITranslations | ((preset: ITranslations) => ITranslations);
+
+export interface ITranslated {
+  [key: string]: string;
+}
+
 export interface ILitteraProvider {
   language?: string;
   preset?: ITranslations;
-  setLanguage?: Function;
+  setLanguage?: any;
+  // setLanguage?: (language: string) => void;
 }
