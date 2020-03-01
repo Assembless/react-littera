@@ -1,30 +1,35 @@
 import * as React from "react";
-import { ILitteraProvider } from "../types/index.d";
+import { ILitteraProvider, ITranslations } from "../types/index.d";
+import { localePattern } from "./utils/methods";
 
 export const LitteraContext = React.createContext<ILitteraProvider>({
-  language: "en_US",
-  preset: {}
+  locale: "en_US",
+  preset: {},
+  pattern: localePattern
 });
 
 /**
  * Context Provider for Littera
  * @public
- * @param {String} language Active language
- * @param {Object} preset Set of predefined translations
- * @param {Function} setLanguage Callback handling the setLanguage event.
+ * @param {String} locale Active locale.
+ * @param {ITranslations} preset Set of predefined translations.
+ * @param {Function} setLocale Callback handling the setLocale event.
+ * @param {RegExp} pattern Locale pattern.
  */
 const LitteraProvider: React.FunctionComponent<ILitteraProvider> = ({
-  language,
+  locale,
   preset,
-  setLanguage,
+  setLocale,
+  pattern,
   children
 }) => {
   return (
     <LitteraContext.Provider
       value={{
-        language: language,
-        preset: preset,
-        setLanguage
+        locale,
+        preset,
+        setLocale,
+        pattern
       }}
     >
       {children}

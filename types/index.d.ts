@@ -1,18 +1,18 @@
+export type ITranslation =  { [key: string]: string }; 
+
 export interface ITranslations {
-  [key: string]: {
-    [key: string]: string;
-  };
+  [key: string]: ITranslation | ITranslations
 }
 
-export type ITranslationsFunction = ITranslations | ((preset: ITranslations) => ITranslations);
+export type ITranslationsFunction = ((preset?: ITranslations) => ITranslations);
 
 export interface ITranslated {
-  [key: string]: string;
+  [key: string]: string & ITranslated;
 }
 
 export interface ILitteraProvider {
-  language?: string;
+  locale?: string;
   preset?: ITranslations;
-  setLanguage?: any;
-  // setLanguage?: (language: string) => void;
+  setLocale?: (locale: string) => void;
+  pattern?: RegExp;
 }

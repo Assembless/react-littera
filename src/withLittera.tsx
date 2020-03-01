@@ -1,13 +1,13 @@
 import * as React from 'react'
 import { LitteraContext } from './LitteraProvider'
-import { ITranslations } from "../types/index.d";
+import { ITranslations, ITranslationsFunction } from "../types/index.d";
 
 /**
  * HOC for managing translations.
- * @param {Function | ITranslations} translations
+ * @param {ITranslations|ITranslationsFunction} translations
  * @returns {FunctionComponent}
  */
-const withLittera = (translations: Function | ITranslations) => (
+const withLittera = (translations: ITranslationsFunction | ITranslations) => (
   Component: React.FunctionComponent
 ) =>
   function WrapperComponent(props) {
@@ -21,14 +21,15 @@ const withLittera = (translations: Function | ITranslations) => (
               ? { ...translations(state.preset) }
               : { ...translations }
 
-          Object.keys(transes).forEach(e => (translated[e] = transes[e][state.language]))
+          Object.keys(transes).forEach(k => (translated[k] = transes[k][state.locale]))
 
           return (
             <Component
               {...props}
               translated={translated}
-              language={state.language}
-              setLanguage={state.setLanguage}
+              locale={state.locale}
+              setLocale={state.setLocale}
+              pattern={state.pattern}
             />
           )
         }}
