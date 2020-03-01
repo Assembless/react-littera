@@ -1,6 +1,6 @@
 import * as React from "react";
 import { renderHook, act } from "@testing-library/react-hooks";
-import useLittera from "../src/useLittera";
+import {useLittera, useLitteraMethods} from "../src/hooks";
 import LitteraProvider from "../src/LitteraProvider";
 import { ITranslations } from "../src";
 
@@ -20,6 +20,21 @@ const mockTranslationsFunc = (preset: ITranslations) => ({
   }
 });
 
+const mock2dTranslations = {
+  profile: {
+    photo: {
+      de_DE: "Foto",
+      pl_PL: "Fotografia",
+      en_US: "Photo"
+    }
+  },
+  example: {
+    de_DE: "Beispiel",
+    en_US: "Example",
+    pl_PL: "Przykład"
+  }
+};
+
 const mockPreset = {
   example: {
     de_DE: "Beispiel",
@@ -32,7 +47,7 @@ const wrapper = ({ children }) => {
   const [lang, setLang] = React.useState("pl_PL");
 
   return (
-    <LitteraProvider language={lang} preset={mockPreset} setLanguage={setLang}>
+    <LitteraProvider locale={lang} preset={mockPreset} setLocale={setLang}>
       {children}
     </LitteraProvider>
   );
@@ -40,46 +55,54 @@ const wrapper = ({ children }) => {
 
 describe("useLittera", () => {
   it("should return locale", () => {
-    const render = renderHook(() => useLittera(mockTranslations), { wrapper });
-    const [, actions] = render.result.current;
+    const render = renderHook(() => useLitteraMethods(), { wrapper });
+    const {getLocale} = render.result.current;
 
-    expect(actions.getLocale()).toBe("pl_PL");
+    expect(getLocale()).toBe("pl_PL");
   });
 
   it("should change locale", async () => {
-    const render = renderHook(() => useLittera(mockTranslations), { wrapper });
-    const [, actions] = render.result.current;
+    const render = renderHook(() => useLitteraMethods(), { wrapper });
+    const {getLocale, setLocale} = render.result.current;
 
-    expect(actions.getLocale()).toBe("pl_PL");
+    expect(getLocale()).toBe("pl_PL");
 
     act(() => {
-      actions.setLocale("en_US");
+      setLocale("en_US");
     });
 
     setImmediate(() =>
       setTimeout(() => {
-        expect(actions.getLocale()).toBe("en_US");
+        expect(getLocale()).toBe("en_US");
       }, 100)
     );
   });
 
   it("should return correct translation", () => {
     const render = renderHook(() => useLittera(mockTranslations), { wrapper });
-    const [translated] = render.result.current;
+    const translated = render.result.current;
 
     expect(translated.simple).toBe("Proste");
   });
 
+  it("should return correct 2d translation", () => {
+    const render = renderHook(() => useLittera(mock2dTranslations), { wrapper });
+    const translated = render.result.current;
+
+    expect(translated.example).toBe("Przykład");
+    expect(translated.profile.photo).toBe("Fotografia");
+  });
+
   it("should return correct translation from preset", () => {
     const render = renderHook(() => useLittera(mockTranslationsFunc), { wrapper });
-    const [translated] = render.result.current;
+    const translated = render.result.current;
 
     expect(translated.simpleExample).toBe("Prosty Przykład");
   });
 
   it("should return empty object when empty translations given", () => {
     const render = renderHook(() => useLittera({}), { wrapper });
-    const [translated] = render.result.current;
+    const translated = render.result.current;
 
     expect(JSON.stringify(translated)).toBe(JSON.stringify({}));
   });
