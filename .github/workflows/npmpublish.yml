@@ -19,29 +19,6 @@ jobs:
       - run: npm install
       - run: npm test
       - run: npm build
-          
-  publish-docs:
-    runs-on: ubuntu-18.04
-    steps:
-    - uses: actions/checkout@master
-
-    - name: Setup node
-      uses: actions/setup-node@v1
-      with:
-        node-version: '10.16'
-
-    - name: Install
-      run: cd docs && yarn install
-
-    - name: Build
-      run: cd docs && yarn build
-
-    - name: Deploy
-      uses: peaceiris/actions-gh-pages@v2.2.0
-      env:
-        ACTIONS_DEPLOY_KEY: ${{ secrets.ACTIONS_DEPLOY_KEY }}
-        PUBLISH_BRANCH: gh-pages
-        PUBLISH_DIR: ./docs/build
   
   publish-lib: 
     runs-on: ubuntu-18.04
