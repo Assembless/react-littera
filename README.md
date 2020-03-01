@@ -199,6 +199,17 @@ Build:
 Test the library:
 `npm test`
 
+## Migration 1.X => 2.X
+
+The migration process is pretty borring. You have to rename some properties and change the way you use `useLittera`.
+
+### Changed naming
+`language` => `locale`
+`setLanguage` => `setLocale`
+
+### useLittera changes
+The hook returns only the translated object now. Use `useLitteraMethods` instead of the second `actions` parameter like before.
+
 ## License
 
 [MIT License](https://github.com/DRFR0ST/react-littera/blob/master/LICENSE)
