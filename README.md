@@ -201,14 +201,25 @@ Test the library:
 
 ## Migration 1.X => 2.X
 
-The migration process is pretty borring. You have to rename some properties and change the way you use `useLittera`.
+The migration process is straightforward. You have to rename some properties and change the way you use `useLittera`.
 
 ### Changed naming
-`language` => `locale`
-`setLanguage` => `setLocale`
+- `language` => `locale`
+- `setLanguage` => `setLocale`
+
+Mainly pay attention to `LitteraProvider` and `withLittera` props naming.
 
 ### useLittera changes
-The hook returns only the translated object now. Use `useLitteraMethods` instead of the second `actions` parameter like before.
+The hook returns only the translated object now. Use `useLitteraMethods` instead of the secondary `actions` parameter returned from useLittera like before.
+
+```javascript
+// v1.X
+const [translated, actions] = useLittera(translated)
+
+// v2.X
+const translated = useLittera(translated);
+const actions = useLitteraMethods();
+```
 
 ## License
 
