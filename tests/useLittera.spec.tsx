@@ -20,21 +20,6 @@ const mockTranslationsFunc = (preset: ITranslations) => ({
   }
 });
 
-const mock2dTranslations = {
-  profile: {
-    photo: {
-      de_DE: "Foto",
-      pl_PL: "Fotografia",
-      en_US: "Photo"
-    }
-  },
-  example: {
-    de_DE: "Beispiel",
-    en_US: "Example",
-    pl_PL: "Przykład"
-  }
-};
-
 const mockPreset = {
   example: {
     de_DE: "Beispiel",
@@ -83,14 +68,6 @@ describe("useLittera", () => {
     const translated = render.result.current;
 
     expect(translated.simple).toBe("Proste");
-  });
-
-  it("should return correct 2d translation", () => {
-    const render = renderHook(() => useLittera(mock2dTranslations), { wrapper });
-    const translated = render.result.current;
-
-    expect(translated.example).toBe("Przykład");
-    expect(translated.profile.photo).toBe("Fotografia");
   });
 
   it("should return correct translation from preset", () => {

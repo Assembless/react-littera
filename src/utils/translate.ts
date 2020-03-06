@@ -1,30 +1,18 @@
 import {
   ITranslations,
-  ITranslationsFunction,
-  ITranslated,
-  ITranslation
 } from "../../types";
 
-function isTranslated(x: any): x is string {
-  return typeof x === "string";
-}
-
-export const translate = (
-  t: ITranslations | ITranslationsFunction,
+export function translate<T extends ITranslations, K extends keyof T, P extends ITranslations>(
+  t: T | ((preset?: P) => T),
   l: string,
-  preset?: ITranslations
-) => {
-  const _t = typeof t === "function" ? { ...t(preset) } : { ...t };
-  let translated = {};
+  preset?: P
+) {
+  const _t: T = typeof t === "function" ? { ...t(preset) } : { ...t };
+  const keys: Array<keyof typeof _t> = Object.keys(_t);
 
-  Object.keys(_t).forEach(_tr => {
-    if (isTranslated(_t[_tr][l])) {
-      translated = { ...translated, [_tr]: _t[_tr][l] as string };
-    }
-    else {
-      translated = {...translated, [_tr]: translate(_t[_tr] as ITranslations, l, preset) as ITranslation };
-    }
-  });
+  let translated = keys.reduce((a, b: K) => {
+    return (a[b]=_t[b][l], a);
+  }, {} as {[key in K]: string});
   
-  return translated as ITranslated;
+  return translated;
 };

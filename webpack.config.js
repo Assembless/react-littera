@@ -16,7 +16,7 @@ module.exports = env => {
         lib: path.resolve(__dirname, 'dist'),
     }
 
-    const plugins = [new CopyPlugin([{ from: 'public', to: './' }])]
+    const plugins = [new CopyPlugin([{ from: 'types', to: './' }])]
 
     const config = {
         entry: entries[type],

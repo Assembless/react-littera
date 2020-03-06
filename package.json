@@ -1,9 +1,9 @@
 {
   "name": "react-littera",
-  "version": "2.0.0-alpha.1",
+  "version": "2.0.0-alpha.2",
   "description": "🌐 Lightweight react library for handling translations.",
   "main": "dist/index.js",
-  "types": "./types/index.d.ts",
+  "types": "./dist/index.d.ts",
   "scripts": {
     "build": "webpack --config webpack.config.js --env.prod --define process.env.NODE_ENV=\"'production'\"",
     "docs:start": "cd ./docs && yarn start",

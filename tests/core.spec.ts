@@ -1,5 +1,4 @@
 import {translate} from '../src/utils/translate'
-import { ITranslations } from '../types'
 
 const translationsMock = {
   example: {
@@ -8,40 +7,21 @@ const translationsMock = {
     pl_PL: "Przykład"
   }
 }
-const translations2dMock: ITranslations = {
-  profile: {
-    sex: {
-      de_DE: "Geschlecht",
-      en_US: "Sex",
-      pl_PL: "Płeć",
-    }
-  },
-  example: {
-    de_DE: "Beispiel",
-    en_US: "Example",
-    pl_PL: "Przykład"
-  }
-}
 
-const translations3dMock: ITranslations = {
-  profile: {
-    sex: {
-      de_DE: "Geschlecht",
-      en_US: "Sex",
-      pl_PL: "Płeć",
-    },
-    props: {
-      name: {
-        de_DE: "Name",
-        en_US: "Name",
-        pl_PL: "Nazwa"
-      }
-    }
+const translationsFunctionMock = (preset) => ({
+  simple: {
+    de_DE: "Einfach",
+    en_US: "Simple",
+    pl_PL: "Łatwo"
   },
-  example: {
-    de_DE: "Beispiel",
-    en_US: "Example",
-    pl_PL: "Przykład"
+  ...preset
+})
+
+const presetMock = {
+  hard: {
+   en_US: "Hard",
+   pl_PL: "Twarde", 
+   de_DE: "Hart", 
   }
 }
 
@@ -51,14 +31,10 @@ describe('translate', () => {
     })
     it("should translate flat translations", () => {
       expect(translate(translationsMock, "en_US").example).toBe("Example")
+      expect(translate(translationsFunctionMock, "de_DE").simple).toBe("Einfach")
     });
-  it("should translate 2d translations", () => {
-    expect(translate(translations2dMock, "pl_PL").example).toBe("Przykład")
-    expect(translate(translations2dMock, "pl_PL").profile.sex).toBe("Płeć")
-  });
-  it("should translate 3d translations", () => {
-    expect(translate(translations3dMock, "pl_PL").example).toBe("Przykład")
-    expect(translate(translations3dMock, "pl_PL").profile.sex).toBe("Płeć")
-    expect(translate(translations3dMock, "pl_PL").profile.props.name).toBe("Nazwa")
-  });
+    it("should translate with preset", () => {
+      const t = translate(translationsFunctionMock, "de_DE", presetMock)
+      expect(t.hard).toBe("Hart")
+    })
 })
