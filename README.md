@@ -148,7 +148,7 @@ export default ExampleComponent;
 
 ## API
 
- ### **LitteraProvider**
+ ### LitteraProvider
  type: `ReactContext<ILitteraProvider>`
 
  Component providing the core context. To use `withLittera` and `useLittera` properly, you have to wrap your component with this provider.
@@ -157,27 +157,27 @@ export default ExampleComponent;
 |-----------|---------------------------------------------|--------------------------|-------------------------|
 | locale    | Active language                             | string                   | `"en_US"`               |
 | setLocale | Changes active language                     | (locale: string) => void |                         |
-| preset    | Preset of translations                      | ITranslations            | `{}`                    |
-| pattern   | Locale pattern. Default format is xx**_**XX | RegExp                   | `/[a-z]{2}_[A-Z]{2}/gi` |
+| preset    | Preset of translations                      | { [key: string]: { [locale: string]: string } }            | `{}`                    |
+| pattern   | Locale pattern. Default format is xx_XX | RegExp                   | `/[a-z]{2}_[A-Z]{2}/gi` |
 
- ### **withLittera** - HOC
+ ### withLittera - HOC
  type: `(translations: ITranslations) => (Component: React.FunctionComponent) => JSX.Element`
 
 A HOC, you feed it with translations [object] and a component which then gets the "translated" object passed via prop (e.g. `withLittera(translations)(Component)`). 
 
 | Key       | Description                                 | Type                     | Default                 |
 |-----------|---------------------------------------------|--------------------------|-------------------------|
-| translated    | Translated object                            | ITranslated                   |               |
+| translated    | Translated object                            | { [key: string]: string }                   |               |
 | setLocale | Changes active language                     | (locale: string) => void |                         |
-| preset    | Preset of translations                      | ITranslations            | `{}`                    |
+| preset    | Preset of translations                      | { [key: string]: { [locale: string]: string } }            | `{}`                    |
 | locale    | Active language                  | string            | `en_US`                    |
 
- ### **useLittera** - Hook
+ ### useLittera - Hook
  type: `(translations: ITranslations) => ITranslated`
 
  A Hook, you feed it with translations [object] and it returns `translated` [object].
 
- ### **useLitteraMethods** - Hook
+ ### useLitteraMethods - Hook
  type: `() => { see below }`
 
 This hook exposes following methods:
