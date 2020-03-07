@@ -1,6 +1,7 @@
 import * as React from 'react'
 import { LitteraContext } from './LitteraProvider'
-import { ITranslations, ITranslationsFunction } from "../types/index.d";
+import { ITranslations, ITranslationsFunction, ITranslation, LitteraProps } from "../types/index.d";
+import { translate } from './utils/translate';
 
 /**
  * HOC for managing translations.
@@ -8,20 +9,20 @@ import { ITranslations, ITranslationsFunction } from "../types/index.d";
  * @returns {FunctionComponent}
  */
 const withLittera = (translations: ITranslationsFunction | ITranslations) => (
-  Component: React.FunctionComponent
+  Component: React.FunctionComponent<LitteraProps>
 ) =>
   function WrapperComponent(props) {
     return (
       <LitteraContext.Consumer>
         {state => {
-          const translated = {}
-
-          const transes =
+          
+          // TODO: types?
+          const transes: any =
             typeof translations === 'function'
-              ? { ...translations(state.preset) }
-              : { ...translations }
-
-          Object.keys(transes).forEach(k => (translated[k] = transes[k][state.locale]))
+            ? { ...translations(state.preset) }
+            : { ...translations }
+          
+          const translated = translate(transes, state.locale);
 
           return (
             <Component

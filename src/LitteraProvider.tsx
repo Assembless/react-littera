@@ -5,6 +5,7 @@ import { localePattern } from "./utils/methods";
 export const LitteraContext = React.createContext<ILitteraProvider>({
   locale: "en_US",
   preset: {},
+  locales: ["en_US"],
   pattern: localePattern
 });
 
@@ -16,20 +17,31 @@ export const LitteraContext = React.createContext<ILitteraProvider>({
  * @param {Function} setLocale Callback handling the setLocale event.
  * @param {RegExp} pattern Locale pattern.
  */
-const LitteraProvider: React.FunctionComponent<ILitteraProvider> = ({
-  locale,
+const LitteraProvider: React.FunctionComponent<ILitteraProvider & {initialLocale?: string}> = ({
+  locales,
+  initialLocale=locales?.[0] || "en_US",
   preset,
   setLocale,
   pattern,
   children
 }) => {
+  const [locale, changeLocale] = React.useState(initialLocale);
+
+  const handleLocale = (locale: string) => {
+    if(locales && locales.indexOf(locale) <= -1) throw new Error("The locale does not exist on the locales list.");
+
+    setLocale && setLocale(locale);
+    changeLocale(locale);
+  }
+
   return (
     <LitteraContext.Provider
       value={{
         locale,
         preset,
-        setLocale,
-        pattern
+        setLocale: handleLocale,
+        pattern,
+        locales
       }}
     >
       {children}

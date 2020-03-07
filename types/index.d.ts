@@ -38,10 +38,18 @@ export interface ITranslated {
 }
 
 export interface ILitteraProvider {
-  locale?: string;
   preset?: ITranslations;
+  locale?: string;
   setLocale?: (locale: string) => void;
   pattern?: RegExp;
+  locales?: Array<string>;
+}
+
+export interface LitteraProps {
+  locale: string;
+  translated: ITranslated,
+  setLocale: TSetLocale,
+  preset?: ITranslations
 }
 
 export type TSetLocale = (locale: string) => void;
