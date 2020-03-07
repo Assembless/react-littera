@@ -50,7 +50,7 @@ or clone/download the repository.
 
 ## Usage
 
-First you have to wrap your components with a provider and feed it some data.
+First you have to wrap your components with a provider and feed it with a list of available languages.
 
 ```javascript
 import React, { useState } from "react";
@@ -59,11 +59,9 @@ import ReactDOM from "react-dom";
 import LitteraProvider from "react-littera";
 
 function App() {
-    const [locale, setLocale] = useState("en_US");
-
     return (
         <div className="App">
-            <LitteraProvider locale={locale} setLocale={setLocale}>
+            <LitteraProvider locales={[ "en_US", "pl_PL", "de_DE" ]}>
                 <YourApp />
             </LitteraProvider>
         </div>
@@ -148,22 +146,24 @@ export default ExampleComponent;
 
 ## API
 
- ### LitteraProvider
+ #### LitteraProvider
  type: `ReactContext<ILitteraProvider>`
 
  Component providing the core context. To use `withLittera` and `useLittera` properly, you have to wrap your component with this provider.
 
 | Key       | Description                                 | Type                     | Default                 |
 |-----------|---------------------------------------------|--------------------------|-------------------------|
+| initialLocale | Initial language                    | string |                         |
+| locales | List of available languages                   | Array<string\> | `[ "en_US" ]` |
 | locale    | Active language                             | string                   | `"en_US"`               |
 | setLocale | Changes active language                     | (locale: string) => void |                         |
 | preset    | Preset of translations                      | { [key: string]: { [locale: string]: string } }            | `{}`                    |
 | pattern   | Locale pattern. Default format is xx_XX | RegExp                   | `/[a-z]{2}_[A-Z]{2}/gi` |
 
- ### withLittera - HOC
+ #### withLittera - HOC
  type: `(translations: ITranslations) => (Component: React.FunctionComponent) => JSX.Element`
 
-A HOC, you feed it with translations [object] and a component which then gets the "translated" object passed via prop (e.g. `withLittera(translations)(Component)`). 
+A HOC, you feed it with `translations`(ITranslations) and a component which then gets the `translated` object passed via prop (e.g. `withLittera(translations)(Component)`). 
 
 | Key       | Description                                 | Type                     | Default                 |
 |-----------|---------------------------------------------|--------------------------|-------------------------|
@@ -172,13 +172,13 @@ A HOC, you feed it with translations [object] and a component which then gets th
 | preset    | Preset of translations                      | { [key: string]: { [locale: string]: string } }            | `{}`                    |
 | locale    | Active language                  | string            | `en_US`                    |
 
- ### useLittera - Hook
+ #### useLittera - Hook
  type: `(translations: ITranslations) => ITranslated`
 
- A Hook, you feed it with translations [object] and it returns `translated` [object].
+ A Hook, you feed it with `translations`(ITranslations) and it returns `translated`(ITranslated).
 
- ### useLitteraMethods - Hook
- type: `() => { see below }`
+ #### useLitteraMethods - Hook
+ type: `() => { see methods below }`
 
 This hook exposes following methods:
 | Key       | Description                                 | Type                     |
@@ -188,6 +188,39 @@ This hook exposes following methods:
 | setPattern | Changes locale pattern | `(pattern: RegExp) => void` |
 | getPattern | Returns locale pattern | `() => RegExp` |
 | validatePattern | Validates locale with pattern | `(locale: string, pattern?: RegExp) => boolean` |
+
+### Types
+
+#### ITranslation
+`{ [locale: string]: string }`
+
+```javascript
+{
+    de_DE: "Einfach",
+    en_US: "Simple"
+}
+```
+
+#### ITranslations
+`{ [key: string]: ITranslation }`
+
+```javascript
+{
+    simple: {
+        de_DE: "Einfach",
+        en_US: "Simple"
+    }
+}
+```
+
+#### ITranslated
+`{ [key: string]: string }`
+
+```javascript
+{
+    simple: "Simple"
+}
+```
 
 ## Build instructions
 
@@ -209,12 +242,29 @@ The migration process is straightforward. You have to rename some properties and
 
 Mainly pay attention to `LitteraProvider` and `withLittera` props naming.
 
-### useLittera changes
-The hook returns only the translated object now. Use `useLitteraMethods` instead of the secondary `actions` parameter returned from useLittera like before.
+### LitteraProvider changes
+The provider accepts 2 new props `locales: string[]` and `initialLocale?: string`. You don't need to use your own state from now, the provider will handle it by itself. That makes the `locale` and `setLocale` props not required.
 
 ```javascript
 // v1.X
-const [translated, actions] = useLittera(translated)
+const [language, setLanguage] = useState("en_US");
+
+return <LitteraProvider language={language} setLanguage={setLanguage}>
+   {children}
+</LitteraProvider>
+
+// v2.X
+return <LitteraProvider locales={["en_US", "de_DE", "pl_PL"]}>
+   {children}
+</LitteraProvider>
+```
+
+### useLittera changes
+The hook returns only the translated object now. Use `useLitteraMethods` to get/set locale, set pattern etc.
+
+```javascript
+// v1.X
+const [translated, locale, setLanguage] = useLittera(translated)
 
 // v2.X
 const translated = useLittera(translated);

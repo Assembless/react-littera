@@ -4,12 +4,12 @@ All notable changes to this project will be documented in this file.
 
 ## [Unrelease]
 ### Added
-- Support for nesting translations
 - Ability to provide custom pattern
+- New provider props, `locales` and `initialLocale`
 
 ### Changed
 - Split useLittera into two hooks changing inputs and outputs
-- Change provider props. Language is now called locale etc
+- Change provider props naming. Language is now called locale etc
 
 ## [1.2.2] - 2019-11-10
 ### Changed
