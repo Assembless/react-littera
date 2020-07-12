@@ -4,12 +4,13 @@ All notable changes to this project will be documented in this file.
 
 ## [Unrelease]
 ### Added
-- Ability to provide custom pattern
+- Automaticaly detect browser language. Use the `detectLocale` provider prop.
+- Ability to provide custom locale pattern (default is still xx_XX)
 - New provider props, `locales` and `initialLocale`
 
 ### Changed
-- Split useLittera into two hooks changing inputs and outputs
-- Change provider props naming. Language is now called locale etc
+- Split useLittera into two hooks (useLittera and useLitteraMethods)
+- Change provider props naming. Language is now called locale etc.
 
 ## [1.2.2] - 2019-11-10
 ### Changed
@@ -24,5 +25,4 @@ All notable changes to this project will be documented in this file.
 
 ## [1.1.4] - 2019-07-14
 ### Removed
-
 -   Unused code and logs.

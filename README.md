@@ -149,16 +149,16 @@ export default ExampleComponent;
  #### LitteraProvider
  type: `ReactContext<ILitteraProvider>`
 
- Component providing the core context. To use `withLittera` and `useLittera` properly, you have to wrap your component with this provider.
+ Component providing the core context. To use `withLittera` and `useLittera` properly, you have to wrap your components with this provider.
 
 | Key       | Description                                 | Type                     | Default                 |
 |-----------|---------------------------------------------|--------------------------|-------------------------|
-| initialLocale | Initial language                    | string |                         |
-| locales | List of available languages                   | Array<string\> | `[ "en_US" ]` |
-| locale    | Active language                             | string                   | `"en_US"`               |
-| setLocale | Changes active language                     | (locale: string) => void |                         |
-| preset    | Preset of translations                      | { [key: string]: { [locale: string]: string } }            | `{}`                    |
-| pattern   | Locale pattern. Default format is xx_XX | RegExp                   | `/[a-z]{2}_[A-Z]{2}/gi` |
+| initialLocale | Initial language.                    | string |                         |
+| locales | List of available languages.                   | Array<string\> | `[ "en_US" ]` |
+| setLocale | Callback called when active language changes.                     | (locale: string) => void |                         |
+| preset    | Preset of translations.                      | { [key: string]: { [locale: string]: string } }            | `{}`                    |
+| pattern   | Locale pattern. Default format is xx_XX. | RegExp                   | `/[a-z]{2}_[A-Z]{2}/gi` |
+| detectLocale | Tries to detect the browser language. Overriding initialLocale if detected. | boolean | false
 
  #### withLittera - HOC
  type: `(translations: ITranslations) => (Component: React.FunctionComponent) => JSX.Element`
@@ -184,9 +184,9 @@ This hook exposes following methods:
 | Key       | Description                                 | Type                     |
 |-----------|---------------------------------------------|--------------------------|
 | setLocale | Changes active language                     | `(locale: string) => void` |
-| getLocale | Returns active language                     | `() => string` |
+| locale | Active language                     | `string` |
 | setPattern | Changes locale pattern | `(pattern: RegExp) => void` |
-| getPattern | Returns locale pattern | `() => RegExp` |
+| pattern | Locale pattern | `RegExp` |
 | validatePattern | Validates locale with pattern | `(locale: string, pattern?: RegExp) => boolean` |
 
 ### Types
@@ -268,7 +268,7 @@ const [translated, locale, setLanguage] = useLittera(translated)
 
 // v2.X
 const translated = useLittera(translated);
-const actions = useLitteraMethods();
+const { locale, setLocale, pattern, setPattern, validateLocale } = useLitteraMethods();
 ```
 
 ## License

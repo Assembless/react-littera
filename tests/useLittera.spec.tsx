@@ -1,7 +1,7 @@
 import * as React from "react";
 import { renderHook, act } from "@testing-library/react-hooks";
 import { useLittera, useLitteraMethods } from "../src/hooks";
-import LitteraProvider from "../src/LitteraProvider";
+import { LitteraProvider } from "../src/LitteraProvider";
 import { ITranslations } from "../src";
 
 const mockTranslations = {
@@ -50,23 +50,23 @@ const wrapper = ({ children }) => {
 describe("useLittera", () => {
   it("should return locale", () => {
     const render = renderHook(() => useLitteraMethods(), { wrapper });
-    const { getLocale } = render.result.current;
+    const { locale } = render.result.current;
 
-    expect(getLocale()).toBe("pl_PL");
+    expect(locale).toBe("pl_PL");
   });
 
   it("should change locale", async () => {
     const render = renderHook(() => useLitteraMethods(), { wrapper });
-    const { getLocale, setLocale } = render.result.current;
+    const { locale, setLocale } = render.result.current;
 
-    expect(getLocale()).toBe("pl_PL");
+    expect(locale).toBe("pl_PL");
 
     act(() => {
       setLocale("en_US");
     });
 
     setTimeout(() => {
-      expect(getLocale()).toBe("en_US");
+      expect(locale).toBe("en_US");
     }, 100);
   });
 

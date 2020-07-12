@@ -1,6 +1,6 @@
 import * as React from "react";
-import { ILitteraProvider, ITranslations } from "../types/index.d";
-import { localePattern } from "./utils/methods";
+import { ILitteraProvider, ITranslations, ILitteraProviderProps } from "../types/index.d";
+import { localePattern, detectDeviceLocale } from "./utils/methods";
 
 export const LitteraContext = React.createContext<ILitteraProvider>({
   locale: "en_US",
@@ -12,23 +12,25 @@ export const LitteraContext = React.createContext<ILitteraProvider>({
 /**
  * Context Provider for Littera
  * @public
- * @param {String} locale Active locale.
- * @param {ITranslations} preset Set of predefined translations.
- * @param {Function} setLocale Callback handling the setLocale event.
- * @param {RegExp} pattern Locale pattern.
+ * @param initialLocale Initial active locale.
+ * @param preset Set of predefined translations.
+ * @param setLocale Callback called when the locale changes.
+ * @param pattern Locale pattern.
  */
-const LitteraProvider: React.FunctionComponent<ILitteraProvider & {initialLocale?: string}> = ({
+export const LitteraProvider = ({
   locales,
+  detectLocale,
   initialLocale=locales?.[0] || "en_US",
   preset,
   setLocale,
   pattern,
   children
-}) => {
+}: ILitteraProviderProps & {children: JSX.Element | JSX.Element[]}) => {
+  initialLocale = detectLocale ? detectDeviceLocale() || initialLocale : initialLocale;
   const [locale, changeLocale] = React.useState(initialLocale);
 
   const handleLocale = (locale: string) => {
-    if(locales && locales.indexOf(locale) <= -1) throw new Error("The locale does not exist on the locales list.");
+    if(locales && locales.indexOf(locale) <= -1) throw new Error(`The '${locale}' locale does not exist on the locales list. (${locales.join(", ")})`);
 
     setLocale && setLocale(locale);
     changeLocale(locale);
@@ -48,5 +50,3 @@ const LitteraProvider: React.FunctionComponent<ILitteraProvider & {initialLocale
     </LitteraContext.Provider>
   );
 };
-
-export default LitteraProvider;

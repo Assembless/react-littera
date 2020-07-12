@@ -1,3 +1,5 @@
+import * as React from "react";
+
 /**
  * @example
   {
@@ -45,6 +47,15 @@ export interface ILitteraProvider {
   locales?: Array<string>;
 }
 
+export interface ILitteraProviderProps {
+  preset?: ITranslations;
+  initialLocale?: string;
+  setLocale?: (locale: string) => void;
+  pattern?: RegExp;
+  locales?: Array<string>;
+  detectLocale?: boolean;
+}
+
 export interface LitteraProps {
   locale: string;
   translated: ITranslated,
@@ -53,21 +64,18 @@ export interface LitteraProps {
 }
 
 export type TSetLocale = (locale: string) => void;
-export type TGetLocale = () => string;
-export type TGetPreset = () => ITranslations;
 export type TValidateLocale = (locale: string, pattern?: RegExp) => Boolean
 export type TTranslate = (translations: ITranslations, locale: string, preset?: ITranslations) => ITranslated
 
-declare module 'react-littera' {
-  export function useLittera(translations: ITranslations, locale: string): ITranslated
-  export function useLitteraMethods(): {
-    getLocale: TGetLocale,
-    setLocale: TSetLocale,
-    getPreset: TGetPreset,
-    validateLocale: TValidateLocale,
-    translate: TTranslate
-  }
-  export const withLittera: (translations: ITranslationsFunction | ITranslations) => (Component: React.FunctionComponent<{}>) => (props: any) => JSX.Element
-  export const LitteraContext: React.Context<ILitteraProvider>
-  export const LitteraProvider: React.FunctionComponent<ILitteraProvider> 
-} 
+export function useLittera<T extends ITranslations>(translations: T | ((preset?: ITranslations) => T), locale?: string): {[key in keyof T]: string}
+export function useLitteraMethods(): {
+  locale: string,
+  locales: string[],
+  setLocale: TSetLocale,
+  preset: ITranslations,
+  validateLocale: TValidateLocale,
+  translate: TTranslate
+}
+export const withLittera: (translations: ITranslationsFunction | ITranslations) => (Component: React.FunctionComponent<{}>) => (props: any) => JSX.Element
+export const LitteraContext: React.Context<ILitteraProvider>
+export const LitteraProvider: (props: ILitteraProviderProps & {children: JSX.Element | JSX.Element[]}) => JSX.Element
