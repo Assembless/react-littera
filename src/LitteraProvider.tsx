@@ -11,13 +11,22 @@ export const LitteraContext = React.createContext<ILitteraProvider>({
 
 /**
  * Context Provider for Littera
+ * @category Setup
  * @public
  * @param initialLocale Initial active locale.
  * @param preset Set of predefined translations.
  * @param setLocale Callback called when the locale changes.
  * @param pattern Locale pattern.
+ * @example
+ * // Setting up Littera provider.
+ * 
+ * const App = () => {
+ *    return <LitteraProvider locales={["en_US", "de_DE"]}>
+ *      ...
+ *    </LitteraProvider>
+ * }
  */
-export const LitteraProvider = ({
+export function LitteraProvider({
   locales,
   detectLocale,
   initialLocale=locales?.[0] || "en_US",
@@ -25,7 +34,7 @@ export const LitteraProvider = ({
   setLocale,
   pattern,
   children
-}: ILitteraProviderProps & {children: JSX.Element | JSX.Element[]}) => {
+}: ILitteraProviderProps & {children: JSX.Element | JSX.Element[]}) {
   initialLocale = detectLocale ? detectDeviceLocale() || initialLocale : initialLocale;
   const [locale, changeLocale] = React.useState(initialLocale);
 

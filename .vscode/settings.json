@@ -11,7 +11,7 @@
     "**/.hg": true,
     "**/.DS_Store": true,
     "**/node_modules": true,
-    "**/out": true,
+    "**/out": false,
     "tslint-rules/**/*.js": true,
     ".awcache": true,
     ".eslintcache": true

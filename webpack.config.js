@@ -6,7 +6,7 @@ module.exports = env => {
     let type = 'lib'
 
     // eslint-disable-next-line no-console
-    console.log(`Compiling: ${type} in mode: ${isProd ? 'production' : 'dev'}`)
+    console.log(`Compiling: ${type} in mode: ${isProd ? 'production' : 'development'}`)
 
     const entries = {
         lib: './src/index.ts',
@@ -19,6 +19,7 @@ module.exports = env => {
     const plugins = [new CopyPlugin([{ from: 'types', to: './' }])]
 
     const config = {
+        mode: "production",
         entry: entries[type],
         output: {
             path: outputPaths[type],

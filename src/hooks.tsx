@@ -2,14 +2,31 @@ import * as React from "react";
 import { LitteraContext } from "./LitteraProvider";
 import { translate } from "./utils/translate";
 import { validateLocale } from "./utils/methods";
-import { ITranslations, TSetLocale, TValidateLocale } from "../types";
+import { ITranslations, TSetLocale, TValidateLocale, ITranslationsFunction, ITranslated } from "../types";
 
 /**
  * Hook returns translations for the active locale.
- * @param translations Translations
- * @param locale Locale in case you need translations for a not active locale.
+ * @category Hooks
+ * @param {ITranslations} translations Translations
+ * @param {string} locale Locale in case you need translations for a not active locale.
+ * @example
+ * // Example of using translations in a function component.
+ * 
+ * const translations = {
+ *    example: {
+ *      en_US: "Example",
+ *      de_DE: "Beispiel"
+ *    }
+ * }
+ * 
+ * const YourComponent = () => {
+ *    const translated = useLittera(translations);
+ * 
+ *    return <h2>{translated.example}</h2>
+ * }
+ * @returns {ITranslated}
  */
-export const useLittera = <T extends ITranslations>(t: T | ((preset?: ITranslations) => T), l?: string): {[key in keyof T]: string} => {
+export function useLittera<T extends ITranslations>(t: T | ((preset?: ITranslations) => T), l?: string): {[key in keyof T]: string} {
   const { locale, preset, locales=[] } = React.useContext(LitteraContext);
   
   const _translations = React.useMemo(() => typeof t === "function" ? {...t(preset)} : {...t}, [t, preset]);
@@ -29,14 +46,28 @@ export const useLittera = <T extends ITranslations>(t: T | ((preset?: ITranslati
 
 /**
  * Hook exposes an object with global translation methods and variables.
- * @returns locale - active locale.
- * @returns locales - all locales.
- * @returns setLocale - changes the active locale.
- * @returns validateLocale - method validates the locale format using a pattern.
- * @returns preset - global preset.
- * @returns translate - the core translation method.
+ * @category Hooks
+ * @example
+ * // Example of accessing littera methods and variables in a function component.
+ *
+ * const YourComponent = () => {
+ *    const { setLocale, locale } = useLittera(translations);
+ * 
+ *    const handleClick = () => {
+ *      setLocale("de_DE");
+ *    }
+ * 
+ *    return <h2 onClick={handleClick}>Current language: {locale}</h2>
+ * }
+ * @returns {Object} methods
+ * @returns {string} methods.locale - active locale.
+ * @returns {string[]} methods.locales - all locales.
+ * @returns {Function} methods.setLocale - changes the active locale.
+ * @returns {Function} methods.validateLocale - method validates the locale format using a pattern.
+ * @returns {ITranslations} methods.preset - global preset.
+ * @returns {Function} methods.translate - the core translation method.
  */
-export const useLitteraMethods = () => {
+export function useLitteraMethods() {
   const { locale, preset, setLocale, pattern, locales } = React.useContext(LitteraContext);
 
   const _setLocale:TSetLocale = React.useCallback((locale: string) => {

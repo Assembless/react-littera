@@ -5,6 +5,7 @@ import { translate } from './utils/translate';
 
 /**
  * HOC for managing translations.
+ * @category HOCs
  * @param {ITranslations|ITranslationsFunction} translations
  * @returns {FunctionComponent}
  */
