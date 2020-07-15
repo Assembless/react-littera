@@ -36,7 +36,7 @@ export function useLittera<T extends ITranslations>(t: T | ((preset?: ITranslati
     Object.keys(_translations).forEach(_key => {
       locales.forEach(_locale => {
         if(!_translations[_key][_locale]) {
-          log("warn", `You are missing "${_key}" in ${_locale}.`);
+          console.log(`You are missing "${_key}" in ${_locale}.`);
         }
       });
     });
