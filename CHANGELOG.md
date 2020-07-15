@@ -2,7 +2,13 @@
 
 All notable changes to this project will be documented in this file.
 
-## [Unrelease]
+## [Unreleased]
+
+## [2.0.1] - 2020-07-15
+### Fixed
+- Library not resolving.
+
+## [2.0.0] - 2020-07-15
 ### Added
 - Automaticaly detect browser language. Use the `detectLocale` provider prop.
 - Ability to provide custom locale pattern (default is still xx_XX)
