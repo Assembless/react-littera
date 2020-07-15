@@ -1,3 +1,5 @@
+
+
 <!DOCTYPE html>
 <html lang="en">
 
@@ -5,7 +7,7 @@
   
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title> Home</title>
+  <title> withLittera.tsx</title>
 
   <script src="https://cdn.jsdelivr.net/gh/google/code-prettify@master/loader/run_prettify.js"></script>
   <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
@@ -73,33 +75,61 @@
         <div class="core" id="main-content-wrapper">
             <div class="content">
                 <header class="page-title">
-                    <p></p>
-                    <h1>Home</h1>
+                    <p>Source</p>
+                    <h1>withLittera.tsx</h1>
                 </header>
                 
 
 
 
     
+    <section>
+        <article>
+            <pre class="prettyprint source linenums"><code>import * as React from 'react'
+import { LitteraContext } from './LitteraProvider'
+import { ITranslations, ITranslationsFunction, ITranslation, LitteraProps } from "../types/index.d";
+import { translate } from './utils/translate';
 
+/**
+ * HOC for managing translations.
+ * @category HOCs
+ * @param {ITranslations|ITranslationsFunction} translations
+ * @returns {FunctionComponent}
+ */
+const withLittera = (translations: ITranslationsFunction | ITranslations) => (
+  Component: React.FunctionComponent&lt;LitteraProps>
+) =>
+  function WrapperComponent(props) {
+    return (
+      &lt;LitteraContext.Consumer>
+        {state => {
+          
+          // TODO: types?
+          const transes: any =
+            typeof translations === 'function'
+            ? { ...translations(state.preset) }
+            : { ...translations }
+          
+          const translated = translate(transes, state.locale);
 
-    <h3> </h3>
+          return (
+            &lt;Component
+              {...props}
+              translated={translated}
+              locale={state.locale}
+              setLocale={state.setLocale}
+              pattern={state.pattern}
+            />
+          )
+        }}
+      &lt;/LitteraContext.Consumer>
+    )
+  }
 
-
-
-
-
-
-
-
-
-
-    
-
-
-
-
-
+export default withLittera
+</code></pre>
+        </article>
+    </section>
 
 
 

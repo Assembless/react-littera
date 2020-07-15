@@ -1,3 +1,5 @@
+
+
 <!DOCTYPE html>
 <html lang="en">
 
@@ -5,7 +7,7 @@
   
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title> Home</title>
+  <title> index.ts</title>
 
   <script src="https://cdn.jsdelivr.net/gh/google/code-prettify@master/loader/run_prettify.js"></script>
   <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
@@ -73,33 +75,59 @@
         <div class="core" id="main-content-wrapper">
             <div class="content">
                 <header class="page-title">
-                    <p></p>
-                    <h1>Home</h1>
+                    <p>Source</p>
+                    <h1>index.ts</h1>
                 </header>
                 
 
 
 
     
+    <section>
+        <article>
+            <pre class="prettyprint source linenums"><code>/**
+ * Object containing all available translations.
+ * @typedef {Object} ITranslations
+ * @example
+ * {
+ *    "example": {
+ *        "en_US": "Example",
+ *        "de_DE": "Beispiel"
+ *    }
+ * }
+ */
+
+/**
+ * Function returning all available translations. Preset is being passed as argument.
+ * @typedef {Object} ITranslationsFunction
+ * @example
+ * const translations = (preset) => ({
+ *    "example": {
+ *        "en_US": "Example",
+ *        "de_DE": "Beispiel"
+ *    }
+ * })
+ */
+
+ /**
+  * Object containing already translated text.
+  * Is being flatened from ITranslations.
+ * @typedef {Object} ITranslated
+ * @example
+ * {
+ *    "example": "Beispiel"
+ * }
+ */
 
 
-    <h3> </h3>
+export { LitteraContext, LitteraProvider } from "./LitteraProvider";
+export { default as withLittera } from "./withLittera";
+export { useLittera, useLitteraMethods } from "./hooks";
 
-
-
-
-
-
-
-
-
-
-    
-
-
-
-
-
+export { ILitteraProvider, ITranslations, ITranslated } from "../types/index.d";
+</code></pre>
+        </article>
+    </section>
 
 
 
