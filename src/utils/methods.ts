@@ -24,7 +24,7 @@ export const tryParseLocale = (locale: string) => {
 
     return `${locale}_${locale.toUpperCase()}`;
   }
-  if(locale.length === 4 && locale.includes("-")) return locale.replace("-", "_");
+  if(locale.length === 4 && locale.includes("-")) return locale.replace(/-/g, "_");
 
   return null;
 }
