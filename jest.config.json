@@ -12,7 +12,17 @@
   "testMatch": ["**/__tests__/**/*.+(ts|tsx|js)", "**/?(*.)+(spec|test).+(ts|tsx|js)"],
   "transform": {
     "^.+\\.(ts|tsx)?$": "ts-jest",
-    ".*": "babel-jest"
+    ".*": "babel-jest",
+    "^.+\\.(ts|tsx)$": "<rootDir>/tests/preprocessor.js"
   },
-  "modulePathIgnorePatterns": ["docs/"]
+  "modulePathIgnorePatterns": ["docs/"],
+  "setupFiles": [
+    "<rootDir>/tests/shim.js",
+    "<rootDir>/tests/setup.js"
+  ],
+  "moduleFileExtensions": [
+    "ts",
+    "tsx",
+    "js"
+  ]
 }

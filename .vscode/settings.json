@@ -11,17 +11,10 @@
     "**/.hg": true,
     "**/.DS_Store": true,
     "**/node_modules": true,
-    "**/dist": true,
-    "**/out": true,
+    "**/out": false,
     "tslint-rules/**/*.js": true,
     ".awcache": true,
     ".eslintcache": true
   },
   "editor.tabSize": 2,
-  "prettier.semi": false,
-  "prettier.singleQuote": true,
-  "prettier.trailingComma": "es5",
-  "editor.formatOnSave": true,
-  "prettier.ignorePath": ".prettierignore",
-  "deepcode.review.results.hideInformationIssues": false
 }

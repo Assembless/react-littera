@@ -12,21 +12,27 @@
 
 ## About
 
-This tool was created to help manage and maintain translations in React applications. All translations are kept in objects contained in each component. The object has nested strings and each string is a translation for a language (e.g. `en_US: "Welcome"`).
+Littera was created to make maintaining and managing translations easier. It allows placing translations right beside your component as well as storing translations globally.
 
-Following the example above, the whole translations object might look like this:
-
+Here below we have a **translations** object which is accepted by the `translate` function, which then returns the translated string for the correct language.
 ```javascript
-welcome: {
-    en_US: "Welcome",
-    pl_PL: "Witamy",
-    de_DE: "Willkommen"
+{
+    welcome: {
+        en_US: "Welcome",
+        pl_PL: "Witamy",
+        de_DE: "Willkommen"
+    }
 }
 ```
 
-This makes the maintenance and development much easier as you don't have to go through a long JSON/YAML file looking for the translation key because each translation is declared directly in the component it will be used in.
+Let's say the active language is `en_US` (English), the output will be:
+```javascript
+{
+    welcome: "Welcome"
+}
+```
 
-## Install
+## Installation
 
 via npm
 
@@ -44,7 +50,7 @@ or clone/download the repository.
 
 ## Usage
 
-First you have to wrap your components with a provider and feed it some data.
+First you have to wrap your components with a provider and feed it with a list of available languages.
 
 ```javascript
 import React, { useState } from "react";
@@ -53,12 +59,10 @@ import ReactDOM from "react-dom";
 import LitteraProvider from "react-littera";
 
 function App() {
-    const [language, setLanguage] = useState("en_US");
-
     return (
         <div className="App">
-            <LitteraProvider language={language} setLanguage={setLanguage}>
-                <ChildComponents />
+            <LitteraProvider locales={[ "en_US", "pl_PL", "de_DE" ]}>
+                <YourApp />
             </LitteraProvider>
         </div>
     );
@@ -72,8 +76,8 @@ Now you can make use of Littera by adding translations directly into your compon
 
 Here we have two options:
 
--   **HOC**: If it's a class component.
--   **Hook**: If it's a functional component.
+-   **HOC**
+-   **Hooks**
 
 #### Example with a HOC
 
@@ -91,8 +95,17 @@ const translations = {
 };
 
 class ExampleComponent extends React.Component {
+
+    handleLocaleChange() {
+        const { setLocale } = this.props;
+
+        setLocale("de_DE");
+    }
+
     render() {
-        return <button>{this.props.translated.example}</button>;
+        const { translated } = this.props;
+
+        return <button onClick={this.handleLocaleChange}>{translated.example}</button>;
     }
 }
 
@@ -115,45 +128,99 @@ const translations = {
 };
 
 const ExampleComponent = () => {
-    const [translated] = useLittera(translations); // returns translated, language and setLanguage
+    // Obtain our translated object.
+    const translated = useLittera(translations);
+    // Get access to global littera methods for currect context.
+    const methods = useLitteraMethods();
 
-    return <button>{translated.example}</button>;
+    const handleLocaleChange = () => {
+        // Change language to German.
+        methods.setLocale("de_DE");
+    }
+
+    return <button onClick={handleLocaleChange}>{translated.example}</button>;
 };
 
 export default ExampleComponent;
 ```
 
-Give it a try on _codesandbox_
+## API
 
-##### HOC
+ #### LitteraProvider
+ type: `ReactContext<ILitteraProvider>`
 
-[![Code Sandbox](https://codesandbox.io/static/img/play-codesandbox.svg)](https://codesandbox.io/s/6299pk9r1r)
+ Component providing the core context. To use `withLittera` and `useLittera` properly, you have to wrap your components with this provider.
 
-##### Hooks
+| Key       | Description                                 | Type                     | Default                 |
+|-----------|---------------------------------------------|--------------------------|-------------------------|
+| initialLocale | Initial language.                    | string |                         |
+| locales | List of available languages.                   | Array<string\> | `[ "en_US" ]` |
+| setLocale | Callback called when active language changes.                     | (locale: string) => void |                         |
+| preset    | Preset of translations.                      | { [key: string]: { [locale: string]: string } }            | `{}`                    |
+| pattern   | Locale pattern. Default format is xx_XX. | RegExp                   | `/[a-z]{2}_[A-Z]{2}/gi` |
+| detectLocale | Tries to detect the browser language. Overriding initialLocale if detected. | boolean | false
 
-[![Code Sandbox](https://codesandbox.io/static/img/play-codesandbox.svg)](https://codesandbox.io/s/ywl2lm8r4z)
+ #### withLittera - HOC
+ type: `(translations: ITranslations) => (Component: React.FunctionComponent) => JSX.Element`
 
-#### Translations example
+A HOC, you feed it with `translations`(ITranslations) and a component which then gets the `translated` object passed via prop (e.g. `withLittera(translations)(Component)`). 
+
+| Key       | Description                                 | Type                     | Default                 |
+|-----------|---------------------------------------------|--------------------------|-------------------------|
+| translated    | Translated object                            | { [key: string]: string }                   |               |
+| setLocale | Changes active language                     | (locale: string) => void |                         |
+| preset    | Preset of translations                      | { [key: string]: { [locale: string]: string } }            | `{}`                    |
+| locale    | Active language                  | string            | `en_US`                    |
+
+ #### useLittera - Hook
+ type: `(translations: ITranslations) => ITranslated`
+
+ A Hook, you feed it with `translations`(ITranslations) and it returns `translated`(ITranslated).
+
+ #### useLitteraMethods - Hook
+ type: `() => { see methods below }`
+
+This hook exposes following methods:
+| Key       | Description                                 | Type                     |
+|-----------|---------------------------------------------|--------------------------|
+| setLocale | Changes active language                     | `(locale: string) => void` |
+| locale | Active language                     | `string` |
+| setPattern | Changes locale pattern | `(pattern: RegExp) => void` |
+| pattern | Locale pattern | `RegExp` |
+| validatePattern | Validates locale with pattern | `(locale: string, pattern?: RegExp) => boolean` |
+
+### Types
+
+#### ITranslation
+`{ [locale: string]: string }`
 
 ```javascript
 {
-  example: {
-    en_US: "Example",
-    pl_PL: "Przykład",
-    de_DE: "Beispiel"
-  }
+    de_DE: "Einfach",
+    en_US: "Simple"
 }
 ```
 
-`props.translated.example` will equal `"Example"`, if language is set to `en_US`.
+#### ITranslations
+`{ [key: string]: ITranslation }`
 
-## API
+```javascript
+{
+    simple: {
+        de_DE: "Einfach",
+        en_US: "Simple"
+    }
+}
+```
 
-`LitteraProvider` => Component providing the context for a specific language. You can pass a **language** [string] and **preset** [object] prop. To use `withLittera` and `useLittera` properly, you have to wrap your component with this provider.
+#### ITranslated
+`{ [key: string]: string }`
 
-`withLittera` => A HOC, you feed it with translations [object] and a component which then gets the "translated" object passed via prop (e.g. `withLittera(translations)(Component)`). Passed with props: `translated` [object], `language` [string] and `setLanguage` [func].
-
-`useLittera` => A Hook, you feed it with translations [object] and it returns `translated` [object], `language` [string] and `setLanguage` [func].
+```javascript
+{
+    simple: "Simple"
+}
+```
 
 ## Build instructions
 
@@ -164,6 +231,45 @@ Build:
 
 Test the library:
 `npm test`
+
+## Migration 1.X => 2.X
+
+The migration process is straightforward. You have to rename some properties and change the way you use `useLittera`.
+
+### Changed naming
+- `language` => `locale`
+- `setLanguage` => `setLocale`
+
+Mainly pay attention to `LitteraProvider` and `withLittera` props naming.
+
+### LitteraProvider changes
+The provider accepts 2 new props `locales: string[]` and `initialLocale?: string`. You don't need to use your own state from now, the provider will handle it by itself. That makes the `locale` and `setLocale` props not required.
+
+```javascript
+// v1.X
+const [language, setLanguage] = useState("en_US");
+
+return <LitteraProvider language={language} setLanguage={setLanguage}>
+   {children}
+</LitteraProvider>
+
+// v2.X
+return <LitteraProvider locales={["en_US", "de_DE", "pl_PL"]}>
+   {children}
+</LitteraProvider>
+```
+
+### useLittera changes
+The hook returns only the translated object now. Use `useLitteraMethods` to get/set locale, set pattern etc.
+
+```javascript
+// v1.X
+const [translated, locale, setLanguage] = useLittera(translated)
+
+// v2.X
+const translated = useLittera(translated);
+const { locale, setLocale, pattern, setPattern, validateLocale } = useLitteraMethods();
+```
 
 ## License
 

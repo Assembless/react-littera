@@ -1,36 +1,61 @@
-import * as React from 'react'
-import { ILitteraProvider } from '../types/index.d'
+import * as React from "react";
+import { ILitteraProvider, ITranslations, ILitteraProviderProps } from "../types/index.d";
+import { localePattern, detectDeviceLocale } from "./utils/methods";
 
-export const LitteraContext = React.createContext({
-  language: 'en_US',
+export const LitteraContext = React.createContext<ILitteraProvider>({
+  locale: "en_US",
   preset: {},
-  setLanguage: () => {},
-})
+  locales: ["en_US"],
+  pattern: localePattern
+});
 
 /**
  * Context Provider for Littera
+ * @category Setup
  * @public
- * @param {String} language Active language
- * @param {Object} preset Set of predefined translations
- * @param {Function} setLanguage Callback handling the setLanguage event.
+ * @param initialLocale Initial active locale.
+ * @param preset Set of predefined translations.
+ * @param setLocale Callback called when the locale changes.
+ * @param pattern Locale pattern.
+ * @example
+ * // Setting up Littera provider.
+ * 
+ * const App = () => {
+ *    return <LitteraProvider locales={["en_US", "de_DE"]}>
+ *      ...
+ *    </LitteraProvider>
+ * }
  */
-const LitteraProvider: React.FunctionComponent<ILitteraProvider> = ({
-  language,
+export function LitteraProvider({
+  locales,
+  detectLocale,
+  initialLocale=locales?.[0] || "en_US",
   preset,
-  setLanguage,
-  children,
-}) => {
+  setLocale,
+  pattern,
+  children
+}: ILitteraProviderProps & {children: JSX.Element | JSX.Element[]}) {
+  initialLocale = detectLocale ? detectDeviceLocale() || initialLocale : initialLocale;
+  const [locale, changeLocale] = React.useState(initialLocale);
+
+  const handleLocale = (locale: string) => {
+    if(locales && locales.indexOf(locale) <= -1) throw new Error(`The '${locale}' locale does not exist on the locales list. (${locales.join(", ")})`);
+
+    setLocale && setLocale(locale);
+    changeLocale(locale);
+  }
+
   return (
     <LitteraContext.Provider
       value={{
-        language: language,
-        preset: preset,
-        setLanguage: language => setLanguage(language),
+        locale,
+        preset,
+        setLocale: handleLocale,
+        pattern,
+        locales
       }}
     >
       {children}
     </LitteraContext.Provider>
-  )
-}
-
-export default LitteraProvider
+  );
+};
