@@ -3,6 +3,7 @@ import { LitteraContext } from "./LitteraProvider";
 import { translate } from "./utils/translate";
 import { validateLocale } from "./utils/methods";
 import { ITranslations, TSetLocale, TValidateLocale, ITranslationsFunction, ITranslated } from "../types";
+import { log } from "./utils/logger";
 
 /**
  * Hook returns translations for the active locale.
@@ -35,7 +36,7 @@ export function useLittera<T extends ITranslations>(t: T | ((preset?: ITranslati
     Object.keys(_translations).forEach(_key => {
       locales.forEach(_locale => {
         if(!_translations[_key][_locale]) {
-          console.warn(`You are missing "${_key}" in ${_locale}.`);
+          log("warn", `You are missing "${_key}" in ${_locale}.`);
         }
       });
     });
