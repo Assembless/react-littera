@@ -59,6 +59,7 @@ export type TSetLocale = (locale: string) => void;
 export type TValidateLocale = (locale: string, pattern?: RegExp) => Boolean
 export type TTranslate = (translations: ITranslations, locale: string, preset?: ITranslations) => ITranslated
 
+export function useLittera<T extends ITranslations>(translations: T | ((preset?: ITranslations) => T), locale?: string): {[key in keyof T]: string};
 export function useLitteraMethods(): {
   locale: string,
   locales: string[],
