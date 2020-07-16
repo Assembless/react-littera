@@ -272,11 +272,20 @@ const App = () => {
 The hook returns only the translated object now. Use `useLitteraMethods` to get/set locale, set pattern etc.
 
 ```javascript
+// The translations object remains the same.
+const translations = {
+    example: {
+        "en_US": "Example",
+        "de_DE": "Beispiel",
+        "pl_PL": "Przykład"
+    }
+}
+
 // v1.X
-const [translated, locale, setLanguage] = useLittera(translated)
+const [translated, locale, setLanguage] = useLittera(translations)
 
 // v2.X
-const translated = useLittera(translated);
+const translated = useLittera(translations);
 const { locale, setLocale, pattern, setPattern, validateLocale } = useLitteraMethods();
 ```
 
