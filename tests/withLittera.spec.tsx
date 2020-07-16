@@ -16,7 +16,7 @@ const mockTranslated = {
   simple: "Simple"
 };
 
-const Component = withLittera(mockTranslations)(({translated}: LitteraProps) => {
+const Component = withLittera(mockTranslations)(({translated}: LitteraProps<any>) => {
   return <div>{translated.simple}</div>
 });
 

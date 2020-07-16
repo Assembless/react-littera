@@ -3,9 +3,9 @@
     "outDir": "./dist",
     "allowJs": true,
     "target": "es5",
-    "lib": ["es6", "dom", "es2017"],
+    "lib": ["es6", "dom", "es2017", "ESNext"],
     "jsx": "react",
-    "types": []
+    "types": ["jest"]
   },
   "include": ["./src/**/*"],
   "exclude": ["node_modules", "**/*.test.*", "**/*.spec.*"]
