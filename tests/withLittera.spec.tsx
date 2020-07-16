@@ -1,6 +1,6 @@
 import * as React from "react";
 import withLittera from '../src/withLittera'
-import { mount, shallow } from "enzyme";
+import { mount } from "enzyme";
 import { LitteraProvider } from "../src";
 import { LitteraProps } from "../types";
 

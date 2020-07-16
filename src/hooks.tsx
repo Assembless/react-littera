@@ -1,9 +1,8 @@
 import * as React from "react";
 import { LitteraContext } from "./LitteraProvider";
 import { translate } from "./utils/translate";
-import { validateLocale } from "./utils/methods";
-import { ITranslations, TSetLocale, TValidateLocale, ITranslationsFunction, ITranslated } from "../types";
-import { log } from "./utils/logger";
+import { validateLocale, checkForMissingKeys } from "./utils/methods";
+import { ITranslations, TSetLocale, TValidateLocale } from "../types";
 
 /**
  * Hook returns translations for the active locale.
@@ -30,18 +29,13 @@ import { log } from "./utils/logger";
 export function useLittera<T extends ITranslations>(t: T | ((preset?: ITranslations) => T), l?: string): {[key in keyof T]: string} {
   const { locale, preset, locales=[] } = React.useContext(LitteraContext);
   
-  const _translations = React.useMemo(() => typeof t === "function" ? {...t(preset)} : {...t}, [t, preset]);
+  const translations = React.useMemo(() => typeof t === "function" ? {...t(preset)} : {...t}, [t, preset]);
 
   React.useEffect(() => {
-    Object.keys(_translations).forEach(_key => {
-      locales.forEach(_locale => {
-        if(!_translations[_key][_locale]) 
-          console.warn(`You are missing "${_key}" in ${_locale}.`);
-      });
-    });
-  }, [_translations]);
+    checkForMissingKeys(translations, locales)
+  }, [translations]);
 
-  return React.useMemo(() => translate(_translations, l || locale), [_translations, l, locale]);
+  return React.useMemo(() => translate(translations, l || locale), [translations, l, locale]);
 }
 
 /**
@@ -75,6 +69,7 @@ export function useLitteraMethods() {
     
     setLocale(locale);
   }, [locale]);
+  
   const _validateLocale:TValidateLocale = React.useCallback(validateLocale, [pattern]);
   
   return ({

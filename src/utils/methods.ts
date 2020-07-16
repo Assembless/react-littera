@@ -1,4 +1,5 @@
 import { log } from "./logger";
+import { ITranslations } from "../../types";
 
 export const localePattern = /[a-z]{2}_[A-Z]{2}/gi;
 
@@ -27,4 +28,15 @@ export const tryParseLocale = (locale: string) => {
   if(locale.length === 4 && locale.includes("-")) return locale.replace(/-/g, "_");
 
   return null;
+}
+
+export const checkForMissingKeys = (translations: ITranslations, locales: string[]) => {
+  Object.keys(translations).forEach(key => {
+    locales.forEach(locale => {
+
+      if(!translations[key][locale]) 
+        console.warn(`You are missing "${key}" in ${locale}.`);
+
+    });
+  });
 }
