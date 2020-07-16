@@ -3,7 +3,10 @@
     "outDir": "./dist",
     "allowJs": true,
     "target": "es5",
-    "jsx": "react"
+    "lib": ["es6", "dom", "es2017"],
+    "jsx": "react",
+    "types": []
   },
-  "include": ["./src/**/*"]
+  "include": ["./src/**/*"],
+  "exclude": ["node_modules", "**/*.test.*", "**/*.spec.*"]
 }

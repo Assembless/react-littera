@@ -4,6 +4,10 @@ All notable changes to this project will be documented in this file.
 
 ## [Unreleased]
 
+## [2.0.4] - 2020-07-16
+### Fixed
+- Build package before publishing...
+
 ## [2.0.3] - 2020-07-16
 ### Fixed
 - useLittera types.

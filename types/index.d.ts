@@ -48,9 +48,9 @@ export interface ILitteraProviderProps {
   detectLocale?: boolean;
 }
 
-export interface LitteraProps {
+export interface LitteraProps<T> {
   locale: string;
-  translated: ITranslated,
+  translated: {[key in keyof T]: string},
   setLocale: TSetLocale,
   preset?: ITranslations
 }
@@ -68,6 +68,6 @@ export function useLitteraMethods(): {
   validateLocale: TValidateLocale,
   translate: TTranslate
 }
-export const withLittera: (translations: ITranslationsFunction | ITranslations) => (Component: React.FunctionComponent<{}>) => (props: any) => JSX.Element
+export const withLittera: <T extends ITranslations>(translations: T | ((preset?: ITranslations) => T)) => (Component: React.FunctionComponent<LitteraProps<T>>) => (props: any) => JSX.Element
 export const LitteraContext: React.Context<ILitteraProvider>
 export const LitteraProvider: (props: ILitteraProviderProps & {children: JSX.Element | JSX.Element[]}) => JSX.Element

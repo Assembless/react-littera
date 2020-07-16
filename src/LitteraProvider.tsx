@@ -1,5 +1,5 @@
 import * as React from "react";
-import { ILitteraProvider, ITranslations, ILitteraProviderProps } from "../types/index.d";
+import { ILitteraProvider, ILitteraProviderProps } from "../types/index.d";
 import { localePattern, detectDeviceLocale } from "./utils/methods";
 
 export const LitteraContext = React.createContext<ILitteraProvider>({
@@ -39,7 +39,8 @@ export function LitteraProvider({
   const [locale, changeLocale] = React.useState(initialLocale);
 
   const handleLocale = (locale: string) => {
-    if(locales && locales.indexOf(locale) <= -1) throw new Error(`The '${locale}' locale does not exist on the locales list. (${locales.join(", ")})`);
+    if(locales && locales.indexOf(locale) <= -1) 
+      throw new Error(`The '${locale}' locale does not exist on the locales list. (${locales.join(", ")})`);
 
     setLocale && setLocale(locale);
     changeLocale(locale);

@@ -1,6 +1,6 @@
 {
   "name": "react-littera",
-  "version": "2.0.3",
+  "version": "2.0.4",
   "description": "🌐 Lightweight react library for robust translations.",
   "main": "dist/index.js",
   "types": "./dist/index.d.ts",
@@ -11,7 +11,9 @@
     "test:watch": "jest --config=jest.config.json --watch",
     "test:coverage": "jest --config=jest.config.json --coverage",
     "lint": "eslint . --ext .js",
-    "ci": "run-p lint build test:coverage"
+    "ci": "run-p lint build test:coverage",
+    "deploy": "yarn build && npm publish",
+    "typecheck": "tsc --noEmit"
   },
   "peerDependencies": {},
   "devDependencies": {

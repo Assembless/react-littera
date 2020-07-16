@@ -35,9 +35,8 @@ export function useLittera<T extends ITranslations>(t: T | ((preset?: ITranslati
   React.useEffect(() => {
     Object.keys(_translations).forEach(_key => {
       locales.forEach(_locale => {
-        if(!_translations[_key][_locale]) {
+        if(!_translations[_key][_locale]) 
           console.warn(`You are missing "${_key}" in ${_locale}.`);
-        }
       });
     });
   }, [_translations]);
