@@ -247,16 +247,25 @@ The provider accepts 2 new props `locales: string[]` and `initialLocale?: string
 
 ```javascript
 // v1.X
-const [language, setLanguage] = useState("en_US");
+import LitteraProvider from "react-littera";
 
-return <LitteraProvider language={language} setLanguage={setLanguage}>
-   {children}
-</LitteraProvider>
+const App = () => {
+    const [language, setLanguage] = useState("en_US");
+
+    return <LitteraProvider language={language} setLanguage={setLanguage}>
+       ...
+    </LitteraProvider>
+}
 
 // v2.X
-return <LitteraProvider locales={["en_US", "de_DE", "pl_PL"]}>
-   {children}
-</LitteraProvider>
+import { LitteraProvider } from "react-littera";
+
+const App = () => {
+
+    return <LitteraProvider locales={["en_US", "de_DE", "pl_PL"]}>
+       ...
+    </LitteraProvider>
+}
 ```
 
 ### useLittera changes
