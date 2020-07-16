@@ -86,7 +86,7 @@
     <section>
         <article>
             <pre class="prettyprint source linenums"><code>import * as React from "react";
-import { ILitteraProvider, ITranslations, ILitteraProviderProps } from "../types/index.d";
+import { ILitteraProvider, ILitteraProviderProps } from "../types/index.d";
 import { localePattern, detectDeviceLocale } from "./utils/methods";
 
 export const LitteraContext = React.createContext&lt;ILitteraProvider>({
@@ -126,7 +126,8 @@ export function LitteraProvider({
   const [locale, changeLocale] = React.useState(initialLocale);
 
   const handleLocale = (locale: string) => {
-    if(locales &amp;&amp; locales.indexOf(locale) &lt;= -1) throw new Error(`The '${locale}' locale does not exist on the locales list. (${locales.join(", ")})`);
+    if(locales &amp;&amp; locales.indexOf(locale) &lt;= -1) 
+      throw new Error(`The '${locale}' locale does not exist on the locales list. (${locales.join(", ")})`);
 
     setLocale &amp;&amp; setLocale(locale);
     changeLocale(locale);
