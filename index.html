@@ -99,6 +99,341 @@
 
 
 
+    <section>
+        <article><h1>react-littera</h1>
+<p>🌐 Lightweight react library for managing translations.</p>
+<p><img src="https://i.imgur.com/2bkiWmg.png" alt="littera header"></p>
+<p><img src="https://img.shields.io/travis/com/DRFR0ST/react-littera?style=for-the-badge" alt="Travis (.com)">
+<img src="https://img.shields.io/github/package-json/v/DRFR0ST/react-littera?style=for-the-badge" alt="GitHub package.json version">
+<a href="https://www.npmjs.com/package/react-littera"><img src="https://img.shields.io/npm/dt/react-littera.svg?style=for-the-badge" alt="npm"></a>
+<a href="https://www.npmjs.com/package/react-littera"><img src="https://img.shields.io/bundlephobia/min/react.svg?style=for-the-badge" alt="npm bundle size (minified)"></a>
+<img src="https://img.shields.io/github/last-commit/DRFR0ST/react-littera?style=for-the-badge" alt="GitHub last commit">
+<a href="https://github.com/DRFR0ST/react-littera"><img src="https://img.shields.io/github/license/DRFR0ST/react-littera.svg?style=for-the-badge" alt=""></a>
+<a href="https://drfr0st.github.io/react-littera"><img src="https://img.shields.io/website?down_message=offline&amp;label=documentation&amp;style=for-the-badge&amp;up_message=online&amp;url=https%3A%2F%2Fdrfr0st.github.io%2Freact-littera" alt="Website"></a></p>
+<h2>About</h2>
+<p>Littera was created to make maintaining and managing translations easier. It allows placing translations right beside your component as well as storing translations globally.</p>
+<p>Here below we have a <strong>translations</strong> object which is accepted by the <code>translate</code> function, which then returns the translated string for the correct language.</p>
+<pre class="prettyprint source lang-javascript"><code>{
+    welcome: {
+        en_US: &quot;Welcome&quot;,
+        pl_PL: &quot;Witamy&quot;,
+        de_DE: &quot;Willkommen&quot;
+    }
+}
+</code></pre>
+<p>Let's say the active language is <code>en_US</code> (English), the output will be:</p>
+<pre class="prettyprint source lang-javascript"><code>{
+    welcome: &quot;Welcome&quot;
+}
+</code></pre>
+<h2>Installation</h2>
+<p>via npm</p>
+<pre class="prettyprint source"><code>npm install react-littera
+</code></pre>
+<p>via yarn</p>
+<pre class="prettyprint source"><code>yarn add react-littera
+</code></pre>
+<p>or clone/download the repository.</p>
+<h2>Usage</h2>
+<p>First you have to wrap your components with a provider and feed it with a list of available languages.</p>
+<pre class="prettyprint source lang-javascript"><code>import React, { useState } from &quot;react&quot;;
+import ReactDOM from &quot;react-dom&quot;;
+
+import LitteraProvider from &quot;react-littera&quot;;
+
+function App() {
+    return (
+        &lt;div className=&quot;App&quot;>
+            &lt;LitteraProvider locales={[ &quot;en_US&quot;, &quot;pl_PL&quot;, &quot;de_DE&quot; ]}>
+                &lt;YourApp />
+            &lt;/LitteraProvider>
+        &lt;/div>
+    );
+}
+
+const rootElement = document.getElementById(&quot;root&quot;);
+ReactDOM.render(&lt;App />, rootElement);
+</code></pre>
+<p>Now you can make use of Littera by adding translations directly into your component.</p>
+<p>Here we have two options:</p>
+<ul>
+<li><strong>HOC</strong></li>
+<li><strong>Hooks</strong></li>
+</ul>
+<h4>Example with a HOC</h4>
+<pre class="prettyprint source lang-javascript"><code>import React from &quot;react&quot;;
+import { withLittera } from &quot;react-littera&quot;;
+
+// Object containing translations for each key...
+const translations = {
+    example: {
+        en_US: &quot;Example&quot;,
+        pl_PL: &quot;Przykład&quot;,
+        de_DE: &quot;Beispiel&quot;
+    }
+};
+
+class ExampleComponent extends React.Component {
+
+    handleLocaleChange() {
+        const { setLocale } = this.props;
+
+        setLocale(&quot;de_DE&quot;);
+    }
+
+    render() {
+        const { translated } = this.props;
+
+        return &lt;button onClick={this.handleLocaleChange}>{translated.example}&lt;/button>;
+    }
+}
+
+export default withLittera(translation)(ExampleComponent);
+</code></pre>
+<h4>Example with a Hook</h4>
+<pre class="prettyprint source lang-javascript"><code>import React from &quot;react&quot;;
+import { useLittera } from &quot;react-littera&quot;;
+
+// Object containing translations for each key...
+const translations = {
+    example: {
+        en_US: &quot;Example&quot;,
+        pl_PL: &quot;Przykład&quot;,
+        de_DE: &quot;Beispiel&quot;
+    }
+};
+
+const ExampleComponent = () => {
+    // Obtain our translated object.
+    const translated = useLittera(translations);
+    // Get access to global littera methods for currect context.
+    const methods = useLitteraMethods();
+
+    const handleLocaleChange = () => {
+        // Change language to German.
+        methods.setLocale(&quot;de_DE&quot;);
+    }
+
+    return &lt;button onClick={handleLocaleChange}>{translated.example}&lt;/button>;
+};
+
+export default ExampleComponent;
+</code></pre>
+<h2>API</h2>
+<h4>LitteraProvider</h4>
+<p>type: <code>ReactContext&lt;ILitteraProvider&gt;</code></p>
+<p>Component providing the core context. To use <code>withLittera</code> and <code>useLittera</code> properly, you have to wrap your components with this provider.</p>
+<table>
+<thead>
+<tr>
+<th>Key</th>
+<th>Description</th>
+<th>Type</th>
+<th>Default</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>initialLocale</td>
+<td>Initial language.</td>
+<td>string</td>
+<td></td>
+</tr>
+<tr>
+<td>locales</td>
+<td>List of available languages.</td>
+<td>Array&lt;string&gt;</td>
+<td><code>[ &quot;en_US&quot; ]</code></td>
+</tr>
+<tr>
+<td>setLocale</td>
+<td>Callback called when active language changes.</td>
+<td>(locale: string) =&gt; void</td>
+<td></td>
+</tr>
+<tr>
+<td>preset</td>
+<td>Preset of translations.</td>
+<td>{ [key: string]: { [locale: string]: string } }</td>
+<td><code>{}</code></td>
+</tr>
+<tr>
+<td>pattern</td>
+<td>Locale pattern. Default format is xx_XX.</td>
+<td>RegExp</td>
+<td><code>/[a-z]{2}_[A-Z]{2}/gi</code></td>
+</tr>
+<tr>
+<td>detectLocale</td>
+<td>Tries to detect the browser language. Overriding initialLocale if detected.</td>
+<td>boolean</td>
+<td>false</td>
+</tr>
+</tbody>
+</table>
+<h4>withLittera - HOC</h4>
+<p>type: <code>(translations: ITranslations) =&gt; (Component: React.FunctionComponent) =&gt; JSX.Element</code></p>
+<p>A HOC, you feed it with <code>translations</code>(ITranslations) and a component which then gets the <code>translated</code> object passed via prop (e.g. <code>withLittera(translations)(Component)</code>).</p>
+<table>
+<thead>
+<tr>
+<th>Key</th>
+<th>Description</th>
+<th>Type</th>
+<th>Default</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>translated</td>
+<td>Translated object</td>
+<td>{ [key: string]: string }</td>
+<td></td>
+</tr>
+<tr>
+<td>setLocale</td>
+<td>Changes active language</td>
+<td>(locale: string) =&gt; void</td>
+<td></td>
+</tr>
+<tr>
+<td>preset</td>
+<td>Preset of translations</td>
+<td>{ [key: string]: { [locale: string]: string } }</td>
+<td><code>{}</code></td>
+</tr>
+<tr>
+<td>locale</td>
+<td>Active language</td>
+<td>string</td>
+<td><code>en_US</code></td>
+</tr>
+</tbody>
+</table>
+<h4>useLittera - Hook</h4>
+<p>type: <code>(translations: ITranslations) =&gt; ITranslated</code></p>
+<p>A Hook, you feed it with <code>translations</code>(ITranslations) and it returns <code>translated</code>(ITranslated).</p>
+<h4>useLitteraMethods - Hook</h4>
+<p>type: <code>() =&gt; { see methods below }</code></p>
+<p>This hook exposes following methods:</p>
+<table>
+<thead>
+<tr>
+<th>Key</th>
+<th>Description</th>
+<th>Type</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>setLocale</td>
+<td>Changes active language</td>
+<td><code>(locale: string) =&gt; void</code></td>
+</tr>
+<tr>
+<td>locale</td>
+<td>Active language</td>
+<td><code>string</code></td>
+</tr>
+<tr>
+<td>setPattern</td>
+<td>Changes locale pattern</td>
+<td><code>(pattern: RegExp) =&gt; void</code></td>
+</tr>
+<tr>
+<td>pattern</td>
+<td>Locale pattern</td>
+<td><code>RegExp</code></td>
+</tr>
+<tr>
+<td>validatePattern</td>
+<td>Validates locale with pattern</td>
+<td><code>(locale: string, pattern?: RegExp) =&gt; boolean</code></td>
+</tr>
+</tbody>
+</table>
+<h3>Types</h3>
+<h4>ITranslation</h4>
+<p><code>{ [locale: string]: string }</code></p>
+<pre class="prettyprint source lang-javascript"><code>{
+    de_DE: &quot;Einfach&quot;,
+    en_US: &quot;Simple&quot;
+}
+</code></pre>
+<h4>ITranslations</h4>
+<p><code>{ [key: string]: ITranslation }</code></p>
+<pre class="prettyprint source lang-javascript"><code>{
+    simple: {
+        de_DE: &quot;Einfach&quot;,
+        en_US: &quot;Simple&quot;
+    }
+}
+</code></pre>
+<h4>ITranslated</h4>
+<p><code>{ [key: string]: string }</code></p>
+<pre class="prettyprint source lang-javascript"><code>{
+    simple: &quot;Simple&quot;
+}
+</code></pre>
+<h2>Build instructions</h2>
+<p>After cloning the repo, install all dependencies using <code>npm install</code>.</p>
+<p>Build:
+<code>npm run build</code></p>
+<p>Test the library:
+<code>npm test</code></p>
+<h2>Migration 1.X =&gt; 2.X</h2>
+<p>The migration process is straightforward. You have to rename some properties and change the way you use <code>useLittera</code>.</p>
+<h3>Changed naming</h3>
+<ul>
+<li><code>language</code> =&gt; <code>locale</code></li>
+<li><code>setLanguage</code> =&gt; <code>setLocale</code></li>
+</ul>
+<p>Mainly pay attention to <code>LitteraProvider</code> and <code>withLittera</code> props naming.</p>
+<h3>LitteraProvider changes</h3>
+<p>The provider accepts 2 new props <code>locales: string[]</code> and <code>initialLocale?: string</code>. You don't need to use your own state from now, the provider will handle it by itself. That makes the <code>locale</code> and <code>setLocale</code> props not required.</p>
+<pre class="prettyprint source lang-javascript"><code>// v1.X
+import LitteraProvider from &quot;react-littera&quot;;
+
+const App = () => {
+    const [language, setLanguage] = useState(&quot;en_US&quot;);
+
+    return &lt;LitteraProvider language={language} setLanguage={setLanguage}>
+       ...
+    &lt;/LitteraProvider>
+}
+
+// v2.X
+import { LitteraProvider } from &quot;react-littera&quot;;
+
+const App = () => {
+
+    return &lt;LitteraProvider locales={[&quot;en_US&quot;, &quot;de_DE&quot;, &quot;pl_PL&quot;]}>
+       ...
+    &lt;/LitteraProvider>
+}
+</code></pre>
+<h3>useLittera changes</h3>
+<p>The hook returns only the translated object now. Use <code>useLitteraMethods</code> to get/set locale, set pattern etc.</p>
+<pre class="prettyprint source lang-javascript"><code>// The translations object remains the same.
+const translations = {
+    example: {
+        &quot;en_US&quot;: &quot;Example&quot;,
+        &quot;de_DE&quot;: &quot;Beispiel&quot;,
+        &quot;pl_PL&quot;: &quot;Przykład&quot;
+    }
+}
+
+// v1.X
+const [translated, locale, setLanguage] = useLittera(translations)
+
+// v2.X
+const translated = useLittera(translations);
+const { locale, setLocale, pattern, setPattern, validateLocale } = useLitteraMethods();
+</code></pre>
+<h2>License</h2>
+<p><a href="https://github.com/DRFR0ST/react-littera/blob/master/LICENSE">MIT License</a></p></article>
+    </section>
+
 
 
 
