@@ -2,15 +2,32 @@ import {
   ITranslations,
 } from "../../types";
 
+/**
+ * Returns translation for a locale. 
+ * @category Core
+ * @param {ITranslations} translations
+ * @param {string} locale
+ * @example
+ * // Example of using translations.
+ * 
+ * const translations = {
+ *    example: {
+ *      en_US: "Example",
+ *      de_DE: "Beispiel"
+ *    }
+ * }
+ * 
+ * translate(translations, "de_DE"); // => { example: "Beispiel" }
+ * @returns {ITranslated}
+ */
 export function translate<T extends ITranslations, K extends keyof T>(
-  t: T,
-  l: string
+  translations: T,
+  locale: string
 ) {
-  const keys: Array<keyof typeof t> = Object.keys(t);
+  if(typeof locale !== "string") throw new Error(`Expected a string for locale, got: ${typeof locale}`)
+  if(typeof translations !== "object" || Array.isArray(translations)) throw new Error(`Expected an object for translations, got: ${Array.isArray(translations) ? "array" : typeof translations}`);
 
-  let translated = keys.reduce((a, b: K) => {
-    return (a[b]=t[b][l], a);
+  return (Object.keys(translations) as Array<keyof typeof translations>).reduce((a, b: K) => {
+    return (a[b]=translations[b][locale], a);
   }, {} as {[key in K]: string});
-  
-  return translated;
 };
