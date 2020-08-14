@@ -1,4 +1,3 @@
-import { log } from "./logger";
 import { ITranslations } from "../../types";
 
 export const localePattern = /[a-z]{2}_[A-Z]{2}/gi;
@@ -12,7 +11,7 @@ export const validateLocale = (l: string, p: RegExp) => {
 export const detectDeviceLocale = () => {
   const browserLocale = tryParseLocale(window.navigator.language);
 
-  if(!browserLocale) log("warn", "Locale not detected.");
+  if(!browserLocale) console.warn("Locale not detected.");
 
   return browserLocale || null;
 }
@@ -30,7 +29,10 @@ export const tryParseLocale = (locale: string) => {
   return null;
 }
 
-export const checkForMissingKeys = (translations: ITranslations, locales: string[]) => {
+/** 
+ * Searches for missing translations. Prints an warning if there is a translation for a language missing.
+ */
+export const lookForMissingKeys = (translations: ITranslations, locales: string[]) => {
   Object.keys(translations).forEach(key => {
     locales.forEach(locale => {
 
