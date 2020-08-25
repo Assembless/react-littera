@@ -1,7 +1,7 @@
 import * as React from "react";
 import { LitteraContext } from "./LitteraProvider";
 import { translate } from "./utils/translate";
-import { validateLocale, logMissingKeys } from "./utils/methods";
+import { validateLocale, lookForMissingKeys } from "./utils/methods";
 import { ITranslations, TSetLocale, TValidateLocale, TTranslationsArg, TTranslatedArg } from "../types";
 
 /**
@@ -32,7 +32,7 @@ export function useLittera<T extends ITranslations>(t: TTranslationsArg<T>, l?: 
   const translations: T = React.useMemo(() => typeof t === "function" ? {...t(preset)} : {...t}, [t, preset]);
 
   React.useEffect(() => {
-    logMissingKeys(translations, locales)
+    lookForMissingKeys(translations, locales)
   }, [translations]);
 
   return React.useMemo(() => translate(translations, l || locale), [translations, l, locale]);

@@ -3,6 +3,8 @@
 All notable changes to this project will be documented in this file.
 
 ## [Unreleased]
+### Fixed
+- Type checking for translations and locale in core methods.
 
 ## [2.0.4] - 2020-07-16
 ### Fixed

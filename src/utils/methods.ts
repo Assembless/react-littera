@@ -11,7 +11,7 @@ export const validateLocale = (l: string, p: RegExp) => {
 export const detectDeviceLocale = () => {
   const browserLocale = tryParseLocale(window.navigator.language);
 
-  if(!browserLocale) console.log("Could not detect locale.");
+  if(!browserLocale) console.warn("Locale not detected.");
 
   return browserLocale || null;
 }
@@ -34,12 +34,10 @@ export const tryParseLocale = (locale: string) => {
   return null;
 }
 
-/**
- * Warns about missing translations.
- * @param translations 
- * @param locales 
+/** 
+ * Searches for missing translations. Prints an warning if there is a translation for a language missing.
  */
-export const logMissingKeys = (translations: ITranslations, locales: string[]) => {
+export const lookForMissingKeys = (translations: ITranslations, locales: string[]) => {
   Object.keys(translations).forEach(key => {
     locales.forEach(locale => {
 
