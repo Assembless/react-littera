@@ -4,13 +4,13 @@ import { useLittera, useLitteraMethods } from "../src/hooks";
 import { LitteraProvider } from "../src/LitteraProvider";
 import { ITranslations } from "../src";
 
-const mockTranslations = {
+const mockTranslations = Object.freeze({
   simple: {
     de_DE: "Einfach",
     pl_PL: "Proste",
     en_US: "Simple"
   }
-};
+});
 
 const mockMissingTranslations = {
   simple: {

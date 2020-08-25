@@ -1,8 +1,8 @@
 import * as React from "react";
 import { LitteraContext } from "./LitteraProvider";
 import { translate } from "./utils/translate";
-import { validateLocale, checkForMissingKeys } from "./utils/methods";
-import { ITranslations, TSetLocale, TValidateLocale } from "../types";
+import { validateLocale, logMissingKeys } from "./utils/methods";
+import { ITranslations, TSetLocale, TValidateLocale, TTranslationsArg, TTranslatedArg } from "../types";
 
 /**
  * Hook returns translations for the active locale.
@@ -26,13 +26,13 @@ import { ITranslations, TSetLocale, TValidateLocale } from "../types";
  * }
  * @returns {ITranslated}
  */
-export function useLittera<T extends ITranslations>(t: T | ((preset?: ITranslations) => T), l?: string): {[key in keyof T]: string} {
+export function useLittera<T extends ITranslations>(t: TTranslationsArg<T>, l?: string): TTranslatedArg<T> {
   const { locale, preset, locales=[] } = React.useContext(LitteraContext);
   
-  const translations = React.useMemo(() => typeof t === "function" ? {...t(preset)} : {...t}, [t, preset]);
+  const translations: T = React.useMemo(() => typeof t === "function" ? {...t(preset)} : {...t}, [t, preset]);
 
   React.useEffect(() => {
-    checkForMissingKeys(translations, locales)
+    logMissingKeys(translations, locales)
   }, [translations]);
 
   return React.useMemo(() => translate(translations, l || locale), [translations, l, locale]);
@@ -69,7 +69,7 @@ export function useLitteraMethods() {
     
     setLocale(locale);
   }, [locale]);
-  
+
   const _validateLocale:TValidateLocale = React.useCallback(validateLocale, [pattern]);
   
   return ({

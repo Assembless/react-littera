@@ -50,7 +50,7 @@ export interface ILitteraProviderProps {
 
 export interface LitteraProps<T> {
   locale: string;
-  translated: {[key in keyof T]: string},
+  translated: TTranslatedArg<T>,
   setLocale: TSetLocale,
   preset?: ITranslations
 }
@@ -59,7 +59,10 @@ export type TSetLocale = (locale: string) => void;
 export type TValidateLocale = (locale: string, pattern?: RegExp) => Boolean
 export type TTranslate = (translations: ITranslations, locale: string, preset?: ITranslations) => ITranslated
 
-export function useLittera<T extends ITranslations>(translations: T | ((preset?: ITranslations) => T), locale?: string): {[key in keyof T]: string};
+export type TTranslationsArg<T> = Readonly<T | ((preset?: ITranslations) => T)>;
+export type TTranslatedArg<T> = Readonly<{[key in keyof T]: string}>;
+
+export function useLittera<T extends ITranslations>(translations: TTranslationsArg<T>, locale?: string): TTranslatedArg<T>;
 export function useLitteraMethods(): {
   locale: string,
   locales: string[],
@@ -68,6 +71,6 @@ export function useLitteraMethods(): {
   validateLocale: TValidateLocale,
   translate: TTranslate
 }
-export const withLittera: <T extends ITranslations>(translations: T | ((preset?: ITranslations) => T)) => (Component: React.FunctionComponent<LitteraProps<T>>) => (props: any) => JSX.Element
+export const withLittera: <T extends ITranslations>(translations: TTranslationsArg<T>) => (Component: React.FunctionComponent<LitteraProps<T>>) => (props: any) => JSX.Element
 export const LitteraContext: React.Context<ILitteraProvider>
 export const LitteraProvider: (props: ILitteraProviderProps & {children: JSX.Element | JSX.Element[]}) => JSX.Element

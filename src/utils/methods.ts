@@ -1,22 +1,26 @@
-import { log } from "./logger";
 import { ITranslations } from "../../types";
 
 export const localePattern = /[a-z]{2}_[A-Z]{2}/gi;
 
 export const validateLocale = (l: string, p: RegExp) => {
-    const _p = p || localePattern;
+  const _p = p || localePattern;
 
-    return Boolean(new RegExp(_p).test(l));
-  }
+  return Boolean(new RegExp(_p).test(l));
+}
 
 export const detectDeviceLocale = () => {
   const browserLocale = tryParseLocale(window.navigator.language);
 
-  if(!browserLocale) log("warn", "Locale not detected.");
+  if(!browserLocale) console.log("Could not detect locale.");
 
   return browserLocale || null;
 }
 
+/**
+ * Tries parsing locale from a string. (eg. de-DE or de => de_DE)
+ * @param locale Locale string. (eg. de)
+ * @returns Parsed locale string or null. (eg. de_DE)
+ */
 export const tryParseLocale = (locale: string) => {
   if(!locale) return null;
 
@@ -30,7 +34,12 @@ export const tryParseLocale = (locale: string) => {
   return null;
 }
 
-export const checkForMissingKeys = (translations: ITranslations, locales: string[]) => {
+/**
+ * Warns about missing translations.
+ * @param translations 
+ * @param locales 
+ */
+export const logMissingKeys = (translations: ITranslations, locales: string[]) => {
   Object.keys(translations).forEach(key => {
     locales.forEach(locale => {
 
