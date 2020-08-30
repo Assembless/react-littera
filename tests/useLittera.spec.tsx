@@ -12,6 +12,14 @@ const mockTranslations = Object.freeze({
   }
 });
 
+const mockTranslationsWithVariables = Object.freeze({
+  hello: (name: string) => ({
+    de_DE: `Hallo ${name}`,
+    pl_PL: `Cześć ${name}`,
+    en_US: `Hello ${name}`
+  })
+});
+
 const mockMissingTranslations = {
   simple: {
     pl_PL: "Proste",
@@ -19,7 +27,7 @@ const mockMissingTranslations = {
   }
 };
 
-const mockTranslationsFunc = (preset: ITranslations) => ({
+const mockTranslationsFunc = (preset: typeof mockPreset) => ({
   simpleExample: {
     de_DE: `Einfacher ${preset.example.de_DE}`,
     pl_PL: `Prosty ${preset.example.pl_PL}`,
@@ -75,6 +83,13 @@ describe("useLittera", () => {
     const translated = render.result.current;
 
     expect(translated.simple).toBe("Proste");
+  });
+
+  it("should return correct translation with variables", () => {
+    const render = renderHook(() => useLittera(mockTranslationsWithVariables), { wrapper });
+    const translated = render.result.current;
+
+    expect(translated.hello("Mike")).toBe("Cześć Mike");
   });
 
   it("should return correct translation from preset", () => {

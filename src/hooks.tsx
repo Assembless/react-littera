@@ -16,13 +16,17 @@ import { ITranslations, TSetLocale, TValidateLocale, TTranslationsArg, TTranslat
  *    example: {
  *      en_US: "Example",
  *      de_DE: "Beispiel"
- *    }
+ *    },
+ *    hello: (name: string) => ({
+ *      en_US: `Hello ${name}`,
+ *      de_DE: `Hallo ${name}`
+ *    })
  * }
  * 
  * const YourComponent = () => {
  *    const translated = useLittera(translations);
  * 
- *    return <h2>{translated.example}</h2>
+ *    return <h2>{translated.example} - {translated.hello("Mike")}</h2>
  * }
  * @returns {ITranslated}
  */

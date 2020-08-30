@@ -2,7 +2,10 @@
 
 All notable changes to this project will be documented in this file.
 
-## [Unreleased]
+## [2.1.0] - 2020-08-30
+### Added
+- Variable translations.
+
 ### Fixed
 - Type checking for translations and locale in core methods.
 

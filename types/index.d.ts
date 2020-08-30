@@ -8,7 +8,7 @@ import * as React from "react";
     en_US: "Example"
   }
  */
-export type ITranslation =  { [key: string]: string }; 
+export type ITranslation =  { [key: string]: string } | ((...args: Array<string | number>) => {[key: string]: string}); 
 
  /**
  * @example
@@ -28,7 +28,7 @@ export interface ITranslations {
 export type ITranslationsFunction = ((preset?: ITranslations) => {[key: string]: string});
 
 export interface ITranslated {
-  [key: string]: string;
+  [key: string]: string | ((...args: Array<string | number>) => string);
 }
 
 export interface ILitteraProvider {
@@ -48,7 +48,7 @@ export interface ILitteraProviderProps {
   detectLocale?: boolean;
 }
 
-export interface LitteraProps<T> {
+export interface LitteraProps<T extends ITranslations> {
   locale: string;
   translated: TTranslatedArg<T>,
   setLocale: TSetLocale,
@@ -60,7 +60,7 @@ export type TValidateLocale = (locale: string, pattern?: RegExp) => Boolean
 export type TTranslate = (translations: ITranslations, locale: string, preset?: ITranslations) => ITranslated
 
 export type TTranslationsArg<T> = Readonly<T | ((preset?: ITranslations) => T)>;
-export type TTranslatedArg<T> = Readonly<{[key in keyof T]: string}>;
+export type TTranslatedArg<T extends ITranslations> = Readonly<{[key in keyof T]: T[keyof T] extends {[key: string]: string} ? string : (...args: Parameters<T[keyof T] extends ((...args: (string | number)[]) => {[key: string]: string}) ? T[keyof T] : ((...args: (string | number)[]) => string)>) => string}>;
 
 export function useLittera<T extends ITranslations>(translations: TTranslationsArg<T>, locale?: string): TTranslatedArg<T>;
 export function useLitteraMethods(): {

@@ -116,6 +116,7 @@ export default withLittera(translation)(ExampleComponent);
 
 #### Example with a Hook
 
+##### Basic
 ```javascript
 import React from "react";
 import { useLittera } from "react-littera";
@@ -146,6 +147,33 @@ const ExampleComponent = () => {
 export default ExampleComponent;
 ```
 
+##### Variable translations
+```javascript
+import React from "react";
+import { useLittera } from "react-littera";
+
+const translations = {
+    // Use a function for variable translations.
+    hello: (name) => ({
+        en_US: `Hello ${name}`,
+        pl_PL: `Cześć ${name}`,
+        de_DE: `Hallo ${name}`
+    })
+};
+
+const ExampleComponent = () => {
+    // Obtain our translated object.
+    const translated = useLittera(translations);
+
+    // Call the method obtained from our translated object with required arguments.
+    const varTranslation = translated.hello("Mike");
+
+    return <button onClick={handleLocaleChange}>{varTranslation}</button>;
+};
+
+export default ExampleComponent;
+```
+
 ## API
 
  #### LitteraProvider
@@ -169,7 +197,7 @@ A HOC, you feed it with `translations`(ITranslations) and a component which then
 
 | Key       | Description                                 | Type                     | Default                 |
 |-----------|---------------------------------------------|--------------------------|-------------------------|
-| translated    | Translated object                            | { [key: string]: string }                   |               |
+| translated    | Translated object                            | ITranslated                   |               |
 | setLocale | Changes active language                     | (locale: string) => void |                         |
 | preset    | Preset of translations                      | { [key: string]: { [locale: string]: string } }            | `{}`                    |
 | locale    | Active language                  | string            | `en_US`                    |
@@ -194,13 +222,18 @@ This hook exposes following methods:
 ### Types
 
 #### ITranslation
-`{ [locale: string]: string }`
+`{ [locale: string]: string } | (...args: (string | number)[]) => { [locale: string]: string }`
 
 ```javascript
 {
     de_DE: "Einfach",
     en_US: "Simple"
 }
+// or
+(name) => ({
+    de_DE: `Hallo ${name}`,
+    en_US: `Hello ${name}`
+})
 ```
 
 #### ITranslations
@@ -211,16 +244,21 @@ This hook exposes following methods:
     simple: {
         de_DE: "Einfach",
         en_US: "Simple"
-    }
+    },
+    hello: (name) => ({
+        de_DE: `Hallo ${name}`,
+        en_US: `Hello ${name}`
+    })
 }
 ```
 
 #### ITranslated
-`{ [key: string]: string }`
+`{ [key: string]: string | (...args: (string | number)[]) => string }`
 
 ```javascript
 {
-    simple: "Simple"
+    simple: "Simple",
+    hello: (name) => "Hello Mike" // Run this function to get variable translation.
 }
 ```
 
