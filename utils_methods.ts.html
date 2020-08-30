@@ -7,7 +7,7 @@
   
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title> LitteraProvider.tsx</title>
+  <title> utils/methods.ts</title>
 
   <script src="https://cdn.jsdelivr.net/gh/google/code-prettify@master/loader/run_prettify.js"></script>
   <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
@@ -76,7 +76,7 @@
             <div class="content">
                 <header class="page-title">
                     <p>Source</p>
-                    <h1>LitteraProvider.tsx</h1>
+                    <h1>utils/methods.ts</h1>
                 </header>
                 
 
@@ -85,68 +85,55 @@
     
     <section>
         <article>
-            <pre class="prettyprint source linenums"><code>import * as React from "react";
-import { ILitteraProvider, ILitteraProviderProps } from "../types/index.d";
-import { localePattern, detectDeviceLocale } from "./utils/methods";
+            <pre class="prettyprint source linenums"><code>import { ITranslations } from "../../types";
 
-export const LitteraContext = React.createContext&lt;ILitteraProvider>({
-  locale: "en_US",
-  preset: {},
-  locales: ["en_US"],
-  pattern: localePattern
-});
+export const localePattern = /[a-z]{2}_[A-Z]{2}/gi;
+
+export const validateLocale = (l: string, p: RegExp) => {
+  const _p = p || localePattern;
+
+  return Boolean(new RegExp(_p).test(l));
+}
+
+export const detectDeviceLocale = () => {
+  const browserLocale = tryParseLocale(window.navigator.language);
+
+  if(!browserLocale) console.warn("Locale not detected.");
+
+  return browserLocale || null;
+}
 
 /**
- * Context Provider for Littera
- * @category Setup
- * @public
- * @param initialLocale Initial active locale.
- * @param preset Set of predefined translations.
- * @param setLocale Callback called when the locale changes.
- * @param pattern Locale pattern.
- * @example
- * // Setting up Littera provider.
- * 
- * const App = () => {
- *    return &lt;LitteraProvider locales={["en_US", "de_DE"]}>
- *      ...
- *    &lt;/LitteraProvider>
- * }
+ * Tries parsing locale from a string. (eg. de-DE or de => de_DE)
+ * @param locale Locale string. (eg. de)
+ * @returns Parsed locale string or null. (eg. de_DE)
  */
-export function LitteraProvider({
-  locales,
-  detectLocale,
-  initialLocale=locales?.[0] || "en_US",
-  preset,
-  setLocale,
-  pattern,
-  children
-}: ILitteraProviderProps &amp; {children: JSX.Element | JSX.Element[]}) {
-  initialLocale = detectLocale ? detectDeviceLocale() || initialLocale : initialLocale;
-  const [locale, changeLocale] = React.useState(initialLocale);
+export const tryParseLocale = (locale: string) => {
+  if(!locale) return null;
 
-  const handleLocale = (locale: string) => {
-    if(locales &amp;&amp; locales.indexOf(locale) &lt;= -1) 
-      throw new Error(`The '${locale}' locale does not exist on the locales list. (${locales.join(", ")})`);
+  if(locale.length === 2) {
+    if(locale === "en") return "en_US";
 
-    setLocale &amp;&amp; setLocale(locale);
-    changeLocale(locale);
+    return `${locale}_${locale.toUpperCase()}`;
   }
+  if(locale.length === 4 &amp;&amp; locale.includes("-")) return locale.replace(/-/g, "_");
 
-  return (
-    &lt;LitteraContext.Provider
-      value={{
-        locale,
-        preset,
-        setLocale: handleLocale,
-        pattern,
-        locales
-      }}
-    >
-      {children}
-    &lt;/LitteraContext.Provider>
-  );
-};</code></pre>
+  return null;
+}
+
+/** 
+ * Searches for missing translations. Prints an warning if there is a translation for a language missing.
+ */
+export const lookForMissingKeys = (translations: ITranslations, locales: string[]) => {
+  Object.keys(translations).forEach(key => {
+    locales.forEach(locale => {
+
+      if(!translations[key][locale]) 
+        console.warn(`You are missing "${key}" in ${locale}.`);
+
+    });
+  });
+}</code></pre>
         </article>
     </section>
 

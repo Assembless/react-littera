@@ -7,7 +7,7 @@
   
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title> LitteraProvider.tsx</title>
+  <title> utils/translate.ts</title>
 
   <script src="https://cdn.jsdelivr.net/gh/google/code-prettify@master/loader/run_prettify.js"></script>
   <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
@@ -76,7 +76,7 @@
             <div class="content">
                 <header class="page-title">
                     <p>Source</p>
-                    <h1>LitteraProvider.tsx</h1>
+                    <h1>utils/translate.ts</h1>
                 </header>
                 
 
@@ -85,68 +85,52 @@
     
     <section>
         <article>
-            <pre class="prettyprint source linenums"><code>import * as React from "react";
-import { ILitteraProvider, ILitteraProviderProps } from "../types/index.d";
-import { localePattern, detectDeviceLocale } from "./utils/methods";
-
-export const LitteraContext = React.createContext&lt;ILitteraProvider>({
-  locale: "en_US",
-  preset: {},
-  locales: ["en_US"],
-  pattern: localePattern
-});
+            <pre class="prettyprint source linenums"><code>import {
+  ITranslations, ITranslation,
+} from "../../types";
 
 /**
- * Context Provider for Littera
- * @category Setup
- * @public
- * @param initialLocale Initial active locale.
- * @param preset Set of predefined translations.
- * @param setLocale Callback called when the locale changes.
- * @param pattern Locale pattern.
+ * Returns reduced object based on locale.
+ * @category Core
+ * @param {ITranslations} translations
+ * @param {string} locale
  * @example
- * // Setting up Littera provider.
+ * // Example of using translations.
  * 
- * const App = () => {
- *    return &lt;LitteraProvider locales={["en_US", "de_DE"]}>
- *      ...
- *    &lt;/LitteraProvider>
+ * const translations = {
+ *    example: {
+ *      en_US: "Example",
+ *      de_DE: "Beispiel"
+ *    },
+ *    hello: (name: string) => ({
+ *      en_US: `Hello ${name}`,
+ *      de_DE: `Hallo ${name}`
+ *    })
  * }
+ * 
+ * const translated = translate(translations, "de_DE");
+ * 
+ * translated.example // => "Beispiel"
+ * translated.hello("Mike") // => "Hallo Mike"
+ * @returns {ITranslated}
  */
-export function LitteraProvider({
-  locales,
-  detectLocale,
-  initialLocale=locales?.[0] || "en_US",
-  preset,
-  setLocale,
-  pattern,
-  children
-}: ILitteraProviderProps &amp; {children: JSX.Element | JSX.Element[]}) {
-  initialLocale = detectLocale ? detectDeviceLocale() || initialLocale : initialLocale;
-  const [locale, changeLocale] = React.useState(initialLocale);
+export function translate&lt;T extends ITranslations, K extends keyof T>(
+  translations: T,
+  locale: string
+) {
+  if(typeof locale !== "string") throw new Error(`Expected a string for locale, got: ${typeof locale}`)
+  if(typeof translations !== "object" || Array.isArray(translations)) throw new Error(`Expected an object for translations, got: ${Array.isArray(translations) ? "array" : typeof translations}`);
 
-  const handleLocale = (locale: string) => {
-    if(locales &amp;&amp; locales.indexOf(locale) &lt;= -1) 
-      throw new Error(`The '${locale}' locale does not exist on the locales list. (${locales.join(", ")})`);
+  return (Object.keys(translations) as Array&lt;keyof typeof translations>)
+    .reduce((a, b: K) => {
+      if(typeof translations[b] === "function")
+        return (a[b] = (...args: (string | number)[]) => translate({[b]: (translations[b] as Function)(...args)} as any, locale)[b] as string, a)
+      else 
+        return (a[b]=translations[b][locale], a);
+    }, {} as any) as {[key in K]: typeof translations[K] extends {[key: string]: string} ? string : ITranslatedVariableFn&lt;typeof translations[K]>};
+};
 
-    setLocale &amp;&amp; setLocale(locale);
-    changeLocale(locale);
-  }
-
-  return (
-    &lt;LitteraContext.Provider
-      value={{
-        locale,
-        preset,
-        setLocale: handleLocale,
-        pattern,
-        locales
-      }}
-    >
-      {children}
-    &lt;/LitteraContext.Provider>
-  );
-};</code></pre>
+type ITranslatedVariableFn&lt;T extends ITranslation> = (...args: Parameters&lt;T extends ((...args: (string | number)[]) => {[key: string]: string}) ? T : ((...args: (string | number)[]) => string)>) => string;</code></pre>
         </article>
     </section>
 

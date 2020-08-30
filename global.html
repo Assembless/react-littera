@@ -66,7 +66,7 @@
             
             <nav>
                 
-                    <h2><a href="index.html">Documentation</a></h2><div class="category"><h3>Global</h3><ul><li><a href="global.html#LitteraProvider">LitteraProvider</a></li><li><a href="global.html#useLittera">useLittera</a></li><li><a href="global.html#useLitteraMethods">useLitteraMethods</a></li><li><a href="global.html#withLittera">withLittera</a></li></ul></div>
+                    <h2><a href="index.html">Documentation</a></h2><div class="category"><h3>Global</h3><ul><li><a href="global.html#LitteraProvider">LitteraProvider</a></li><li><a href="global.html#lookForMissingKeys">lookForMissingKeys</a></li><li><a href="global.html#translate">translate</a></li><li><a href="global.html#tryParseLocale">tryParseLocale</a></li><li><a href="global.html#useLittera">useLittera</a></li><li><a href="global.html#useLitteraMethods">useLitteraMethods</a></li><li><a href="global.html#withLittera">withLittera</a></li></ul></div>
                 
             </nav>
         </div>
@@ -149,6 +149,159 @@
 
     
 
+    
+        <div class='vertical-section'>
+            <h1>Members</h1>
+            <div class="members">
+            
+                <div class="member">
+
+<h4 class="name" id="lookForMissingKeys">
+    <a class="href-link" href="#lookForMissingKeys">#</a>
+    
+        
+            <span class='tag'>constant</span>
+        
+    
+    <span class="code-name">
+        lookForMissingKeys
+    </span>
+    
+</h4>
+
+
+
+
+<div class="description">
+    Searches for missing translations. Prints an warning if there is a translation for a language missing.
+</div>
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    
+
+    
+
+    
+
+    
+        <p class="tag-source">
+            <a href="utils_methods.ts.html" class="button">View Source</a>
+            <span>
+                <a href="utils_methods.ts.html">utils/methods.ts</a>, <a href="utils_methods.ts.html#line33">line 33</a>
+            </span>
+        </p>
+    
+</dl>
+
+
+
+
+
+</div>
+            
+                <div class="member">
+
+<h4 class="name" id="tryParseLocale">
+    <a class="href-link" href="#tryParseLocale">#</a>
+    
+        
+            <span class='tag'>constant</span>
+        
+    
+    <span class="code-name">
+        tryParseLocale
+    </span>
+    
+</h4>
+
+
+
+
+<div class="description">
+    Tries parsing locale from a string. (eg. de-DE or de => de_DE)
+</div>
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    
+
+    
+
+    
+
+    
+        <p class="tag-source">
+            <a href="utils_methods.ts.html" class="button">View Source</a>
+            <span>
+                <a href="utils_methods.ts.html">utils/methods.ts</a>, <a href="utils_methods.ts.html#line18">line 18</a>
+            </span>
+        </p>
+    
+</dl>
+
+
+
+
+
+</div>
+            
+            </div>
+        </div>
     
 
     
@@ -376,6 +529,225 @@ const App = () => {
 
 
     
+    <h4 class="name" id="translate">
+        <a class="href-link" href="#translate">#</a>
+        
+        <span class="code-name">
+            
+                translate<span class="signature">(translations, locale)</span><span class="type-signature"> &rarr; {<a href="global.html#ITranslated">ITranslated</a>}</span>
+            
+        </span>
+    </h4>
+    
+
+    
+    
+    <div class="description">
+        Returns reduced object based on locale.
+    </div>
+    
+
+
+
+
+
+
+
+
+
+    <h5>Parameters:</h5>
+    
+<div class="table-container">
+    <table class="params table">
+        <thead>
+        <tr>
+            
+            <th>Name</th>
+            
+
+            <th>Type</th>
+
+            
+
+            
+
+            <th class="last">Description</th>
+        </tr>
+        </thead>
+
+        <tbody>
+        
+
+            
+<tr class="deep-level-0">
+  
+      <td class="name"><code>translations</code></td>
+  
+
+  <td class="type">
+  
+      
+<span class="param-type"><a href="global.html#ITranslations">ITranslations</a></span>
+
+
+  
+  </td>
+
+  
+
+  
+
+  <td class="description last"></td>
+</tr>
+
+
+        
+
+            
+<tr class="deep-level-0">
+  
+      <td class="name"><code>locale</code></td>
+  
+
+  <td class="type">
+  
+      
+<span class="param-type">string</span>
+
+
+  
+  </td>
+
+  
+
+  
+
+  <td class="description last"></td>
+</tr>
+
+
+        
+        </tbody>
+    </table>
+</div>
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    
+
+    
+
+    
+
+    
+        <p class="tag-source">
+            <a href="utils_translate.ts.html" class="button">View Source</a>
+            <span>
+                <a href="utils_translate.ts.html">utils/translate.ts</a>, <a href="utils_translate.ts.html#line27">line 27</a>
+            </span>
+        </p>
+    
+</dl>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    <div class='columns method-parameter'>
+        <div class="column is-2"><label>Returns:</label></div>
+        <div class="column is-10">
+            
+                    
+
+<div class="columns">
+    
+    
+    <div class='column is-5 has-text-left'>
+        <label>Type: </label>
+        
+<span class="param-type"><a href="global.html#ITranslated">ITranslated</a></span>
+
+
+    </div>
+    
+</div>
+
+                
+        </div>
+    </div>
+
+
+
+
+    <h5>Example</h5>
+    
+    
+        <pre class="prettyprint"><code>// Example of using translations.
+
+const translations = {
+   example: {
+     en_US: "Example",
+     de_DE: "Beispiel"
+   },
+   hello: (name: string) => ({
+     en_US: `Hello ${name}`,
+     de_DE: `Hallo ${name}`
+   })
+}
+
+const translated = translate(translations, "de_DE");
+
+translated.example // => "Beispiel"
+translated.hello("Mike") // => "Hallo Mike"</code></pre>
+    
+
+
+</div>
+            
+                <div class="member">
+
+
+    
     <h4 class="name" id="useLittera">
         <a class="href-link" href="#useLittera">#</a>
         
@@ -517,7 +889,7 @@ const App = () => {
         <p class="tag-source">
             <a href="hooks.tsx.html" class="button">View Source</a>
             <span>
-                <a href="hooks.tsx.html">hooks.tsx</a>, <a href="hooks.tsx.html#line28">line 28</a>
+                <a href="hooks.tsx.html">hooks.tsx</a>, <a href="hooks.tsx.html#line32">line 32</a>
             </span>
         </p>
     
@@ -575,13 +947,17 @@ const translations = {
    example: {
      en_US: "Example",
      de_DE: "Beispiel"
-   }
+   },
+   hello: (name: string) => ({
+     en_US: `Hello ${name}`,
+     de_DE: `Hallo ${name}`
+   })
 }
 
 const YourComponent = () => {
    const translated = useLittera(translations);
 
-   return &lt;h2>{translated.example}&lt;/h2>
+   return &lt;h2>{translated.example} - {translated.hello("Mike")}&lt;/h2>
 }</code></pre>
     
 
@@ -657,7 +1033,7 @@ const YourComponent = () => {
         <p class="tag-source">
             <a href="hooks.tsx.html" class="button">View Source</a>
             <span>
-                <a href="hooks.tsx.html">hooks.tsx</a>, <a href="hooks.tsx.html#line59">line 59</a>
+                <a href="hooks.tsx.html">hooks.tsx</a>, <a href="hooks.tsx.html#line63">line 63</a>
             </span>
         </p>
     

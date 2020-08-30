@@ -66,7 +66,7 @@
             
             <nav>
                 
-                    <h2><a href="index.html">Documentation</a></h2><div class="category"><h3>Global</h3><ul><li><a href="global.html#LitteraProvider">LitteraProvider</a></li><li><a href="global.html#useLittera">useLittera</a></li><li><a href="global.html#useLitteraMethods">useLitteraMethods</a></li><li><a href="global.html#withLittera">withLittera</a></li></ul></div>
+                    <h2><a href="index.html">Documentation</a></h2><div class="category"><h3>Global</h3><ul><li><a href="global.html#LitteraProvider">LitteraProvider</a></li><li><a href="global.html#lookForMissingKeys">lookForMissingKeys</a></li><li><a href="global.html#translate">translate</a></li><li><a href="global.html#tryParseLocale">tryParseLocale</a></li><li><a href="global.html#useLittera">useLittera</a></li><li><a href="global.html#useLitteraMethods">useLitteraMethods</a></li><li><a href="global.html#withLittera">withLittera</a></li></ul></div>
                 
             </nav>
         </div>
@@ -191,6 +191,7 @@ class ExampleComponent extends React.Component {
 export default withLittera(translation)(ExampleComponent);
 </code></pre>
 <h4>Example with a Hook</h4>
+<h5>Basic</h5>
 <pre class="prettyprint source lang-javascript"><code>import React from &quot;react&quot;;
 import { useLittera } from &quot;react-littera&quot;;
 
@@ -215,6 +216,31 @@ const ExampleComponent = () => {
     }
 
     return &lt;button onClick={handleLocaleChange}>{translated.example}&lt;/button>;
+};
+
+export default ExampleComponent;
+</code></pre>
+<h5>Variable translations</h5>
+<pre class="prettyprint source lang-javascript"><code>import React from &quot;react&quot;;
+import { useLittera } from &quot;react-littera&quot;;
+
+const translations = {
+    // Use a function for variable translations.
+    hello: (name) => ({
+        en_US: `Hello ${name}`,
+        pl_PL: `Cześć ${name}`,
+        de_DE: `Hallo ${name}`
+    })
+};
+
+const ExampleComponent = () => {
+    // Obtain our translated object.
+    const translated = useLittera(translations);
+
+    // Call the method obtained from our translated object with required arguments.
+    const varTranslation = translated.hello(&quot;Mike&quot;);
+
+    return &lt;button onClick={handleLocaleChange}>{varTranslation}&lt;/button>;
 };
 
 export default ExampleComponent;
@@ -287,7 +313,7 @@ export default ExampleComponent;
 <tr>
 <td>translated</td>
 <td>Translated object</td>
-<td>{ [key: string]: string }</td>
+<td>ITranslated</td>
 <td></td>
 </tr>
 <tr>
@@ -354,11 +380,16 @@ export default ExampleComponent;
 </table>
 <h3>Types</h3>
 <h4>ITranslation</h4>
-<p><code>{ [locale: string]: string }</code></p>
+<p><code>{ [locale: string]: string } | (...args: (string | number)[]) =&gt; { [locale: string]: string }</code></p>
 <pre class="prettyprint source lang-javascript"><code>{
     de_DE: &quot;Einfach&quot;,
     en_US: &quot;Simple&quot;
 }
+// or
+(name) => ({
+    de_DE: `Hallo ${name}`,
+    en_US: `Hello ${name}`
+})
 </code></pre>
 <h4>ITranslations</h4>
 <p><code>{ [key: string]: ITranslation }</code></p>
@@ -366,13 +397,18 @@ export default ExampleComponent;
     simple: {
         de_DE: &quot;Einfach&quot;,
         en_US: &quot;Simple&quot;
-    }
+    },
+    hello: (name) => ({
+        de_DE: `Hallo ${name}`,
+        en_US: `Hello ${name}`
+    })
 }
 </code></pre>
 <h4>ITranslated</h4>
-<p><code>{ [key: string]: string }</code></p>
+<p><code>{ [key: string]: string | (...args: (string | number)[]) =&gt; string }</code></p>
 <pre class="prettyprint source lang-javascript"><code>{
-    simple: &quot;Simple&quot;
+    simple: &quot;Simple&quot;,
+    hello: (name) => &quot;Hello Mike&quot; // Run this function to get variable translation.
 }
 </code></pre>
 <h2>Build instructions</h2>
