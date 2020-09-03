@@ -4,6 +4,10 @@ All notable changes to this project will be documented in this file.
 
 ## [Unreleased]
 
+## [2.1.1] - 2020-09-03
+### Fixed
+- Broken TS types occurring since last release.
+
 ## [2.1.0] - 2020-08-30
 ### Added
 - Variable translations.

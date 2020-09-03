@@ -13,19 +13,30 @@ const translationsMockWithVariables = {
     de_DE: `Hallo ${name}`,
     en_US: `Hello ${name}`,
     pl_PL: `Cześć ${name}`
-  })
+  }),
+  you: {
+    de_DE: "Du",
+    en_US: "You",
+    pl_PL: "Ty"
+  }
 }
 
 describe('translate', () => {
     it('should be a function', () => {
       expect(typeof translate).toBe('function')
     })
+
     it("should translate flat translations", () => {
       expect(translate(translationsMock, "en_US").example).toBe("Example")
     });
+
     it("should translate flat translations with variables", () => {
-      expect(translate(translationsMockWithVariables, "en_US").greeting("Mike")).toBe("Hello Mike");
+      const translated = translate(translationsMockWithVariables, "en_US");
+      
+      expect(translated.greeting("Mike")).toBe("Hello Mike");
+      expect(translated.greeting(translated.you)).toBe("Hello You");
     });
+
     it("should throw error if translations is invalid type", () => {
       const fn = () => {
         // @ts-ignore
@@ -34,6 +45,7 @@ describe('translate', () => {
 
       expect(fn).toThrowError('Expected an object for translations, got: array');
     });
+
     it("should throw error if locale is not provided", () => {
       const fn = () => {
         // @ts-ignore

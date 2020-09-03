@@ -17,7 +17,12 @@ const mockTranslationsWithVariables = Object.freeze({
     de_DE: `Hallo ${name}`,
     pl_PL: `Cześć ${name}`,
     en_US: `Hello ${name}`
-  })
+  }),
+  simple: {
+    de_DE: "Einfach",
+    pl_PL: "Proste",
+    en_US: "Simple"
+  }
 });
 
 const mockMissingTranslations = {
@@ -75,7 +80,7 @@ describe("useLittera", () => {
 
     setTimeout(() => {
       expect(locale).toBe("en_US");
-    }, 100);
+    }, 500);
   });
 
   it("should return correct translation", () => {
@@ -90,10 +95,11 @@ describe("useLittera", () => {
     const translated = render.result.current;
 
     expect(translated.hello("Mike")).toBe("Cześć Mike");
+    expect(translated.hello(translated.simple)).toBe("Cześć Proste");
   });
 
   it("should return correct translation from preset", () => {
-    const render = renderHook(() => useLittera(mockTranslationsFunc), { wrapper });
+    const render = renderHook(() => useLittera<ReturnType<typeof mockTranslationsFunc>>(mockTranslationsFunc), { wrapper });
     const translated = render.result.current;
 
     expect(translated.simpleExample).toBe("Prosty Przykład");

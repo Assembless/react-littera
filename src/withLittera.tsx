@@ -1,6 +1,6 @@
 import * as React from 'react'
 import { LitteraContext } from './LitteraProvider'
-import { ITranslations, LitteraProps } from "../types/index.d";
+import { ITranslations, LitteraProps, ITranslationsPreset } from "../types/index.d";
 import { translate } from './utils/translate';
 
 /**
@@ -9,7 +9,7 @@ import { translate } from './utils/translate';
  * @param {ITranslations|ITranslationsFunction} translations
  * @returns {FunctionComponent}
  */
-const withLittera = <T extends ITranslations>(translations: T | ((preset?: ITranslations) => T)) => (
+const withLittera = <T extends ITranslations<T>>(translations: T | ((preset?: ITranslationsPreset) => T)) => (
   Component: React.FunctionComponent<LitteraProps<T>>
 ) =>
   function WrapperComponent(props) {
@@ -17,7 +17,7 @@ const withLittera = <T extends ITranslations>(translations: T | ((preset?: ITran
       <LitteraContext.Consumer>
         {state => {
           
-          const transes: T | ((preset?: ITranslations) => T) =
+          const transes: T | ((preset?: ITranslationsPreset) => T) =
             typeof translations === 'function'
             ? { ...translations(state.preset) }
             : { ...translations }
