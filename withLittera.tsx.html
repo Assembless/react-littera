@@ -87,7 +87,7 @@
         <article>
             <pre class="prettyprint source linenums"><code>import * as React from 'react'
 import { LitteraContext } from './LitteraProvider'
-import { ITranslations, LitteraProps } from "../types/index.d";
+import { ITranslations, LitteraProps, ITranslationsPreset } from "../types/index.d";
 import { translate } from './utils/translate';
 
 /**
@@ -96,7 +96,7 @@ import { translate } from './utils/translate';
  * @param {ITranslations|ITranslationsFunction} translations
  * @returns {FunctionComponent}
  */
-const withLittera = &lt;T extends ITranslations>(translations: T | ((preset?: ITranslations) => T)) => (
+const withLittera = &lt;T extends ITranslations&lt;T>>(translations: T | ((preset?: ITranslationsPreset) => T)) => (
   Component: React.FunctionComponent&lt;LitteraProps&lt;T>>
 ) =>
   function WrapperComponent(props) {
@@ -104,7 +104,7 @@ const withLittera = &lt;T extends ITranslations>(translations: T | ((preset?: IT
       &lt;LitteraContext.Consumer>
         {state => {
           
-          const transes: T | ((preset?: ITranslations) => T) =
+          const transes: T | ((preset?: ITranslationsPreset) => T) =
             typeof translations === 'function'
             ? { ...translations(state.preset) }
             : { ...translations }
