@@ -5,7 +5,7 @@
     "target": "es5",
     "lib": ["es6", "dom", "es2017", "ESNext"],
     "jsx": "react",
-    "types": ["jest"]
+    "types": ["jest", "node"]
   },
   "include": ["./src/**/*"],
   "exclude": ["node_modules", "**/*.test.*", "**/*.spec.*"]

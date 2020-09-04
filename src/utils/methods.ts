@@ -37,13 +37,17 @@ export const tryParseLocale = (locale: string) => {
 /** 
  * Searches for missing translations. Prints an warning if there is a translation for a language missing.
  */
-export const lookForMissingKeys = (translations: ITranslations, locales: string[]) => {
+export const lookForMissingKeys = <T extends ITranslations<T>>(translations: T, locales: string[]) => {
+  if (process.env.NODE_ENV && process.env.NODE_ENV !== 'development') 
+      return; // Stop check if not in development.
+  
+
   Object.keys(translations).forEach(key => {
+    if(typeof translations[key] === "function") return; // TODO: Detect missing translations for variable functions.
     locales.forEach(locale => {
 
       if(!translations[key][locale]) 
         console.warn(`You are missing "${key}" in ${locale}.`);
-
     });
   });
 }

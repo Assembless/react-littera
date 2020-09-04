@@ -22,7 +22,12 @@ const mockTranslationsWithVariables = Object.freeze({
     de_DE: "Einfach",
     pl_PL: "Proste",
     en_US: "Simple"
-  }
+  },
+  very: (something: string, somethingMore: string) => ({
+    de_DE: `Sehr ${something} und ${somethingMore}`,
+    pl_PL: `Bardzo ${something} oraz ${somethingMore}`,
+    en_US: `Very ${something} and ${somethingMore}`
+  })
 });
 
 const mockMissingTranslations = {
@@ -96,6 +101,7 @@ describe("useLittera", () => {
 
     expect(translated.hello("Mike")).toBe("Cześć Mike");
     expect(translated.hello(translated.simple)).toBe("Cześć Proste");
+    expect(translated.hello(translated.very(translated.simple, "Magic"))).toBe("Cześć Bardzo Proste oraz Magic");
   });
 
   it("should return correct translation from preset", () => {

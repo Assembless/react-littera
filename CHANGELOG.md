@@ -4,6 +4,13 @@ All notable changes to this project will be documented in this file.
 
 ## [Unreleased]
 
+## [2.1.2] - 2020-09-04
+### Changed
+- Missing translations warning will only be logged in development mode.
+
+### Fixed
+- Disabled checking missing translations for variable translations.
+
 ## [2.1.1] - 2020-09-03
 ### Fixed
 - Broken TS types occurring since last release.
