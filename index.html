@@ -103,15 +103,23 @@
         <article><h1>react-littera</h1>
 <p>🌐 Lightweight react library for managing translations.</p>
 <p><img src="https://i.imgur.com/2bkiWmg.png" alt="littera header"></p>
-<p><img src="https://img.shields.io/travis/com/DRFR0ST/react-littera?style=for-the-badge" alt="Travis (.com)">
-<img src="https://img.shields.io/github/package-json/v/DRFR0ST/react-littera?style=for-the-badge" alt="GitHub package.json version">
+<p><a href="https://www.npmjs.com/package/react-littera"><img src="https://img.shields.io/github/workflow/status/DRFR0ST/react-littera/Test?style=for-the-badge" alt="GitHub Workflow Status"></a>
+<a href="https://www.npmjs.com/package/react-littera"><img src="https://img.shields.io/github/package-json/v/DRFR0ST/react-littera?style=for-the-badge" alt="GitHub package.json version"></a>
 <a href="https://www.npmjs.com/package/react-littera"><img src="https://img.shields.io/npm/dt/react-littera.svg?style=for-the-badge" alt="npm"></a>
-<a href="https://www.npmjs.com/package/react-littera"><img src="https://img.shields.io/bundlephobia/min/react.svg?style=for-the-badge" alt="npm bundle size (minified)"></a>
+<a href="https://www.npmjs.com/package/react-littera"><img src="https://img.shields.io/bundlephobia/min/react-littera?style=for-the-badge" alt="npm bundle size"></a>
 <img src="https://img.shields.io/github/last-commit/DRFR0ST/react-littera?style=for-the-badge" alt="GitHub last commit">
 <a href="https://github.com/DRFR0ST/react-littera"><img src="https://img.shields.io/github/license/DRFR0ST/react-littera.svg?style=for-the-badge" alt=""></a>
 <a href="https://drfr0st.github.io/react-littera"><img src="https://img.shields.io/website?down_message=offline&amp;label=documentation&amp;style=for-the-badge&amp;up_message=online&amp;url=https%3A%2F%2Fdrfr0st.github.io%2Freact-littera" alt="Website"></a></p>
+<h2>Features</h2>
+<ul>
+<li>⚡ Lightning fast</li>
+<li>🧩 Variable translations</li>
+<li>🗃️ User defined presets</li>
+<li>👶 Shallow learning curve</li>
+<li>♻️ Reusable</li>
+</ul>
 <h2>About</h2>
-<p>Littera was created to make maintaining and managing translations easier. It allows placing translations right beside your component as well as storing translations globally.</p>
+<p>Littera was created to make maintaining and managing translations easier. It allows placing translations right beside your component as well as storing translations globally. Littera's structure was inspired by <a href="https://github.com/cssinjs/jss/tree/master/packages/react-jss">react-jss</a>.</p>
 <p>Here below we have a <strong>translations</strong> object which is accepted by the <code>translate</code> function, which then returns the translated string for the correct language.</p>
 <pre class="prettyprint source lang-javascript"><code>{
     welcome: {
@@ -380,19 +388,21 @@ export default ExampleComponent;
 </table>
 <h3>Types</h3>
 <h4>ITranslation</h4>
-<p><code>{ [locale: string]: string } | (...args: (string | number)[]) =&gt; { [locale: string]: string }</code></p>
+<p><code>{ [locale: string]: string }</code></p>
 <pre class="prettyprint source lang-javascript"><code>{
     de_DE: &quot;Einfach&quot;,
     en_US: &quot;Simple&quot;
 }
-// or
-(name) => ({
+</code></pre>
+<h4>ITranslationVarFn</h4>
+<p><code>(...args: (string | number)[]) =&gt; ITranslation</code></p>
+<pre class="prettyprint source lang-javascript"><code>(name) => ({
     de_DE: `Hallo ${name}`,
     en_US: `Hello ${name}`
 })
 </code></pre>
 <h4>ITranslations</h4>
-<p><code>{ [key: string]: ITranslation }</code></p>
+<p><code>{ [key: string]: ITranslation | ITranslationVarFn }</code></p>
 <pre class="prettyprint source lang-javascript"><code>{
     simple: {
         de_DE: &quot;Einfach&quot;,
