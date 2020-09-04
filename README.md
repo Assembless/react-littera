@@ -4,17 +4,25 @@
 
 ![littera header](https://i.imgur.com/2bkiWmg.png)
 
-![Travis (.com)](https://img.shields.io/travis/com/DRFR0ST/react-littera?style=for-the-badge)
-![GitHub package.json version](https://img.shields.io/github/package-json/v/DRFR0ST/react-littera?style=for-the-badge)
+[![GitHub Workflow Status](https://img.shields.io/github/workflow/status/DRFR0ST/react-littera/Test?style=for-the-badge)](https://www.npmjs.com/package/react-littera)
+[![GitHub package.json version](https://img.shields.io/github/package-json/v/DRFR0ST/react-littera?style=for-the-badge)](https://www.npmjs.com/package/react-littera)
 [![npm](https://img.shields.io/npm/dt/react-littera.svg?style=for-the-badge)](https://www.npmjs.com/package/react-littera)
-[![npm bundle size (minified)](https://img.shields.io/bundlephobia/min/react.svg?style=for-the-badge)](https://www.npmjs.com/package/react-littera)
+[![npm bundle size](https://img.shields.io/bundlephobia/min/react-littera?style=for-the-badge)](https://www.npmjs.com/package/react-littera)
 ![GitHub last commit](https://img.shields.io/github/last-commit/DRFR0ST/react-littera?style=for-the-badge)
 [![](https://img.shields.io/github/license/DRFR0ST/react-littera.svg?style=for-the-badge)](https://github.com/DRFR0ST/react-littera)
 [![Website](https://img.shields.io/website?down_message=offline&label=documentation&style=for-the-badge&up_message=online&url=https%3A%2F%2Fdrfr0st.github.io%2Freact-littera)](https://drfr0st.github.io/react-littera)
 
+## Features
+
+- ⚡ Lightning fast
+- 🧩 Variable translations
+- 🗃️ User defined presets
+- 👶 Shallow learning curve
+- ♻️ Reusable
+
 ## About
 
-Littera was created to make maintaining and managing translations easier. It allows placing translations right beside your component as well as storing translations globally.
+Littera was created to make maintaining and managing translations easier. It allows placing translations right beside your component as well as storing translations globally. Littera's structure was inspired by [react-jss](https://github.com/cssinjs/jss/tree/master/packages/react-jss).
 
 Here below we have a **translations** object which is accepted by the `translate` function, which then returns the translated string for the correct language.
 ```javascript
@@ -222,14 +230,19 @@ This hook exposes following methods:
 ### Types
 
 #### ITranslation
-`{ [locale: string]: string } | (...args: (string | number)[]) => { [locale: string]: string }`
+`{ [locale: string]: string }`
 
 ```javascript
 {
     de_DE: "Einfach",
     en_US: "Simple"
 }
-// or
+```
+
+#### ITranslationVarFn
+`(...args: (string | number)[]) => ITranslation`
+
+```javascript
 (name) => ({
     de_DE: `Hallo ${name}`,
     en_US: `Hello ${name}`
@@ -237,7 +250,7 @@ This hook exposes following methods:
 ```
 
 #### ITranslations
-`{ [key: string]: ITranslation }`
+`{ [key: string]: ITranslation | ITranslationVarFn }`
 
 ```javascript
 {
