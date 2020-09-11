@@ -4,6 +4,10 @@ All notable changes to this project will be documented in this file.
 
 ## [Unreleased]
 
+## [2.1.3] - 2020-09-11
+### Fixed
+- Preset function types with useLittera.
+
 ## [2.1.2] - 2020-09-04
 ### Changed
 - Missing translations warning will only be logged in development mode.
