@@ -2,7 +2,7 @@ import * as React from "react";
 import { LitteraContext } from "./LitteraProvider";
 import { translate } from "./utils/translate";
 import { validateLocale, lookForMissingKeys } from "./utils/methods";
-import { ITranslations, TSetLocale, TValidateLocale, ITranslated, TTranslationsArg, ITranslationsFunction } from "../types";
+import { ITranslations, TSetLocale, TValidateLocale, ITranslated, TTranslationsArg, ITranslationsFunction, ITranslationsPreset } from "../types";
 
 /**
  * Hook returns translations for the active locale.
@@ -30,20 +30,20 @@ import { ITranslations, TSetLocale, TValidateLocale, ITranslated, TTranslationsA
  * }
  * @returns {ITranslated}
  */
-export function useLittera<T extends ITranslations<T>>(t: TTranslationsArg<T>, l?: string): ITranslated<T> {
+export function useLittera<T extends ITranslations<T>>(t: TTranslationsArg<T, ITranslationsPreset<typeof preset>>, l?: string): ITranslated<T> {
   const { locale, preset, locales=[] } = React.useContext(LitteraContext);
   
-  const translations = React.useMemo(() => isTransFn(t) ? {...t(preset)} : {...t}, [t, preset]) as ITranslations<T>;
+  const translations = React.useMemo(() => isTransFn<T, ITranslationsPreset<typeof preset>>(t) ? { ...t(preset) } : { ...t }, [t, preset]) as T;
 
   React.useEffect(() => {
     lookForMissingKeys(translations, locales)
   }, [translations]);
 
-  return React.useMemo(() => translate(translations, l || locale), [translations, l, locale]) as ITranslated<T>;
+  return React.useMemo(() => translate<T, keyof T>(translations, l || locale), [translations, l, locale]) as ITranslated<T>;
 }
 
-function isTransFn<T>(value: unknown): value is ITranslationsFunction<T> {
-  return typeof (value as ITranslationsFunction<T>) === "function";
+function isTransFn<T extends ITranslations<T>, P>(value: unknown): value is ITranslationsFunction<T, P> {
+  return typeof (value as ITranslationsFunction<T, P>) === "function";
 }
 
 /**

@@ -105,7 +105,7 @@ describe("useLittera", () => {
   });
 
   it("should return correct translation from preset", () => {
-    const render = renderHook(() => useLittera<ReturnType<typeof mockTranslationsFunc>>(mockTranslationsFunc), { wrapper });
+    const render = renderHook(() => useLittera(mockTranslationsFunc), { wrapper });
     const translated = render.result.current;
 
     expect(translated.simpleExample).toBe("Prosty Przykład");

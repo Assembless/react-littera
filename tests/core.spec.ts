@@ -28,6 +28,7 @@ describe('translate', () => {
 
     it("should translate flat translations", () => {
       expect(translate(translationsMock, "en_US").example).toBe("Example")
+      expect(translate(translationsMockWithVariables, "de_DE").you).toBe("Du")
     });
 
     it("should translate flat translations with variables", () => {
