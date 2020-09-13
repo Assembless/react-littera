@@ -66,7 +66,7 @@ First you have to wrap your components with a provider and feed it with a list o
 import React, { useState } from "react";
 import ReactDOM from "react-dom";
 
-import LitteraProvider from "react-littera";
+import { LitteraProvider } from "react-littera";
 
 function App() {
     return (
