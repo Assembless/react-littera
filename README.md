@@ -86,43 +86,10 @@ Now you can make use of Littera by adding translations directly into your compon
 
 Here we have two options:
 
+-   **Hooks** (recommended)
 -   **HOC**
--   **Hooks**
 
-#### Example with a HOC
-
-```javascript
-import React from "react";
-import { withLittera } from "react-littera";
-
-// Object containing translations for each key...
-const translations = {
-    example: {
-        en_US: "Example",
-        pl_PL: "Przykład",
-        de_DE: "Beispiel"
-    }
-};
-
-class ExampleComponent extends React.Component {
-
-    handleLocaleChange() {
-        const { setLocale } = this.props;
-
-        setLocale("de_DE");
-    }
-
-    render() {
-        const { translated } = this.props;
-
-        return <button onClick={this.handleLocaleChange}>{translated.example}</button>;
-    }
-}
-
-export default withLittera(translation)(ExampleComponent);
-```
-
-#### Example with a Hook
+#### Hooks Example
 
 ##### Basic
 ```javascript
@@ -180,6 +147,39 @@ const ExampleComponent = () => {
 };
 
 export default ExampleComponent;
+```
+
+#### HOC Example
+
+```javascript
+import React from "react";
+import { withLittera } from "react-littera";
+
+// Object containing translations for each key...
+const translations = {
+    example: {
+        en_US: "Example",
+        pl_PL: "Przykład",
+        de_DE: "Beispiel"
+    }
+};
+
+class ExampleComponent extends React.Component {
+
+    handleLocaleChange() {
+        const { setLocale } = this.props;
+
+        setLocale("de_DE");
+    }
+
+    render() {
+        const { translated } = this.props;
+
+        return <button onClick={this.handleLocaleChange}>{translated.example}</button>;
+    }
+}
+
+export default withLittera(translation)(ExampleComponent);
 ```
 
 ## API
