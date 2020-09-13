@@ -165,40 +165,10 @@ ReactDOM.render(&lt;App />, rootElement);
 <p>Now you can make use of Littera by adding translations directly into your component.</p>
 <p>Here we have two options:</p>
 <ul>
+<li><strong>Hooks</strong> (recommended)</li>
 <li><strong>HOC</strong></li>
-<li><strong>Hooks</strong></li>
 </ul>
-<h4>Example with a HOC</h4>
-<pre class="prettyprint source lang-javascript"><code>import React from &quot;react&quot;;
-import { withLittera } from &quot;react-littera&quot;;
-
-// Object containing translations for each key...
-const translations = {
-    example: {
-        en_US: &quot;Example&quot;,
-        pl_PL: &quot;Przykład&quot;,
-        de_DE: &quot;Beispiel&quot;
-    }
-};
-
-class ExampleComponent extends React.Component {
-
-    handleLocaleChange() {
-        const { setLocale } = this.props;
-
-        setLocale(&quot;de_DE&quot;);
-    }
-
-    render() {
-        const { translated } = this.props;
-
-        return &lt;button onClick={this.handleLocaleChange}>{translated.example}&lt;/button>;
-    }
-}
-
-export default withLittera(translation)(ExampleComponent);
-</code></pre>
-<h4>Example with a Hook</h4>
+<h4>Hooks Example</h4>
 <h5>Basic</h5>
 <pre class="prettyprint source lang-javascript"><code>import React from &quot;react&quot;;
 import { useLittera } from &quot;react-littera&quot;;
@@ -252,6 +222,36 @@ const ExampleComponent = () => {
 };
 
 export default ExampleComponent;
+</code></pre>
+<h4>HOC Example</h4>
+<pre class="prettyprint source lang-javascript"><code>import React from &quot;react&quot;;
+import { withLittera } from &quot;react-littera&quot;;
+
+// Object containing translations for each key...
+const translations = {
+    example: {
+        en_US: &quot;Example&quot;,
+        pl_PL: &quot;Przykład&quot;,
+        de_DE: &quot;Beispiel&quot;
+    }
+};
+
+class ExampleComponent extends React.Component {
+
+    handleLocaleChange() {
+        const { setLocale } = this.props;
+
+        setLocale(&quot;de_DE&quot;);
+    }
+
+    render() {
+        const { translated } = this.props;
+
+        return &lt;button onClick={this.handleLocaleChange}>{translated.example}&lt;/button>;
+    }
+}
+
+export default withLittera(translation)(ExampleComponent);
 </code></pre>
 <h2>API</h2>
 <h4>LitteraProvider</h4>
