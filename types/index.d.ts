@@ -47,7 +47,7 @@ export type ITranslated<T> = {
     ? string
     : T[key] extends ITranslationVarFn
     ? (...args: Parameters<T[key]>) => string
-  : T[key];
+  : string;
 };
 
 export type ITranslationsPreset<P = any> = ITranslations<P>
