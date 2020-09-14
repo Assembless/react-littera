@@ -42,7 +42,7 @@ export const lookForMissingKeys = <T>(translations: ITranslations<T>, locales: s
     if(typeof translations[key] === "function") return; // TODO: Detect missing translations for variable functions.
     locales.forEach(locale => {
 
-      if(!translations[key][locale]) 
+      if (typeof translations[key][locale] !== "string") 
         console.warn(`You are missing "${key}" in ${locale}.`);
     });
   });

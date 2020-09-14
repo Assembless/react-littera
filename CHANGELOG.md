@@ -3,6 +3,8 @@
 All notable changes to this project will be documented in this file.
 
 ## [Unreleased]
+### Changed
+- Disabled missing keys reports for empty values.
 
 ## [2.1.3] - 2020-09-11
 ### Fixed
