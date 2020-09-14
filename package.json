@@ -1,6 +1,6 @@
 {
   "name": "react-littera",
-  "version": "2.1.3",
+  "version": "2.1.4",
   "description": "🌐 Lightweight react library for robust translations.",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
