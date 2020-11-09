@@ -1,4 +1,4 @@
-import {translate} from '../src/utils/translate'
+import { translate, translateSingle } from '../src/utils/translate'
 
 const translationsMock = {
   example: {
@@ -55,4 +55,22 @@ describe('translate', () => {
 
       expect(fn).toThrowError('Expected a string for locale, got: undefined');
     });
+})
+
+describe('translateSingle', () => {
+  it('should be a function', () => {
+    expect(typeof translateSingle).toBe('function')
+  })
+
+  it("should translate flat translation", () => {
+    const result = translateSingle(translationsMock.example, "de_DE");
+
+    expect(result).toBe("Beispiel")
+  });
+
+  it("should translate flat translation with variables", () => {
+    const result = translateSingle(translationsMockWithVariables.greeting, "en_US");
+
+    expect(result("Mike")).toBe("Hello Mike");
+  });
 })

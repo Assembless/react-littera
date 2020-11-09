@@ -66,30 +66,15 @@ const wrapper = ({ children }) => {
 };
 
 describe("useLittera", () => {
-  it("should return locale", () => {
-    const render = renderHook(() => useLitteraMethods(), { wrapper });
-    const { locale } = render.result.current;
-
-    expect(locale).toBe("pl_PL");
-  });
-
-  it("should change locale", async () => {
-    const render = renderHook(() => useLitteraMethods(), { wrapper });
-    const { locale, setLocale } = render.result.current;
-
-    expect(locale).toBe("pl_PL");
-
-    act(() => {
-      setLocale("en_US");
-    });
-
-    setTimeout(() => {
-      expect(locale).toBe("en_US");
-    }, 500);
-  });
-
   it("should return correct translation", () => {
     const render = renderHook(() => useLittera(mockTranslations), { wrapper });
+    const translated = render.result.current;
+
+    expect(translated.simple).toBe("Proste");
+  });
+
+  it("should return correct translation without LitteraProvider", () => {
+    const render = renderHook(() => useLittera(mockTranslations, "pl_PL"), {});
     const translated = render.result.current;
 
     expect(translated.simple).toBe("Proste");
@@ -137,3 +122,60 @@ describe("useLittera", () => {
     expect(console.warn.mock.calls[0][0]).toBe(`You are missing "simple" in de_DE.`);
   });
 });
+
+describe("useLitteraMethods", () => {
+  it("should have all methods and variables.", () => {
+    const render = renderHook(() => useLitteraMethods(), { wrapper });
+    const { locale,
+      locales,
+      setLocale,
+      validateLocale,
+      preset,
+      translate,
+      translateSingle } = render.result.current;
+
+    expect(typeof locale).toBeTruthy();
+    expect(typeof locales).toBeTruthy();
+    expect(typeof setLocale).toBeTruthy();
+    expect(typeof validateLocale).toBeTruthy();
+    expect(typeof preset).toBeTruthy();
+    expect(typeof translate).toBeTruthy();
+    expect(typeof translateSingle).toBeTruthy();
+  });
+
+  it("should corretly utilize translateSingle method.", () => {
+    const render = renderHook(() => useLitteraMethods(), { wrapper });
+    const { translateSingle } = render.result.current;
+
+    expect(translateSingle(mockTranslations.simple, "pl_PL")).toBe("Proste");
+  });
+
+  it("should corretly utilize translate method.", () => {
+    const render = renderHook(() => useLitteraMethods(), { wrapper });
+    const { translate } = render.result.current;
+
+    expect(translate(mockTranslations, "pl_PL").simple).toBe("Proste");
+  });
+
+  it("should return locale", () => {
+    const render = renderHook(() => useLitteraMethods(), { wrapper });
+    const { locale } = render.result.current;
+
+    expect(locale).toBe("pl_PL");
+  });
+
+  it("should change locale", async () => {
+    const render = renderHook(() => useLitteraMethods(), { wrapper });
+    const { locale, setLocale } = render.result.current;
+
+    expect(locale).toBe("pl_PL");
+
+    act(() => {
+      setLocale("en_US");
+    });
+
+    setTimeout(() => {
+      expect(locale).toBe("en_US");
+    }, 500);
+  });
+})
