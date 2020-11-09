@@ -68,7 +68,7 @@
             
             <nav>
                 
-                    <h2><a href="index.html">Documentation</a></h2><div class="category"><h3>Global</h3><ul><li><a href="global.html#LitteraProvider">LitteraProvider</a></li><li><a href="global.html#lookForMissingKeys">lookForMissingKeys</a></li><li><a href="global.html#translate">translate</a></li><li><a href="global.html#tryParseLocale">tryParseLocale</a></li><li><a href="global.html#useLittera">useLittera</a></li><li><a href="global.html#useLitteraMethods">useLitteraMethods</a></li><li><a href="global.html#withLittera">withLittera</a></li></ul></div>
+                    <h2><a href="index.html">Documentation</a></h2><div class="category"><h3>Global</h3><ul><li><a href="global.html#LitteraProvider">LitteraProvider</a></li><li><a href="global.html#lookForMissingKeys">lookForMissingKeys</a></li><li><a href="global.html#translate">translate</a></li><li><a href="global.html#translateSingle">translateSingle</a></li><li><a href="global.html#tryParseLocale">tryParseLocale</a></li><li><a href="global.html#useLittera">useLittera</a></li><li><a href="global.html#useLitteraMethods">useLitteraMethods</a></li><li><a href="global.html#withLittera">withLittera</a></li></ul></div>
                 
             </nav>
         </div>
@@ -87,7 +87,7 @@
         <article>
             <pre class="prettyprint source linenums"><code>import * as React from "react";
 import { LitteraContext } from "./LitteraProvider";
-import { translate } from "./utils/translate";
+import { translate, translateSingle } from "./utils/translate";
 import { validateLocale, lookForMissingKeys } from "./utils/methods";
 import { ITranslations, TSetLocale, TValidateLocale, ITranslated, TTranslationsArg, ITranslationsFunction, ITranslationsPreset } from "../types";
 
@@ -118,7 +118,14 @@ import { ITranslations, TSetLocale, TValidateLocale, ITranslated, TTranslationsA
  * @returns {ITranslated}
  */
 export function useLittera&lt;T extends ITranslations&lt;T>>(t: TTranslationsArg&lt;T, ITranslationsPreset&lt;typeof preset>>, l?: string): ITranslated&lt;T> {
-  const { locale, preset, locales=[] } = React.useContext(LitteraContext);
+  const context = React.useContext(LitteraContext);
+
+  if (context.locale === null &amp;&amp; !l)
+    throw new Error("Your app has to be wrapped with the LitteraProvider to work properly. Alternatively you can provide the language argument.");
+
+  const locale = l ?? context.locale ?? "en_US";
+  const preset = context.preset ?? {};
+  const locales = context.locales ?? [locale];
   
   const translations = React.useMemo(() => isTransFn&lt;T, ITranslationsPreset&lt;typeof preset>>(t) ? { ...t(preset) } : { ...t }, [t, preset]) as T;
 
@@ -126,7 +133,7 @@ export function useLittera&lt;T extends ITranslations&lt;T>>(t: TTranslationsArg
     lookForMissingKeys(translations, locales)
   }, [translations]);
 
-  return React.useMemo(() => translate&lt;T, keyof T>(translations, l || locale), [translations, l, locale]) as ITranslated&lt;T>;
+  return React.useMemo(() => translate&lt;T, keyof T>(translations, locale), [translations, locale]) as ITranslated&lt;T>;
 }
 
 function isTransFn&lt;T extends ITranslations&lt;T>, P>(value: unknown): value is ITranslationsFunction&lt;T, P> {
@@ -154,7 +161,8 @@ function isTransFn&lt;T extends ITranslations&lt;T>, P>(value: unknown): value i
  * @returns {Function} methods.setLocale - changes the active locale.
  * @returns {Function} methods.validateLocale - method validates the locale format using a pattern.
  * @returns {ITranslations} methods.preset - global preset.
- * @returns {Function} methods.translate - the core translation method.
+ * @returns {Function} methods.translate - the core translations method.
+ * @returns {Function} methods.translateSingle - the core single translation method.
  */
 export function useLitteraMethods() {
   const { locale, preset, setLocale, pattern, locales } = React.useContext(LitteraContext);
@@ -173,7 +181,8 @@ export function useLitteraMethods() {
     setLocale: _setLocale,
     validateLocale: _validateLocale,
     preset,
-    translate
+    translate,
+    translateSingle
   })
 };</code></pre>
         </article>

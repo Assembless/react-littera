@@ -66,7 +66,7 @@
             
             <nav>
                 
-                    <h2><a href="index.html">Documentation</a></h2><div class="category"><h3>Global</h3><ul><li><a href="global.html#LitteraProvider">LitteraProvider</a></li><li><a href="global.html#lookForMissingKeys">lookForMissingKeys</a></li><li><a href="global.html#translate">translate</a></li><li><a href="global.html#tryParseLocale">tryParseLocale</a></li><li><a href="global.html#useLittera">useLittera</a></li><li><a href="global.html#useLitteraMethods">useLitteraMethods</a></li><li><a href="global.html#withLittera">withLittera</a></li></ul></div>
+                    <h2><a href="index.html">Documentation</a></h2><div class="category"><h3>Global</h3><ul><li><a href="global.html#LitteraProvider">LitteraProvider</a></li><li><a href="global.html#lookForMissingKeys">lookForMissingKeys</a></li><li><a href="global.html#translate">translate</a></li><li><a href="global.html#translateSingle">translateSingle</a></li><li><a href="global.html#tryParseLocale">tryParseLocale</a></li><li><a href="global.html#useLittera">useLittera</a></li><li><a href="global.html#useLitteraMethods">useLitteraMethods</a></li><li><a href="global.html#withLittera">withLittera</a></li></ul></div>
                 
             </nav>
         </div>
@@ -121,7 +121,7 @@
 </ul>
 <h2>About</h2>
 <p>Littera was created to make maintaining and managing translations easier. It allows placing translations right beside your component as well as storing translations globally. Littera's structure was inspired by <a href="https://github.com/cssinjs/jss/tree/master/packages/react-jss">react-jss</a>.</p>
-<p>Here below we have a <strong>translations</strong> object which is accepted by the <code>translate</code> function, which then returns the translated string for the correct language.</p>
+<p>Here below we have a <strong>translations</strong> object which is accepted by the core <code>translate</code> function, which then returns the translated string for the correct language. It can be passed to the <code>useLittera</code> hook or <code>withLittera</code> HOC.</p>
 <pre class="prettyprint source lang-javascript"><code>{
     welcome: {
         en_US: &quot;Welcome&quot;,
@@ -135,6 +135,8 @@
     welcome: &quot;Welcome&quot;
 }
 </code></pre>
+<h2>Simply explained</h2>
+<p>Let's assume you want to have a translations system in your React app that updates all the text when the language changes. Bam! All you need to do is: define a simple object that lists all translated strings for each language. Then pass it to a hook and it will return a reduced object with translations only for active language. Display it like any other string. Ready.</p>
 <h2>Installation</h2>
 <p>via npm</p>
 <pre class="prettyprint source"><code>npm install react-littera
@@ -300,7 +302,7 @@ export default withLittera(translation)(ExampleComponent);
 </tr>
 <tr>
 <td>detectLocale</td>
-<td>Tries to detect the browser language. Overriding initialLocale if detected.</td>
+<td>Tries to detect the browser language. Overriding initialLocale if detected. Not available yet for React Native!</td>
 <td>boolean</td>
 <td>false</td>
 </tr>
@@ -361,29 +363,39 @@ export default withLittera(translation)(ExampleComponent);
 </thead>
 <tbody>
 <tr>
-<td>setLocale</td>
-<td>Changes active language</td>
-<td><code>(locale: string) =&gt; void</code></td>
-</tr>
-<tr>
 <td>locale</td>
 <td>Active language</td>
 <td><code>string</code></td>
 </tr>
 <tr>
-<td>setPattern</td>
-<td>Changes locale pattern</td>
-<td><code>(pattern: RegExp) =&gt; void</code></td>
+<td>locales</td>
+<td>List of all locales</td>
+<td><code>string[]</code></td>
 </tr>
 <tr>
-<td>pattern</td>
-<td>Locale pattern</td>
-<td><code>RegExp</code></td>
+<td>setLocale</td>
+<td>Changes active language</td>
+<td><code>(locale: string) =&gt; void</code></td>
 </tr>
 <tr>
-<td>validatePattern</td>
+<td>validateLocale</td>
 <td>Validates locale with pattern</td>
 <td><code>(locale: string, pattern?: RegExp) =&gt; boolean</code></td>
+</tr>
+<tr>
+<td>preset</td>
+<td>Preset object previously passed to the provider</td>
+<td><code>ITranslations</code></td>
+</tr>
+<tr>
+<td>translate</td>
+<td>Core translate method</td>
+<td><code>(translations: T, locale: string) =&gt; ITranslated</code></td>
+</tr>
+<tr>
+<td>translateSingle</td>
+<td>Core method for translating a single key</td>
+<td><code>&lt;T&gt;(translation: T, locale: string) =&gt; ISingleTranslated&lt;T&gt;</code></td>
 </tr>
 </tbody>
 </table>
@@ -477,6 +489,13 @@ const [translated, locale, setLanguage] = useLittera(translations)
 const translated = useLittera(translations);
 const { locale, setLocale, pattern, setPattern, validateLocale } = useLitteraMethods();
 </code></pre>
+<h2>FAQ</h2>
+<h4>Will I need to type all the translations by myself?</h4>
+<p>Yes, we have not implemented a translator to keep this package simple and lightweight also providing the translations manually guarantees a better user experience.</p>
+<h4>Does react-littera work with React Native?</h4>
+<p>React Native compatibility has not been tested but the community reported 100% usability.</p>
+<h4>You can easily transfer translations with a component.</h4>
+<p>Just define the translations object in your components file or directory. It will travel with your component, just remember to add react-littera as a dependency!</p>
 <h2>License</h2>
 <p><a href="https://github.com/DRFR0ST/react-littera/blob/master/LICENSE">MIT License</a></p></article>
     </section>

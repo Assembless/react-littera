@@ -68,7 +68,7 @@
             
             <nav>
                 
-                    <h2><a href="index.html">Documentation</a></h2><div class="category"><h3>Global</h3><ul><li><a href="global.html#LitteraProvider">LitteraProvider</a></li><li><a href="global.html#lookForMissingKeys">lookForMissingKeys</a></li><li><a href="global.html#translate">translate</a></li><li><a href="global.html#tryParseLocale">tryParseLocale</a></li><li><a href="global.html#useLittera">useLittera</a></li><li><a href="global.html#useLitteraMethods">useLitteraMethods</a></li><li><a href="global.html#withLittera">withLittera</a></li></ul></div>
+                    <h2><a href="index.html">Documentation</a></h2><div class="category"><h3>Global</h3><ul><li><a href="global.html#LitteraProvider">LitteraProvider</a></li><li><a href="global.html#lookForMissingKeys">lookForMissingKeys</a></li><li><a href="global.html#translate">translate</a></li><li><a href="global.html#translateSingle">translateSingle</a></li><li><a href="global.html#tryParseLocale">tryParseLocale</a></li><li><a href="global.html#useLittera">useLittera</a></li><li><a href="global.html#useLitteraMethods">useLitteraMethods</a></li><li><a href="global.html#withLittera">withLittera</a></li></ul></div>
                 
             </nav>
         </div>
@@ -85,12 +85,11 @@
     
     <section>
         <article>
-            <pre class="prettyprint source linenums"><code>import {
-  ITranslations, ITranslation, ITranslationVarFn, ITranslated,
-} from "../../types";
+            <pre class="prettyprint source linenums"><code>import { ITranslated, ISingleTranslated } from "../../types";
+import { isVariableFunction } from "./methods";
 
 /**
- * Returns reduced object based on locale.
+ * Returns object with translated values based on locale.
  * @category Core
  * @param {ITranslations} translations
  * @param {string} locale
@@ -133,21 +132,42 @@ export function translate&lt;T, K extends keyof T>(
     const key = Object.keys(translations)[i] as K;
     const value = translations[key] as T[K];
 
-    if (isVarFn(value))
-      translated[key] = (...args: Parameters&lt;typeof value>) =>
-        value(...args)[locale];
-    else if (isSimpleObj(value)) translated[key] = value[locale];
+    translated[key] = translateSingle(value, locale);
   }
 
   return translated as ITranslated&lt;T>;
 }
 
+/**
+ * Returns translated string based on locale.
+ * @param {ITranslation} translation
+ * @param {string} locale 
+ * @example
+ * // Example of utilizing a single translation.
+ * 
+ * const translations = {
+ *    example: {
+ *      en_US: "Example",
+ *      de_DE: "Beispiel"
+ *    },
+ *    hello: (name: string) => ({
+ *      en_US: `Hello ${name}`,
+ *      de_DE: `Hallo ${name}`
+ *    })
+ * }
+ * 
+ * const translatedExample = translateSingle(translations.example, "de_DE");
+ * const translatedExample = translateSingle(translations.hello("Mike"), "de_DE");
+ * 
+ * translatedExample // => "Beispiel"
+ * translatedHello("Mike") // => "Hallo Mike"
+ * @returns {ISingleTranslated}
+ */
+export function translateSingle&lt;T>(translation: T, locale: string) {
+  if (isVariableFunction(translation))
+    return ((...args: Parameters&lt;typeof translation>) => translation(...args)[locale]) as ISingleTranslated&lt;T>;
 
-function isVarFn(value: unknown): value is ITranslationVarFn {
-  return typeof (value as ITranslationVarFn) === "function";
-}
-function isSimpleObj(value: unknown): value is ITranslation {
-  return typeof (value as ITranslation) === "object";
+  return translation[locale] as ISingleTranslated&lt;T>;
 }</code></pre>
         </article>
     </section>
