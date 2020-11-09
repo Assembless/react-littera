@@ -24,7 +24,7 @@
 
 Littera was created to make maintaining and managing translations easier. It allows placing translations right beside your component as well as storing translations globally. Littera's structure was inspired by [react-jss](https://github.com/cssinjs/jss/tree/master/packages/react-jss).
 
-Here below we have a **translations** object which is accepted by the `translate` function, which then returns the translated string for the correct language.
+Here below we have a **translations** object which is accepted by the core `translate` function, which then returns the translated string for the correct language. It can be passed to the `useLittera` hook or `withLittera` HOC.
 ```javascript
 {
     welcome: {
@@ -41,6 +41,10 @@ Let's say the active language is `en_US` (English), the output will be:
     welcome: "Welcome"
 }
 ```
+
+## Simply explained
+
+Let's assume you want to have a translations system in your React app that updates all the text when the language changes. Bam! All you need to do is: define a simple object that lists all translated strings for each language. Then pass it to a hook and it will return a reduced object with translations only for active language. Display it like any other string. Ready.
 
 ## Installation
 
@@ -196,7 +200,7 @@ export default withLittera(translation)(ExampleComponent);
 | setLocale | Callback called when active language changes.                     | (locale: string) => void |                         |
 | preset    | Preset of translations.                      | { [key: string]: { [locale: string]: string } }            | `{}`                    |
 | pattern   | Locale pattern. Default format is xx_XX. | RegExp                   | `/[a-z]{2}_[A-Z]{2}/gi` |
-| detectLocale | Tries to detect the browser language. Overriding initialLocale if detected. | boolean | false
+| detectLocale | Tries to detect the browser language. Overriding initialLocale if detected. Not available yet for React Native! | boolean | false
 
  #### withLittera - HOC
  type: `(translations: ITranslations) => (Component: React.FunctionComponent) => JSX.Element`
@@ -221,11 +225,13 @@ A HOC, you feed it with `translations`(ITranslations) and a component which then
 This hook exposes following methods:
 | Key       | Description                                 | Type                     |
 |-----------|---------------------------------------------|--------------------------|
-| setLocale | Changes active language                     | `(locale: string) => void` |
 | locale | Active language                     | `string` |
-| setPattern | Changes locale pattern | `(pattern: RegExp) => void` |
-| pattern | Locale pattern | `RegExp` |
-| validatePattern | Validates locale with pattern | `(locale: string, pattern?: RegExp) => boolean` |
+| locales | List of all locales | `string[]` |
+| setLocale | Changes active language | `(locale: string) => void` |
+| validateLocale | Validates locale with pattern | `(locale: string, pattern?: RegExp) => boolean` |
+| preset | Preset object previously passed to the provider | `ITranslations` |
+| translate | Core translate method                    | `(translations: T, locale: string) => ITranslated` |
+| translateSingle | Core method for translating a single key | `<T>(translation: T, locale: string) => ISingleTranslated<T>` |
 
 ### Types
 
@@ -341,6 +347,17 @@ const [translated, locale, setLanguage] = useLittera(translations)
 const translated = useLittera(translations);
 const { locale, setLocale, pattern, setPattern, validateLocale } = useLitteraMethods();
 ```
+
+## FAQ
+
+#### Will I need to type all the translations by myself?
+Yes, we have not implemented a translator to keep this package simple and lightweight also providing the translations manually guarantees a better user experience.
+
+#### Does react-littera work with React Native?
+React Native compatibility has not been tested but the community reported 100% usability.
+
+#### You can easily transfer translations with a component.
+Just define the translations object in your components file or directory. It will travel with your component, just remember to add react-littera as a dependency!
 
 ## License
 
