@@ -43,12 +43,19 @@ export type ITranslations<T> = {
   }
  */
 export type ITranslated<T> = {
-  [key in keyof T]: T[key] extends ITranslation
-    ? string
-    : T[key] extends ITranslationVarFn
-    ? (...args: Parameters<T[key]>) => string
-  : string;
+  [key in keyof T]: ISingleTranslated<T[key]>
 };
+
+/**
+ * @example
+   "Beispiel"
+ */
+export type ISingleTranslated<T> =
+  T extends ITranslation
+    ? string
+  : T extends ITranslationVarFn
+  ? (...args: Parameters<T>) => string
+  : string;
 
 export type ITranslationsPreset<P = any> = ITranslations<P>
 

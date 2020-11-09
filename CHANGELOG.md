@@ -3,6 +3,8 @@
 All notable changes to this project will be documented in this file.
 
 ## [Unreleased]
+### Added
+- Function translateSingle exposed by useLitteraMethods hook for translating a single key.
 
 ## [2.1.4] - 2020-09-14
 ### Changed

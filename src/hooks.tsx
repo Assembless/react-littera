@@ -1,6 +1,6 @@
 import * as React from "react";
 import { LitteraContext } from "./LitteraProvider";
-import { translate } from "./utils/translate";
+import { translate, translateSingle } from "./utils/translate";
 import { validateLocale, lookForMissingKeys } from "./utils/methods";
 import { ITranslations, TSetLocale, TValidateLocale, ITranslated, TTranslationsArg, ITranslationsFunction, ITranslationsPreset } from "../types";
 
@@ -31,7 +31,14 @@ import { ITranslations, TSetLocale, TValidateLocale, ITranslated, TTranslationsA
  * @returns {ITranslated}
  */
 export function useLittera<T extends ITranslations<T>>(t: TTranslationsArg<T, ITranslationsPreset<typeof preset>>, l?: string): ITranslated<T> {
-  const { locale, preset, locales=[] } = React.useContext(LitteraContext);
+  const context = React.useContext(LitteraContext);
+
+  if (context.locale === null && !l)
+    throw new Error("Your app has to be wrapped with the LitteraProvider to work properly. Alternatively you can provide the language argument.");
+
+  const locale = l ?? context.locale ?? "en_US";
+  const preset = context.preset ?? {};
+  const locales = context.locales ?? [locale];
   
   const translations = React.useMemo(() => isTransFn<T, ITranslationsPreset<typeof preset>>(t) ? { ...t(preset) } : { ...t }, [t, preset]) as T;
 
@@ -39,7 +46,7 @@ export function useLittera<T extends ITranslations<T>>(t: TTranslationsArg<T, IT
     lookForMissingKeys(translations, locales)
   }, [translations]);
 
-  return React.useMemo(() => translate<T, keyof T>(translations, l || locale), [translations, l, locale]) as ITranslated<T>;
+  return React.useMemo(() => translate<T, keyof T>(translations, locale), [translations, locale]) as ITranslated<T>;
 }
 
 function isTransFn<T extends ITranslations<T>, P>(value: unknown): value is ITranslationsFunction<T, P> {
@@ -67,7 +74,8 @@ function isTransFn<T extends ITranslations<T>, P>(value: unknown): value is ITra
  * @returns {Function} methods.setLocale - changes the active locale.
  * @returns {Function} methods.validateLocale - method validates the locale format using a pattern.
  * @returns {ITranslations} methods.preset - global preset.
- * @returns {Function} methods.translate - the core translation method.
+ * @returns {Function} methods.translate - the core translations method.
+ * @returns {Function} methods.translateSingle - the core single translation method.
  */
 export function useLitteraMethods() {
   const { locale, preset, setLocale, pattern, locales } = React.useContext(LitteraContext);
@@ -86,6 +94,7 @@ export function useLitteraMethods() {
     setLocale: _setLocale,
     validateLocale: _validateLocale,
     preset,
-    translate
+    translate,
+    translateSingle
   })
 };

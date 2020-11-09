@@ -1,4 +1,4 @@
-import { ITranslations } from "../../types";
+import { ITranslations, ITranslationVarFn } from "../../types";
 
 export const localePattern = /[a-z]{2}_[A-Z]{2}/gi;
 
@@ -46,4 +46,8 @@ export const lookForMissingKeys = <T>(translations: ITranslations<T>, locales: s
         console.warn(`You are missing "${key}" in ${locale}.`);
     });
   });
+}
+
+export function isVariableFunction(value: unknown): value is ITranslationVarFn {
+  return typeof (value as ITranslationVarFn) === "function";
 }

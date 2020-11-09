@@ -1,9 +1,8 @@
-import {
-  ITranslations, ITranslation, ITranslationVarFn, ITranslated,
-} from "../../types";
+import { ITranslated, ISingleTranslated } from "../../types";
+import { isVariableFunction } from "./methods";
 
 /**
- * Returns reduced object based on locale.
+ * Returns object with translated values based on locale.
  * @category Core
  * @param {ITranslations} translations
  * @param {string} locale
@@ -46,19 +45,40 @@ export function translate<T, K extends keyof T>(
     const key = Object.keys(translations)[i] as K;
     const value = translations[key] as T[K];
 
-    if (isVarFn(value))
-      translated[key] = (...args: Parameters<typeof value>) =>
-        value(...args)[locale];
-    else if (isSimpleObj(value)) translated[key] = value[locale];
+    translated[key] = translateSingle(value, locale);
   }
 
   return translated as ITranslated<T>;
 }
 
+/**
+ * Returns translated string based on locale.
+ * @param {ITranslation} translation
+ * @param {string} locale 
+ * @example
+ * // Example of utilizing a single translation.
+ * 
+ * const translations = {
+ *    example: {
+ *      en_US: "Example",
+ *      de_DE: "Beispiel"
+ *    },
+ *    hello: (name: string) => ({
+ *      en_US: `Hello ${name}`,
+ *      de_DE: `Hallo ${name}`
+ *    })
+ * }
+ * 
+ * const translatedExample = translateSingle(translations.example, "de_DE");
+ * const translatedExample = translateSingle(translations.hello("Mike"), "de_DE");
+ * 
+ * translatedExample // => "Beispiel"
+ * translatedHello("Mike") // => "Hallo Mike"
+ * @returns {ISingleTranslated}
+ */
+export function translateSingle<T>(translation: T, locale: string) {
+  if (isVariableFunction(translation))
+    return ((...args: Parameters<typeof translation>) => translation(...args)[locale]) as ISingleTranslated<T>;
 
-function isVarFn(value: unknown): value is ITranslationVarFn {
-  return typeof (value as ITranslationVarFn) === "function";
-}
-function isSimpleObj(value: unknown): value is ITranslation {
-  return typeof (value as ITranslation) === "object";
+  return translation[locale] as ISingleTranslated<T>;
 }
