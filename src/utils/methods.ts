@@ -36,8 +36,10 @@ export const tryParseLocale = (locale: string) => {
 
 /** 
  * Searches for missing translations. Prints an warning if there is a translation for a language missing.
+ * @param translations 
+ * @param locales List of country codes for tested languages. eg. ["de_DE", "pl_PL"]
  */
-export const lookForMissingKeys = <T>(translations: ITranslations<T>, locales: string[]) => {
+export const reportMissing = <T>(translations: ITranslations<T>, locales: string[]) => {
   Object.keys(translations).forEach(key => {
     if(typeof translations[key] === "function") return; // TODO: Detect missing translations for variable functions.
     locales.forEach(locale => {
@@ -47,6 +49,15 @@ export const lookForMissingKeys = <T>(translations: ITranslations<T>, locales: s
     });
   });
 }
+
+/** 
+ * Searches for missing translations. Prints an warning if there is a translation for a language missing.
+ * @param translations 
+ * @param locales List of country codes for tested languages. eg. ["de_DE", "pl_PL"]
+ * @deprecated Naming changed to reportMissing.
+ * @augments reportMissing
+ */
+export const lookForMissingKeys = reportMissing;
 
 export function isVariableFunction(value: unknown): value is ITranslationVarFn {
   return typeof (value as ITranslationVarFn) === "function";
