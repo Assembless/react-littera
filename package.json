@@ -1,6 +1,6 @@
 {
   "name": "react-littera",
-  "version": "2.2.0-beta.0",
+  "version": "2.2.0",
   "description": "🌐 Lightweight react library for robust translations.",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
@@ -62,9 +62,14 @@
     "url": "git+https://github.com/DRFR0ST/react-littera.git"
   },
   "keywords": [
-    "multilingual",
     "translation",
-    "language"
+    "language",
+    "internationalization",
+    "local",
+    "localization",
+    "i18n",
+    "translate",
+    "multilingual"
   ],
   "author": "Mike Eling <mike.eling97@gmail.com>",
   "license": "MIT",
