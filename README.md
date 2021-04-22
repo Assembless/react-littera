@@ -92,7 +92,7 @@ Now you can make use of Littera by adding translations directly into your compon
 Here we have two options:
 
 -   **Hooks** (recommended)
--   **HOC**
+-   **HOC** (deprecated)
 
 #### Hooks Example
 

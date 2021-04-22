@@ -8,6 +8,7 @@ import { translate } from './utils/translate';
  * @category HOCs
  * @param {ITranslations|ITranslationsFunction} translations
  * @returns {FunctionComponent}
+ * @deprecated HOCs are out of support. Please consider switching to React hooks.
  */
 const withLittera = <T extends ITranslations<T>>(translations: T | ((preset?: ITranslationsPreset) => T)) => (
   Component: React.FunctionComponent<LitteraProps<T>>
