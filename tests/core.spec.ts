@@ -21,6 +21,15 @@ const translationsMockWithVariables = {
   }
 }
 
+const translationsMockWithArrays = {
+  slogans: [
+    {
+      en_US: "Welcome to the show",
+      de_DE: "Willkommen in der Show"
+    }
+  ]
+}
+
 describe('translate', () => {
     it('should be a function', () => {
       expect(typeof translate).toBe('function')
@@ -36,6 +45,12 @@ describe('translate', () => {
       
       expect(translated.greeting("Mike")).toBe("Hello Mike");
       expect(translated.greeting(translated.you)).toBe("Hello You");
+    });
+
+    it("should translate flat translations with variables", () => {
+      const translated = translate(translationsMockWithArrays, "en_US");
+      
+      expect(translated.slogans[0]).toBe("Welcome to the show");
     });
 
     it("should throw error if translations is invalid type", () => {
@@ -72,5 +87,11 @@ describe('translateSingle', () => {
     const result = translateSingle(translationsMockWithVariables.greeting, "en_US");
 
     expect(result("Mike")).toBe("Hello Mike");
+  });
+
+  it("should translate flat translation with arrays", () => {
+    const result = translateSingle(translationsMockWithArrays.slogans, "en_US");
+
+    expect(result[0]).toBe("Welcome to the show");
   });
 })
