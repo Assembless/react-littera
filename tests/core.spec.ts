@@ -5,10 +5,7 @@ const translationsMock = {
     de_DE: "Beispiel",
     en_US: "Example",
     pl_PL: "Przykład"
-  }
-}
-
-const translationsMockWithVariables = {
+  },
   greeting: (name: string) => ({
     de_DE: `Hallo ${name}`,
     en_US: `Hello ${name}`,
@@ -18,15 +15,25 @@ const translationsMockWithVariables = {
     de_DE: "Du",
     en_US: "You",
     pl_PL: "Ty"
-  }
-}
-
-const translationsMockWithArrays = {
+  },
   slogans: [
     {
       en_US: "Welcome to the show",
-      de_DE: "Willkommen in der Show"
+      de_DE: "Willkommen in der Show",
+      pl_PL: "Witamy w przedstawieniu"
     }
+  ],
+  greetings: [
+    {
+      pl_PL: "Dzień dobry",
+      en_US: "Good morning",
+      de_DE: "Guten Morgen"
+    },
+    {
+      pl_PL: "Cześć",
+      en_US: "Hello",
+      de_DE: "Hallo"
+    },
   ]
 }
 
@@ -37,20 +44,21 @@ describe('translate', () => {
 
     it("should translate flat translations", () => {
       expect(translate(translationsMock, "en_US").example).toBe("Example")
-      expect(translate(translationsMockWithVariables, "de_DE").you).toBe("Du")
+      expect(translate(translationsMock, "de_DE").you).toBe("Du")
     });
 
     it("should translate flat translations with variables", () => {
-      const translated = translate(translationsMockWithVariables, "en_US");
+      const translated = translate(translationsMock, "en_US");
       
       expect(translated.greeting("Mike")).toBe("Hello Mike");
       expect(translated.greeting(translated.you)).toBe("Hello You");
     });
 
-    it("should translate flat translations with variables", () => {
-      const translated = translate(translationsMockWithArrays, "en_US");
+    it("should translate flat translations with arrays", () => {
+      const translated = translate(translationsMock, "en_US");
       
       expect(translated.slogans[0]).toBe("Welcome to the show");
+      expect(translated.greetings[1]).toBe("Hello");
     });
 
     it("should throw error if translations is invalid type", () => {
@@ -84,14 +92,21 @@ describe('translateSingle', () => {
   });
 
   it("should translate flat translation with variables", () => {
-    const result = translateSingle(translationsMockWithVariables.greeting, "en_US");
+    const result = translateSingle(translationsMock.greeting, "en_US");
 
     expect(result("Mike")).toBe("Hello Mike");
   });
 
   it("should translate flat translation with arrays", () => {
-    const result = translateSingle(translationsMockWithArrays.slogans, "en_US");
+    const result = translateSingle(translationsMock.slogans, "en_US");
 
     expect(result[0]).toBe("Welcome to the show");
+  });
+
+  it("should translate flat translation with empty array", () => {
+    const result = translateSingle([], "en_US");
+
+    expect(result !== undefined).toBe(true);
+    expect(result[0]).toBe(undefined);
   });
 })
