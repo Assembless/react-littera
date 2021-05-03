@@ -1,7 +1,7 @@
 {
-  "name": "react-littera",
-  "version": "2.2.0",
-  "description": "🌐 Lightweight react library for robust translations.",
+  "name": "@assembless/react-littera",
+  "version": "2.2.1",
+  "description": "🌐 Modern react library for robust translations.",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
   "scripts": {
@@ -59,7 +59,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/DRFR0ST/react-littera.git"
+    "url": "git+https://github.com/Assembless/react-littera.git"
   },
   "keywords": [
     "translation",
@@ -71,12 +71,12 @@
     "translate",
     "multilingual"
   ],
-  "author": "Mike Eling <mike.eling97@gmail.com>",
+  "author": "Assembless <support@assembless.tech>",
   "license": "MIT",
   "bugs": {
-    "url": "https://github.com/DRFR0ST/react-littera/issues"
+    "url": "https://github.com/Assembless/react-littera/issues"
   },
-  "homepage": "https://drfr0st.github.io/react-littera/",
+  "homepage": "https://assembless.github.io/react-littera/",
   "parserOptions": {
     "ecmaFeatures": {
       "jsx": true,
