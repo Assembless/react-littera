@@ -3,6 +3,8 @@
 All notable changes to this project will be documented in this file.
 
 ## [Unreleased]
+### Added
+- Support for translation arrays.
 
 ## [2.2.0] - 2021-04-08
 ### Added
