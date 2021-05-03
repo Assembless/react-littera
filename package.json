@@ -1,7 +1,7 @@
 {
-  "name": "react-littera",
-  "version": "2.2.0",
-  "description": "🌐 Lightweight react library for robust translations.",
+  "name": "@assembless/react-littera",
+  "version": "2.2.1",
+  "description": "🌐 Modern react library for robust translations.",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
   "scripts": {

@@ -4,6 +4,10 @@ All notable changes to this project will be documented in this file.
 
 ## [Unreleased]
 
+## [2.2.1] - 2021-05-03
+### Changed
+- Moved package to Assembless account.
+
 ## [2.2.0] - 2021-04-08
 ### Added
 - Function translateSingle exposed by useLitteraMethods hook for translating a single key.

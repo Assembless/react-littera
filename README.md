@@ -1,17 +1,16 @@
 # react-littera
 
-🌐 Lightweight react library for managing translations.
+🌐 Modern react library for managing translations.
 
 ![littera header](https://i.imgur.com/2bkiWmg.png)
 
-[![GitHub Workflow Status](https://img.shields.io/github/workflow/status/DRFR0ST/react-littera/Test?style=for-the-badge)](https://www.npmjs.com/package/react-littera)
-[![GitHub package.json version](https://img.shields.io/github/package-json/v/DRFR0ST/react-littera?style=for-the-badge)](https://www.npmjs.com/package/react-littera)
-[![npm](https://img.shields.io/npm/dt/react-littera.svg?style=for-the-badge)](https://www.npmjs.com/package/react-littera)
-[![npm bundle size](https://img.shields.io/bundlephobia/min/react-littera?style=for-the-badge)](https://www.npmjs.com/package/react-littera)
-![GitHub last commit](https://img.shields.io/github/last-commit/DRFR0ST/react-littera?style=for-the-badge)
-[![](https://img.shields.io/github/license/DRFR0ST/react-littera.svg?style=for-the-badge)](https://github.com/DRFR0ST/react-littera)
-[![Website](https://img.shields.io/website?down_message=offline&label=documentation&style=for-the-badge&up_message=online&url=https%3A%2F%2Fdrfr0st.github.io%2Freact-littera)](https://drfr0st.github.io/react-littera)
-[![donate](https://img.shields.io/badge/paypal-donate-ff69b4?style=for-the-badge&logo=paypal)](https://www.paypal.com/paypalme/drfrost420/4,20)
+[![GitHub Workflow Status](https://img.shields.io/github/workflow/status/Assembless/react-littera/Test?style=for-the-badge)](https://www.npmjs.com/package/@assembless/react-littera)
+[![GitHub package.json version](https://img.shields.io/github/package-json/v/Assembless/react-littera?style=for-the-badge)](https://www.npmjs.com/package/@assembless/react-littera)
+[![npm](https://img.shields.io/npm/dt/react-littera.svg?style=for-the-badge)](https://www.npmjs.com/package/@assembless/react-littera)
+[![npm bundle size](https://img.shields.io/bundlephobia/min/react-littera?style=for-the-badge)](https://www.npmjs.com/package/@assembless/react-littera)
+![GitHub last commit](https://img.shields.io/github/last-commit/Assembless/react-littera?style=for-the-badge)
+[![](https://img.shields.io/github/license/Assembless/react-littera.svg?style=for-the-badge)](https://github.com/Assembless/react-littera)
+[![Website](https://img.shields.io/website?down_message=offline&label=documentation&style=for-the-badge&up_message=online&url=https%3A%2F%2Fdrfr0st.github.io%2Freact-littera)](https://assembless.github.io/react-littera)
 
 ## Features
 
@@ -362,4 +361,4 @@ Just define the translations object in your components file or directory. It wil
 
 ## License
 
-[MIT License](https://github.com/DRFR0ST/react-littera/blob/master/LICENSE)
+[MIT License](https://github.com/Assembless/react-littera/blob/master/LICENSE)
