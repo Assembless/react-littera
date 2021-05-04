@@ -3,6 +3,9 @@
 All notable changes to this project will be documented in this file.
 
 ## [Unreleased]
+### Fixed
+- Crashes on SSR when detecting locale.
+
 ### Added
 - Support for translation arrays.
 
