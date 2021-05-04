@@ -3,6 +3,8 @@
 All notable changes to this project will be documented in this file.
 
 ## [Unreleased]
+### Fixed
+- Crashes on SSR when detecting locale.
 
 ## [2.2.1] - 2021-05-03
 ### Changed

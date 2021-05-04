@@ -8,10 +8,20 @@ export const validateLocale = (l: string, p: RegExp) => {
   return Boolean(new RegExp(_p).test(l));
 }
 
+/**
+ * Detects the preferred locale and parses it.
+ * @returns Detected browser locale or null.
+ */
 export const detectDeviceLocale = () => {
-  const browserLocale = tryParseLocale(window.navigator.language);
+  let browserLocale = null;
 
-  if(!browserLocale) console.warn("Locale not detected.");
+  if(window?.navigator?.language)
+    browserLocale = tryParseLocale(window.navigator.language)
+
+  if(window?.navigator?.languages?.length > 0)
+    browserLocale = tryParseLocale(window.navigator.languages[0]);
+
+  if(!browserLocale) console.warn("Littera could not determine the preferred locale.");
 
   return browserLocale || null;
 }
