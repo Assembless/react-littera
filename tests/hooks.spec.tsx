@@ -30,6 +30,39 @@ const mockTranslationsWithVariables = Object.freeze({
   })
 });
 
+const mockTranslationsArrs = Object.freeze({
+  hello: (name: string) => ({
+    de_DE: `Hallo ${name}`,
+    pl_PL: `Cześć ${name}`,
+    en_US: `Hello ${name}`
+  }),
+  simple: {
+    de_DE: "Einfach",
+    pl_PL: "Proste",
+    en_US: "Simple"
+  },
+  slogans: [
+    {
+      en_US: "Welcome to the show",
+      pl_PL: "Witamy w programie"
+    },
+    {
+      en_US: "Welcome back!",
+      pl_PL: "Witaj spowrotem!"
+    },
+  ],
+  greetings: [
+    {
+      pl_PL: "Dzień dobry",
+      en_US: "Good morning"
+    },
+    {
+      pl_PL: "Cześć",
+      en_US: "Hello"
+    },
+  ]
+})
+
 const mockMissingTranslations = {
   simple: {
     pl_PL: "Proste",
@@ -87,6 +120,15 @@ describe("useLittera", () => {
     expect(translated.hello("Mike")).toBe("Cześć Mike");
     expect(translated.hello(translated.simple)).toBe("Cześć Proste");
     expect(translated.hello(translated.very(translated.simple, "Magic"))).toBe("Cześć Bardzo Proste oraz Magic");
+  });
+
+  it("should return correct translation with arrays", () => {
+    const render = renderHook(() => useLittera(mockTranslationsArrs), { wrapper });
+    const translated = render.result.current;
+
+    expect(translated.slogans.length).toBe(2);
+    expect(translated.slogans[0]).toBe("Witamy w programie");
+    expect(translated.greetings).toStrictEqual([ "Dzień dobry", "Cześć" ]);
   });
 
   it("should return correct translation from preset", () => {

@@ -6,6 +6,9 @@ All notable changes to this project will be documented in this file.
 ### Fixed
 - Crashes on SSR when detecting locale.
 
+### Added
+- Support for translation arrays.
+
 ## [2.2.1] - 2021-05-03
 ### Changed
 - Moved package to Assembless account.

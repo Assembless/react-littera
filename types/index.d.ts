@@ -22,6 +22,18 @@ export type ITranslationVarFn = (...args: any[]) => ITranslation;
 
 /**
  * @example
+  [
+    {
+      de_DE: "Beispiel",
+      pl_PL: "Przykład",
+      en_US: "Example"
+    },
+  ]
+ */
+export type ITranslationsArr = ITranslation[];
+
+/**
+ * @example
   {
     example: {
       de_DE: "Beispiel",
@@ -51,11 +63,13 @@ export type ITranslated<T> = {
    "Beispiel"
  */
 export type ISingleTranslated<T> =
-  T extends ITranslation
-    ? string
-  : T extends ITranslationVarFn
-  ? (...args: Parameters<T>) => string
-  : string;
+  T extends ITranslationsArr // Checks for array.
+    ? string[]
+    : T extends ITranslation // Checks for plain object.
+      ? string
+      : T extends ITranslationVarFn // Checks for trans method.
+        ? (...args: Parameters<T>) => string
+        : string;
 
 export type ITranslationsPreset<P = any> = ITranslations<P>
 

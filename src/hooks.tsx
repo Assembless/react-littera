@@ -20,13 +20,22 @@ import { ITranslations, TSetLocale, TValidateLocale, ITranslated, TTranslationsA
  *    hello: (name: string) => ({
  *      en_US: `Hello ${name}`,
  *      de_DE: `Hallo ${name}`
- *    })
+ *    }),
+ *    news: [
+ *      {
+ *        en_US: "The spaghetti code monster ate our homework.",
+ *        de_DE: "Das Spaghetti-Code-Monster aß unsere Hausaufgaben."
+ *      }
+ *    ]
  * }
  * 
  * const YourComponent = () => {
  *    const translated = useLittera(translations);
  * 
- *    return <h2>{translated.example} - {translated.hello("Mike")}</h2>
+ *    return <>
+ *        <h2>{translated.example} - {translated.hello("Mike")}</h2>
+ *        <p>{translated.news[0]}</p>
+ *    </>
  * }
  * @returns {ITranslated}
  */
