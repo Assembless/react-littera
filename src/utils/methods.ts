@@ -1,4 +1,4 @@
-import { ITranslations, ITranslationVarFn } from "../../types";
+import { ITranslation, ITranslations, ITranslationsArr, ITranslationVarFn } from "../../types";
 
 export const localePattern = /[a-z]{2}_[A-Z]{2}/gi;
 
@@ -42,6 +42,8 @@ export const tryParseLocale = (locale: string) => {
 export const reportMissing = <T>(translations: ITranslations<T>, locales: string[]) => {
   Object.keys(translations).forEach(key => {
     if(typeof translations[key] === "function") return; // TODO: Detect missing translations for variable functions.
+    if(translations[key] instanceof Array) return; // TODO: Detect missing translations for arrays.
+    
     locales.forEach(locale => {
 
       if (typeof translations[key][locale] !== "string") 
@@ -59,6 +61,30 @@ export const reportMissing = <T>(translations: ITranslations<T>, locales: string
  */
 export const lookForMissingKeys = reportMissing;
 
+/**
+ * Checks if value is a translation object.
+ * @param value 
+ * @returns 
+ */
+ export function isTranslation(value: unknown): value is ITranslation {
+  return typeof (value as ITranslation) === "object";
+}
+
+/**
+ * Checks if value is a variable function.
+ * @param value 
+ * @returns 
+ */
 export function isVariableFunction(value: unknown): value is ITranslationVarFn {
   return typeof (value as ITranslationVarFn) === "function";
+}
+
+/**
+ * Checks if value is a translations array.
+ * @param value 
+ * @returns 
+ */
+export function isTransArrayFunction(value: unknown): value is ITranslationsArr {
+  return (value as ITranslationsArr) instanceof Array &&
+          !(value as ITranslationsArr).find(v => !isTranslation(v))
 }

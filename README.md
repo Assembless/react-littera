@@ -153,6 +153,37 @@ const ExampleComponent = () => {
 export default ExampleComponent;
 ```
 
+##### Array translations
+```javascript
+import React from "react";
+import { useLittera } from "react-littera";
+
+const translations = {
+    greetings: [
+        {
+            de_DE: "Guten Tag",
+            en_US: "Good morning"
+        },
+        {
+            de_DE: "Hallo",
+            en_US: "Hello"
+        },
+    ]
+};
+
+const ExampleComponent = () => {
+    // Obtain our translated object.
+    const translated = useLittera(translations);
+
+    // Get the translated strings from the array.
+    const varTranslation = translated[0]; // => Good morning
+
+    return <button onClick={handleLocaleChange}>{varTranslation}</button>;
+};
+
+export default ExampleComponent;
+```
+
 #### HOC Example
 
 ```javascript
@@ -255,6 +286,18 @@ This hook exposes following methods:
 })
 ```
 
+#### ITranslationsArr
+`ITranslation[]`
+
+```javascript
+[
+    {
+        de_DE: "Beispiel",
+        en_US: "Example"
+    },
+]
+```
+
 #### ITranslations
 `{ [key: string]: ITranslation | ITranslationVarFn }`
 
@@ -267,17 +310,28 @@ This hook exposes following methods:
     hello: (name) => ({
         de_DE: `Hallo ${name}`,
         en_US: `Hello ${name}`
-    })
+    }),
+    greetings: [
+        {
+            de_DE: "Guten Tag",
+            en_US: "Good morning"
+        },
+        {
+            de_DE: "Hallo",
+            en_US: "Hello"
+        },
+    ]
 }
 ```
 
 #### ITranslated
-`{ [key: string]: string | (...args: (string | number)[]) => string }`
+`{ [key: string]: string | ((...args: (string | number)[]) => string) | string[] }`
 
 ```javascript
 {
     simple: "Simple",
-    hello: (name) => "Hello Mike" // Run this function to get variable translation.
+    hello: (name) => "Hello Mike", // Run this function to get variable translation.
+    greetings: [ "Good morning", "Hello" ]
 }
 ```
 
