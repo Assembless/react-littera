@@ -51,13 +51,13 @@ Let's assume you want to have a translations system in your React app that updat
 via npm
 
 ```
-npm install react-littera
+npm install @assembless/react-littera
 ```
 
 via yarn
 
 ```
-yarn add react-littera
+yarn add @assembless/react-littera
 ```
 
 or clone/download the repository.
@@ -70,7 +70,7 @@ First you have to wrap your components with a provider and feed it with a list o
 import React, { useState } from "react";
 import ReactDOM from "react-dom";
 
-import { LitteraProvider } from "react-littera";
+import { LitteraProvider } from "@assembless/react-littera";
 
 function App() {
     return (
@@ -98,7 +98,7 @@ Here we have two options:
 ##### Basic
 ```javascript
 import React from "react";
-import { useLittera } from "react-littera";
+import { useLittera } from "@assembless/react-littera";
 
 // Object containing translations for each key...
 const translations = {
@@ -129,7 +129,7 @@ export default ExampleComponent;
 ##### Variable translations
 ```javascript
 import React from "react";
-import { useLittera } from "react-littera";
+import { useLittera } from "@assembless/react-littera";
 
 const translations = {
     // Use a function for variable translations.
@@ -156,7 +156,7 @@ export default ExampleComponent;
 ##### Array translations
 ```javascript
 import React from "react";
-import { useLittera } from "react-littera";
+import { useLittera } from "@assembless/react-littera";
 
 const translations = {
     greetings: [
@@ -188,7 +188,7 @@ export default ExampleComponent;
 
 ```javascript
 import React from "react";
-import { withLittera } from "react-littera";
+import { withLittera } from "@assembless/react-littera";
 
 // Object containing translations for each key...
 const translations = {
@@ -371,7 +371,7 @@ const App = () => {
 }
 
 // v2.X
-import { LitteraProvider } from "react-littera";
+import { LitteraProvider } from "@assembless/react-littera";
 
 const App = () => {
 
@@ -411,7 +411,7 @@ Yes, we have not implemented a translator to keep this package simple and lightw
 React Native compatibility has not been tested but the community reported 100% usability.
 
 #### You can easily transfer translations with a component.
-Just define the translations object in your components file or directory. It will travel with your component, just remember to add react-littera as a dependency!
+Just define the translations object in your components file or directory. It will travel with your component, just remember to add @assembless/react-littera as a dependency!
 
 ## License
 
