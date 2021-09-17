@@ -1,66 +1,69 @@
 {
   "name": "@assembless/react-littera",
-  "version": "2.3.0-beta.0",
+  "version": "3.0.0-next.0",
   "description": "🌐 Modern react library for robust translations.",
-  "main": "dist/index.js",
-  "types": "dist/index.d.ts",
-  "scripts": {
-    "build": "webpack --config webpack.config.js --env.prod --define process.env.NODE_ENV=\"'production'\"",
-    "docs": "jsdoc -c jsdoc.json",
-    "test": "jest --config=jest.config.json",
-    "test:watch": "jest --config=jest.config.json --watch",
-    "test:coverage": "jest --config=jest.config.json --coverage",
-    "lint": "eslint . --ext .js",
-    "ci": "run-p lint build test:coverage",
-    "deploy": "yarn build && npm publish",
-    "typecheck": "tsc --noEmit"
-  },
-  "peerDependencies": {},
-  "devDependencies": {
-    "@babel/compat-data": "^7.9.0",
-    "@babel/plugin-transform-runtime": "^7.0.0-beta.33",
-    "@babel/preset-env": "^7.0.0-beta.33",
-    "@babel/preset-es2015": "^7.0.0-beta.53",
-    "@babel/preset-react": "^7.7.0",
-    "@babel/register": "^7.0.0-beta.33",
-    "@babel/runtime": "^7.0.0-beta.33",
-    "@testing-library/react-hooks": "^3.2.1",
-    "@types/jest": "^24.0.22",
-    "@types/node": "^14.6.4",
-    "awesome-typescript-loader": "^5.2.1",
-    "babel-eslint": "^10.0.1",
-    "babel-jest": "^23.6.0",
-    "babel-loader": "^7.1.5",
-    "babel-plugin-root-import": "^6.4.1",
-    "babel-plugin-transform-es2015-modules-commonjs": "^6.24.1",
-    "better-docs": "^2.3.0",
-    "copy-webpack-plugin": "^5.0.3",
-    "coveralls": "^3.0.3",
-    "enzyme": "^3.11.0",
-    "enzyme-adapter-react-16": "^1.11.2",
-    "eslint": "^5.15.3",
-    "eslint-config-airbnb": "^17.1.0",
-    "eslint-plugin-import": "^2.16.0",
-    "eslint-plugin-jsx-a11y": "^6.2.1",
-    "eslint-plugin-react": "^7.12.4",
-    "html-webpack-plugin": "^3.2.0",
-    "jest": "^26.1.0",
-    "jsdoc": "^3.6.4",
-    "npm-run-all": "^4.1.5",
-    "react": "^16.13.1",
-    "react-dom": "^16.13.1",
-    "react-test-renderer": "^16.13.1",
-    "source-map-loader": "^0.2.4",
-    "ts-jest": "^24.1.0",
-    "typescript": "^3.9.6",
-    "webpack": "^4.29.6",
-    "webpack-cli": "^3.3.0",
-    "webpack-dev-server": "^3.2.1"
-  },
+  "author": "Assembless <support@assembless.tech>",
+  "license": "MIT",
   "repository": {
     "type": "git",
     "url": "git+https://github.com/Assembless/react-littera.git"
   },
+  "main": "dist/index.js",
+  "module": "dist/index.modern.js",
+  "source": "src/index.ts",
+  "engines": {
+    "node": ">=10"
+  },
+  "scripts": {
+    "build": "microbundle-crl --no-compress --format modern,cjs",
+    "start": "microbundle-crl watch --no-compress --format modern,cjs",
+    "prepare": "run-s build",
+    "test": "run-s test:unit test:lint test:build",
+    "test:build": "run-s build",
+    "test:lint": "eslint ./src/**",
+    "test:unit": "cross-env CI=1 react-scripts test --env=jsdom",
+    "test:watch": "react-scripts test --env=jsdom",
+    "predeploy": "cd example && yarn install && yarn run build",
+    "deploy": "gh-pages -d example/build"
+  },
+  "peerDependencies": {
+    "react": "^16.0.0"
+  },
+  "devDependencies": {
+    "@testing-library/jest-dom": "^4.2.4",
+    "@testing-library/react": "^9.5.0",
+    "@testing-library/react-hooks": "^7.0.2",
+    "@testing-library/user-event": "^7.2.1",
+    "@types/jest": "^25.1.4",
+    "@types/node": "^12.12.38",
+    "@types/react": "^16.9.27",
+    "@types/react-dom": "^16.9.7",
+    "@typescript-eslint/eslint-plugin": "^2.26.0",
+    "@typescript-eslint/parser": "^2.26.0",
+    "babel-eslint": "^10.0.3",
+    "cross-env": "^7.0.2",
+    "eslint": "^6.8.0",
+    "eslint-config-prettier": "^6.7.0",
+    "eslint-config-standard": "^14.1.0",
+    "eslint-config-standard-react": "^9.2.0",
+    "eslint-plugin-import": "^2.18.2",
+    "eslint-plugin-node": "^11.0.0",
+    "eslint-plugin-prettier": "^3.1.1",
+    "eslint-plugin-promise": "^4.2.1",
+    "eslint-plugin-react": "^7.17.0",
+    "eslint-plugin-standard": "^4.0.1",
+    "gh-pages": "^2.2.0",
+    "microbundle-crl": "^0.13.10",
+    "npm-run-all": "^4.1.5",
+    "prettier": "^2.0.4",
+    "react": "^16.13.1",
+    "react-dom": "^16.13.1",
+    "react-scripts": "^3.4.1",
+    "typescript": "^3.7.5"
+  },
+  "files": [
+    "dist"
+  ],
   "keywords": [
     "translation",
     "language",
@@ -71,17 +74,6 @@
     "translate",
     "multilingual"
   ],
-  "author": "Assembless <support@assembless.tech>",
-  "license": "MIT",
-  "bugs": {
-    "url": "https://github.com/Assembless/react-littera/issues"
-  },
-  "homepage": "https://assembless.github.io/react-littera/",
-  "parserOptions": {
-    "ecmaFeatures": {
-      "jsx": true,
-      "modules": true
-    }
-  },
-  "dependencies": {}
+  "dependencies": {
+  }
 }

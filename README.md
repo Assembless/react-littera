@@ -1,4 +1,5 @@
 # react-littera
+# DOCUMENTATION IS NOT UP TO DATE WITH VERSION v3.0.0-next.X!!!
 
 🌐 Modern react library for managing translations.
 
@@ -415,4 +416,4 @@ Just define the translations object in your components file or directory. It wil
 
 ## License
 
-[MIT License](https://github.com/Assembless/react-littera/blob/master/LICENSE)
+[MIT](https://github.com/Assembless/react-littera/blob/master/LICENSE) © [Assembless](https://github.com/Assembless)

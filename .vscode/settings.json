@@ -12,9 +12,13 @@
     "**/.DS_Store": true,
     "**/node_modules": true,
     "**/out": false,
+    "**/dist": true,
     "tslint-rules/**/*.js": true,
     ".awcache": true,
     ".eslintcache": true
   },
   "editor.tabSize": 2,
+  "editor.codeActionsOnSave": {
+    "source.fixAll": true
+  }
 }
