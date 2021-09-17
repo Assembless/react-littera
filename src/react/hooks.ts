@@ -23,6 +23,5 @@ export const useLittera = <T, K extends keyof T>(
 export const useLitteraMethods = () => {
   const service = React.useContext(LitteraContext)
 
-  return React.useRef({ setLocale: service.setLocale, locale: service.locale })
-    .current
+  return { setLocale: service.setLocale, locale: service.locale }
 }

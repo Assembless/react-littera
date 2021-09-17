@@ -15,9 +15,9 @@ export const LitteraContext = React.createContext<LitteraContext>({
 
 interface LitteraServiceProps {
   children: React.ReactNode
-  initialLocale: string
+  initialLocale?: string
   locales: string[]
-  preset: LitteraTranslated<any, any>
+  preset?: LitteraTranslated<any, any>
 }
 
 /**
