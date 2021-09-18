@@ -1,17 +1,6 @@
 import * as React from 'react';
-import { LitteraTranslated } from '../typings';
-declare type LitteraContext = {
-    locale: string;
-    locales: string[];
-    setLocale: (locale: string) => void;
-};
-export declare const LitteraContext: React.Context<LitteraContext>;
-interface LitteraServiceProps {
-    children: React.ReactNode;
-    initialLocale: string;
-    locales: string[];
-    preset: LitteraTranslated<any, any>;
-}
+import { LitteraContextValue } from '../typings';
+export declare const LitteraContext: React.Context<LitteraContextValue<any>>;
 /**
  * Context Provider for Littera
  * @category React
@@ -29,5 +18,8 @@ interface LitteraServiceProps {
  *    </LitteraService>
  * }
  */
-export declare const LitteraService: ({ children, initialLocale, locales }: LitteraServiceProps) => JSX.Element;
-export {};
+export declare const LitteraService: <T extends readonly unknown[]>({ children, initialLocale, locales }: {
+    children: any;
+    initialLocale: T[number];
+    locales: T;
+}) => JSX.Element;

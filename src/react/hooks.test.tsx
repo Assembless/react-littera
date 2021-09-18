@@ -1,6 +1,6 @@
 import * as React from 'react'
-import { renderHook } from '@testing-library/react-hooks'
-import { useLittera /*, useLitteraMethods */ } from './hooks'
+import { renderHook, act } from '@testing-library/react-hooks'
+import { useLittera, useLitteraMethods } from './hooks'
 import { LitteraService } from './service'
 
 const mockTranslations = Object.freeze({
@@ -71,13 +71,6 @@ describe('useLittera', () => {
     expect(translated.simple).toBe('Proste')
   })
 
-  it('should return correct translation without LitteraProvider', () => {
-    const render = renderHook(() => useLittera(mockTranslations, 'pl_PL'), {})
-    const translated = render.result.current
-
-    expect(translated.simple).toBe('Proste')
-  })
-
   it('should return correct translation with variables', () => {
     const render = renderHook(() => useLittera(mockTranslations), {
       wrapper
@@ -143,61 +136,43 @@ describe('useLittera', () => {
   // })
 })
 
-// describe('useLitteraMethods', () => {
-//   it('should have all methods and variables.', () => {
-//     const render = renderHook(() => useLitteraMethods(), { wrapper })
-//     const {
-//       locale,
-//       locales,
-//       setLocale,
-//       validateLocale,
-//       preset,
-//       translate,
-//       translateSingle
-//     } = render.result.current
+describe('useLitteraMethods', () => {
+  it('should have all methods and variables.', () => {
+    const render = renderHook(() => useLitteraMethods(), { wrapper })
+    const { locale, locales, setLocale } = render.result.current
 
-//     expect(typeof locale).toBeTruthy()
-//     expect(typeof locales).toBeTruthy()
-//     expect(typeof setLocale).toBeTruthy()
-//     expect(typeof validateLocale).toBeTruthy()
-//     expect(typeof preset).toBeTruthy()
-//     expect(typeof translate).toBeTruthy()
-//     expect(typeof translateSingle).toBeTruthy()
-//   })
+    expect(typeof locale).toBeTruthy()
+    expect(typeof locales).toBeTruthy()
+    expect(typeof setLocale).toBeTruthy()
+  })
 
-//   it('should corretly utilize translateSingle method.', () => {
-//     const render = renderHook(() => useLitteraMethods(), { wrapper })
-//     const { translateSingle } = render.result.current
+  it('should corretly utilize translate method.', () => {
+    const render = renderHook(() => useLitteraMethods(), { wrapper })
+    const { translate } = render.result.current
 
-//     expect(translateSingle(mockTranslations.simple, 'pl_PL')).toBe('Proste')
-//   })
+    expect(translate(mockTranslations).simple).toBe('Proste')
+    expect(translate(mockTranslations, 'de_DE').simple).toBe('Einfach')
+  })
 
-//   it('should corretly utilize translate method.', () => {
-//     const render = renderHook(() => useLitteraMethods(), { wrapper })
-//     const { translate } = render.result.current
+  it('should return locale', () => {
+    const render = renderHook(() => useLitteraMethods(), { wrapper })
+    const { locale } = render.result.current
 
-//     expect(translate(mockTranslations, 'pl_PL').simple).toBe('Proste')
-//   })
+    expect(locale).toBe('pl_PL')
+  })
 
-//   it('should return locale', () => {
-//     const render = renderHook(() => useLitteraMethods(), { wrapper })
-//     const { locale } = render.result.current
+  it('should change locale', async () => {
+    const render = renderHook(() => useLitteraMethods(), { wrapper })
+    const { locale, setLocale } = render.result.current
 
-//     expect(locale).toBe('pl_PL')
-//   })
+    expect(locale).toBe('pl_PL')
 
-//   it('should change locale', async () => {
-//     const render = renderHook(() => useLitteraMethods(), { wrapper })
-//     const { locale, setLocale } = render.result.current
+    act(() => {
+      setLocale('en_US')
+    })
 
-//     expect(locale).toBe('pl_PL')
-
-//     act(() => {
-//       setLocale('en_US')
-//     })
-
-//     setTimeout(() => {
-//       expect(locale).toBe('en_US')
-//     }, 500)
-//   })
-// })
+    setTimeout(() => {
+      expect(locale).toBe('en_US')
+    }, 500)
+  })
+})

@@ -1,55 +1,41 @@
 import React from 'react'
 
-import { LitteraService, useLittera, useLitteraMethods } from '@assembless/react-littera'
+import { LitteraService, makeTranslations, useLitteraMethods } from '@assembless/react-littera'
 
-const App = () => {
-  return <LitteraService locales={[ "en_US", "de_DE", "pl_PL", "no_NO" ]}>
-    <Header />
-  </LitteraService>
-}
+const LOCALES = [ "en_US", "de_DE", "pl_PL", "no_NO", "jp_JP" ] as const;
 
-// ---
-
-const translations = {
+const PRESET = {
   "en_US": {
-    "hello": "Hello world!"
+    "language": "Language",
+    yes: "Yes",
+    no: "No",
   },
   "de_DE": {
-    "hello": "Hallo Welt!"
+    "language": "Sprache",
+    yes: "Ja",
+    no: "Nein",
   },
   "pl_PL": {
-    "hello": "Witaj świecie!"
+    "language": "Język",
+    yes: "Tak",
+    no: "Nie",
   },
   "no_NO": {
-    "hello": "Hei verden!"
+    "language": "Språk",
+    yes: "Ja",
+    no: "Nei",
+  },
+  "jp_JP": {
+    "language": "言語",
+    yes: "はい",
+    no: "いいえ",
   }
 }
 
-const Header = () => {
-  const translated = useLittera(translations)
-  const { locale, setLocale } = useLitteraMethods();
-
-  const switchLocale = () => {
-    switch(locale) {
-      case "en_US":
-        setLocale("de_DE");
-        break;
-      case "de_DE":
-        setLocale("pl_PL");
-        break;
-      case "pl_PL":
-        setLocale("no_NO");
-        break;
-      case "no_NO":
-        setLocale("en_US");
-        break;
-    }
-  }
-
-  return <div>
-    <h1>{translated.hello}</h1>
-    <button onClick={switchLocale}>Switch language</button>
-  </div>
+const App = () => {
+  return <LitteraService preset={PRESET} initialLocale="no_NO" locales={LOCALES}>
+    <Header />
+  </LitteraService>
 }
 
 export default App

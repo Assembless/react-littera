@@ -1,24 +1,16 @@
 import * as React from 'react'
-import { LitteraTranslated } from '../typings'
+import { translate } from '../core/translate'
+import { LitteraContextValue, LitteraTranslations } from '../typings'
 
-type LitteraContext = {
-  locale: string
-  locales: string[]
-  setLocale: (locale: string) => void
-}
-
-export const LitteraContext = React.createContext<LitteraContext>({
+export const LitteraContext = React.createContext<LitteraContextValue<any>>({
   locale: 'en_US',
   locales: ['en_US'],
-  setLocale: () => {}
+  setLocale: () => {},
+  translate: <T, K extends keyof T>(
+    translations: LitteraTranslations<T>,
+    locale?: string
+  ) => translate<T, K>(translations, locale ?? 'en_US')
 })
-
-interface LitteraServiceProps {
-  children: React.ReactNode
-  initialLocale?: string
-  locales: string[]
-  preset?: LitteraTranslated<any, any>
-}
 
 /**
  * Context Provider for Littera
@@ -37,17 +29,23 @@ interface LitteraServiceProps {
  *    </LitteraService>
  * }
  */
-export const LitteraService = ({
+export const LitteraService = function <T extends ReadonlyArray<unknown>>({
   children,
   initialLocale,
   locales
-}: LitteraServiceProps) => {
+}: {
+  children: any
+  initialLocale: T[number]
+  locales: T
+}) {
   const [locale, setLocale] = React.useState(
     initialLocale ?? locales[0] ?? 'en_US'
   )
 
   return (
-    <LitteraContext.Provider value={{ locale, setLocale, locales }}>
+    <LitteraContext.Provider
+      value={{ locale, setLocale, locales } as LitteraContextValue<T>}
+    >
       {children}
     </LitteraContext.Provider>
   )
