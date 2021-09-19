@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { LitteraContextValue } from '../typings';
+import { LitteraContextValue, LitteraTranslations } from '../typings';
 export declare const LitteraContext: React.Context<LitteraContextValue<any>>;
 /**
  * Context Provider for Littera
@@ -18,8 +18,9 @@ export declare const LitteraContext: React.Context<LitteraContextValue<any>>;
  *    </LitteraService>
  * }
  */
-export declare const LitteraService: <T extends readonly unknown[]>({ children, initialLocale, locales }: {
+export declare const LitteraService: <T extends readonly unknown[]>({ children, initialLocale, locales, preset }: {
     children: any;
     initialLocale: T[number];
     locales: T;
+    preset: LitteraTranslations<unknown>;
 }) => JSX.Element;

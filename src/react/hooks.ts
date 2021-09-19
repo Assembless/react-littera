@@ -1,8 +1,58 @@
 import * as React from 'react'
 import { LitteraContext } from './service'
 import { translate } from '..'
-import { throwInvalidLocale } from '../utils/helpers'
+import {
+  deepMerge,
+  throwInvalidLocale,
+  warnMissingTranslations
+} from '../utils/helpers'
 import { LitteraTranslated, LitteraTranslations } from '../typings'
+
+/**
+ * Method accepting translations object and returning a React hook.
+ * @param translations
+ * @returns A React hook used to retrieve the translations.
+ * @example
+ * const translations = {
+ *  'en_US': {
+ *    'hello': 'Hello',
+ *    'world': 'World'
+ *  },
+ *  'fr_FR': {
+ *    'hello': 'Bonjour',
+ *    'world': 'Monde'
+ *  }
+ * };
+ * const useLittera = makeTranslations(translations);
+ *
+ * const Component () => {
+ *  const translated = useLittera();
+ *
+ *  return <div>
+ *    <h1>{translated.hello}</h1>
+ *    <h2>{translated.world}</h2>
+ *  </div>
+ * }
+ */
+export const makeTranslations = <T, K extends keyof T>(
+  translations: LitteraTranslations<T>
+) => {
+  warnMissingTranslations(translations)
+
+  return (locale?: K) => {
+    const service = React.useContext(LitteraContext)
+
+    const translationsWithPreset = React.useMemo(
+      () => deepMerge(service.preset, translations),
+      [service.locale]
+    ) as T & typeof service.preset
+
+    return useLittera<T & typeof service.preset, K>(
+      translationsWithPreset,
+      locale
+    )
+  }
+}
 
 /**
  * @description React hook for translating a component.
@@ -13,45 +63,19 @@ import { LitteraTranslated, LitteraTranslations } from '../typings'
  */
 export const useLittera = <T, K extends keyof T>(
   translations: LitteraTranslations<T>,
-  locale?: string
+  locale?: K
 ): LitteraTranslated<T, K> => {
   const service = React.useContext(LitteraContext)
-  const currentLocale = locale ?? service.locale
+  const currentLocale: K = locale ?? service.locale
 
   React.useEffect(() => {
-    if (locale) throwInvalidLocale(service.locales, locale)
+    if (locale) throwInvalidLocale(service.locales, locale as unknown as string)
   }, [locale])
 
   return React.useMemo(
     () => translate<T, K>(translations, currentLocale),
     [currentLocale]
   )
-}
-
-export const makeTranslations = <T, K extends keyof T>(
-  translations: T
-): ((locale?: string) => LitteraTranslated<T, K>) => {
-  if (process.env.NODE_ENV !== 'production') {
-    const keys: string[] = []
-    Object.keys(translations).forEach((locale) => {
-      Object.keys(translations[locale]).forEach((key) => {
-        if (!keys.includes(key)) keys.push(key)
-      })
-
-      keys.forEach((key) => {
-        // console.warn if key is missing in a locale.
-        if (!Object.keys(translations[locale]).includes(key)) {
-          console.warn(`Key ${key} is missing in locale ${locale}`)
-        }
-      })
-    })
-  }
-
-  return (locale?: string) => {
-    const service = React.useContext(LitteraContext)
-
-    return useLittera<T, K>(translations, locale)
-  }
 }
 
 type LitteraMethodsReturn = {
@@ -82,9 +106,9 @@ export const useLitteraMethods = () => {
 
   const translateFn = <T, K extends keyof T>(
     translations: LitteraTranslations<T>,
-    l?: string
+    overrideLocale?: string
   ) => {
-    const currentLocale = l ?? locale ?? locales[0]
+    const currentLocale = overrideLocale ?? locale ?? locales[0]
 
     return translate<T, K>(translations, currentLocale)
   }

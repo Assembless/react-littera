@@ -1,7 +1,8 @@
 import * as React from 'react'
 import { renderHook, act } from '@testing-library/react-hooks'
-import { useLittera, useLitteraMethods } from './hooks'
+import { useLitteraMethods } from './hooks'
 import { LitteraService } from './service'
+import { makeTranslations } from '..'
 
 const mockTranslations = Object.freeze({
   en_US: {
@@ -30,14 +31,17 @@ const mockTranslations = Object.freeze({
   }
 })
 
-// const mockMissingTranslations = {
-//   pl_PL: {
-//     simple: 'Proste'
-//   },
-//   en_US: {
-//     simple: 'Simple'
-//   }
-// }
+const useLittera = makeTranslations(mockTranslations)
+
+const mockMissingTranslations = {
+  en_US: {
+    example: 'Example'
+  },
+  de_DE: {
+    example: 'Beispiel'
+  },
+  pl_PL: {}
+}
 
 const mockPreset = {
   en_US: {
@@ -65,14 +69,22 @@ const wrapper = ({ children }: any) => {
 
 describe('useLittera', () => {
   it('should return correct translation', () => {
-    const render = renderHook(() => useLittera(mockTranslations), { wrapper })
+    const render = renderHook(() => useLittera(), { wrapper })
     const translated = render.result.current
 
     expect(translated.simple).toBe('Proste')
   })
 
+  it('should return correct translation including preset', () => {
+    const render = renderHook(() => useLittera(), { wrapper })
+    const translated = render.result.current
+
+    // TODO: Typing
+    expect(translated.example).toBe('Przykład')
+  })
+
   it('should return correct translation with variables', () => {
-    const render = renderHook(() => useLittera(mockTranslations), {
+    const render = renderHook(() => useLittera(), {
       wrapper
     })
     const translated = render.result.current
@@ -85,7 +97,7 @@ describe('useLittera', () => {
   })
 
   it('should return correct translation with arrays', () => {
-    const render = renderHook(() => useLittera(mockTranslations), {
+    const render = renderHook(() => useLittera(), {
       wrapper
     })
     const translated = render.result.current
@@ -95,45 +107,24 @@ describe('useLittera', () => {
     expect(translated.greetings).toStrictEqual(['Dzień dobry', 'Cześć'])
   })
 
-  /** @deprecated since v3.0 */
-  // it('should return correct translation from preset', () => {
-  //   const render = renderHook(() => useLittera(mockTranslationsFunc), {
-  //     wrapper
-  //   })
+  // it('should return empty object when empty translations given', () => {
+  //   const useEmptyLittera = makeTranslations({})
+  //   const render = renderHook(() => useEmptyLittera(), { wrapper })
   //   const translated = render.result.current
 
-  //   expect(translated.simpleExample).toBe('Prosty Przykład')
+  //   expect(JSON.stringify(translated)).toBe(JSON.stringify({}))
   // })
 
-  it('should return empty object when empty translations given', () => {
-    const render = renderHook(() => useLittera({}), { wrapper })
-    const translated = render.result.current
+  it('should warn about missing translations', () => {
+    console.warn = jest.fn()
+    const useMissingLittera = makeTranslations(mockMissingTranslations)
+    renderHook(() => useMissingLittera('pl_PL'), { wrapper })
 
-    expect(JSON.stringify(translated)).toBe(JSON.stringify({}))
+    // @ts-ignore
+    expect(console.warn.mock.calls[0][0]).toEqual(
+      `Key example is missing in locale pl_PL`
+    )
   })
-
-  // ! Failing!
-  // it('should throw error on local change with invalid pattern', () => {
-  //   const render = renderHook(() => useLitteraMethods(), { wrapper })
-  //   const methods = render.result.current
-
-  //   const t = () => {
-  //     methods.setLocale('pl-pl')
-  //   }
-
-  //   expect(t).toThrowError(`Locale does not match the pattern.`)
-  // })
-
-  // TODO: Not implemented yet.
-  // it('should warn about missing translations', () => {
-  //   console.warn = jest.fn()
-  //   renderHook(() => useLittera(mockMissingTranslations), { wrapper })
-
-  //   // @ts-ignore
-  //   expect(console.warn.mock.calls[0][0]).toBe(
-  //     `You are missing "simple" in de_DE.`
-  //   )
-  // })
 })
 
 describe('useLitteraMethods', () => {
@@ -174,5 +165,14 @@ describe('useLitteraMethods', () => {
     setTimeout(() => {
       expect(locale).toBe('en_US')
     }, 500)
+  })
+
+  it('should throw error for invalid locale', async () => {
+    const render = renderHook(() => useLitteraMethods(), { wrapper })
+    const { setLocale } = render.result.current
+
+    expect(() => setLocale('jp_JP')).toThrowError(
+      `Invalid locale provided. Expected [en_US, de_DE, pl_PL], got jp_JP`
+    )
   })
 })

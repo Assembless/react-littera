@@ -8,5 +8,5 @@ import { LitteraTranslated, LitteraTranslations } from '../typings'
  */
 export const translate = <T, K extends keyof T>(
   translations: LitteraTranslations<T>,
-  locale: string
-): LitteraTranslated<T, K> => translations[locale] ?? {}
+  locale: K
+): LitteraTranslated<T, K> => translations[locale]

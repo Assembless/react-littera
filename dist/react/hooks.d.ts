@@ -1,5 +1,32 @@
 import { LitteraTranslated, LitteraTranslations } from '../typings';
 /**
+ * Method accepting translations object and returning a React hook.
+ * @param translations
+ * @returns A React hook used to retrieve the translations.
+ * @example
+ * const translations = {
+ *  'en_US': {
+ *    'hello': 'Hello',
+ *    'world': 'World'
+ *  },
+ *  'fr_FR': {
+ *    'hello': 'Bonjour',
+ *    'world': 'Monde'
+ *  }
+ * };
+ * const useLittera = makeTranslations(translations);
+ *
+ * const Component () => {
+ *  const translated = useLittera();
+ *
+ *  return <div>
+ *    <h1>{translated.hello}</h1>
+ *    <h2>{translated.world}</h2>
+ *  </div>
+ * }
+ */
+export declare const makeTranslations: <T, K extends keyof T>(translations: LitteraTranslations<T>) => (locale?: string | undefined) => LitteraTranslated<T, K>;
+/**
  * @description React hook for translating a component.
  * @category React
  * @param translations
@@ -7,7 +34,6 @@ import { LitteraTranslated, LitteraTranslations } from '../typings';
  * @returns The translations object for the specified locale.
  */
 export declare const useLittera: <T, K extends keyof T>(translations: LitteraTranslations<T>, locale?: string | undefined) => LitteraTranslated<T, K>;
-export declare const makeTranslations: <T, K extends keyof T>(translations: T) => (locale?: string | undefined) => LitteraTranslated<T, K>;
 declare type LitteraMethodsReturn = {
     readonly locale: string;
     readonly locales: string[];
