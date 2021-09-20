@@ -1,4 +1,4 @@
-/src
-/.vscode
-/example
-/coverage
+**/src
+**/.vscode
+**/example
+**/coverage

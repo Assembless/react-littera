@@ -1,4 +1,4 @@
-import {createLittera} from "@assembless/react-littera"
+import { createLittera } from "@assembless/react-littera"
 
 
 const LOCALES = [ "en_US", "de_DE", "pl_PL", "no_NO", "jp_JP" ] as const;

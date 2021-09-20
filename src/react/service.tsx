@@ -2,6 +2,12 @@ import * as React from 'react'
 import { makeTranslations, useLitteraMethods } from './hooks'
 import { LitteraContextValue, LitteraTranslations } from '../typings'
 
+/**
+ * @description Function initializing Littera. Creates a context and exposes Provider and other methods.
+ * @param locales List of supported languages.
+ * @param preset Global translations.
+ * @returns The context, provider and hooks.
+ */
 export function createLittera<L extends ReadonlyArray<string>, P>(
   locales: L,
   preset: P
@@ -10,16 +16,35 @@ export function createLittera<L extends ReadonlyArray<string>, P>(
     locale: (locales[0] ?? 'en_US') as L[number],
     locales: locales as L,
     setLocale: () => {},
-    // translate: <T extends {[key in L]: T[key]}, K extends keyof T>(
-    //   translations: LitteraTranslations<T>,
-    //   locale: K
-    // ) => translate<T, K >(translations, locale ?? 'en_US'),
     preset
   })
 
   return {
     LitteraContext: context,
-    LitteraService: ({ children, initialLocale }: any) => (
+    /**
+     * Context Provider for Littera
+     * @category React
+     * @public
+     * @param initialLocale Initial active locale.
+     * @param preset Set of predefined translations.
+     * @param setLocale Callback called when the locale changes.
+     * @param pattern Locale pattern.
+     * @example
+     * // Setting up Littera provider.
+     *
+     * const App = () => {
+     *    return <LitteraService initialLocale={"en_US"}>
+     *      ...
+     *    </LitteraService>
+     * }
+     */
+    LitteraService: ({
+      children,
+      initialLocale
+    }: {
+      children: React.ReactNode
+      initialLocale: L[number]
+    }) => (
       <LitteraService<L, P>
         initialLocale={initialLocale}
         preset={preset}
@@ -29,12 +54,38 @@ export function createLittera<L extends ReadonlyArray<string>, P>(
         {children}
       </LitteraService>
     ),
+    /**
+     * Method accepting translations object and returning a React hook.
+     * @param translations
+     * @returns A React hook used to retrieve the translations.
+     * @example
+     * const translations = {
+     *  'en_US': {
+     *    'hello': 'Hello',
+     *    'world': 'World'
+     *  },
+     *  'fr_FR': {
+     *    'hello': 'Bonjour',
+     *    'world': 'Monde'
+     *  }
+     * };
+     * const useLittera = makeTranslations(translations);
+     *
+     * const Component () => {
+     *  const translated = useLittera();
+     *
+     *  return <div>
+     *    <h1>{translated.hello}</h1>
+     *    <h2>{translated.world}</h2>
+     *  </div>
+     * }
+     */
     makeTranslations:
-      <T, Tp extends T & P, TpK extends keyof Tp>(translations: {
-        [key in keyof T]: T[key]
-      }) =>
+      <T, Tp extends T & P, TpK extends keyof Tp>(
+        translations: LitteraTranslations<T>
+      ) =>
       (
-        locale?: keyof TpK
+        locale?: TpK
       ): {
         [key in keyof Tp[TpK]]: Tp[TpK][key]
       } =>
@@ -43,17 +94,6 @@ export function createLittera<L extends ReadonlyArray<string>, P>(
     useLitteraMethods: useLitteraMethods<L, P>(context)
   }
 }
-
-// export const LitteraContext = React.createContext<LitteraContextValue<any>>({
-//   locale: 'en_US',
-//   locales: ['en_US'],
-//   setLocale: () => {},
-//   translate: <T, K extends keyof T>(
-//     translations: LitteraTranslations<T>,
-//     locale?: string
-//   ) => translate<T, K>(translations, locale ?? 'en_US'),
-//   preset: {}
-// })
 
 /**
  * Context Provider for Littera
@@ -67,7 +107,7 @@ export function createLittera<L extends ReadonlyArray<string>, P>(
  * // Setting up Littera provider.
  *
  * const App = () => {
- *    return <LitteraService locales={["en_US", "de_DE"]}>
+ *    return <LitteraService initialLocale={"en_US"}>
  *      ...
  *    </LitteraService>
  * }
@@ -95,10 +135,6 @@ export const LitteraService = function <L extends ReadonlyArray<unknown>, P>({
         locale,
         setLocale,
         locales,
-        // translate: <T, K extends keyof T>(
-        //   translations: LitteraTranslations<T>,
-        //   locale?: string
-        // ) => translate<T, K>(translations, locale ?? 'en_US'),
         preset: preset ?? {}
       }}
     >

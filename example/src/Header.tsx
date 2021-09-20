@@ -9,7 +9,8 @@ const useLittera = makeTranslations({
       "Hello",
       "Greetings",
     ],
-    "nameNAge": (name: string, age: number) => `My name is ${name} and I'm ${age} years old.` 
+    "nameAge": (name: string, age: number) => `My name is ${name} and I'm ${age} years old.` ,
+    age: 15,
   },
   "de_DE": {
     "hello": "Hallo Welt!",
@@ -17,7 +18,8 @@ const useLittera = makeTranslations({
       "Hallo",
       "Grüße",
     ],
-    "nameAge": (name: string, age: number) => `Mein Name ist ${name} und ich bin ${age} Jahre alt.`
+    "nameAge": (name: string, age: number) => `Mein Name ist ${name} und ich bin ${age} Jahre alt.`,
+    age: 15,
   },
   "pl_PL": {
     "hello": "Witaj świecie!",
@@ -25,7 +27,8 @@ const useLittera = makeTranslations({
       "Witaj",
       "Dzień dobry",
     ],
-    "nameAge": (name: string, age: number) => `Moje imię to ${name} i jestem ${age} lat.`
+    "nameAge": (name: string, age: number) => `Moje imię to ${name} i jestem ${age} lat.`,
+    age: 15,
   },
   "no_NO": {
     "hello": "Hei verden!",
@@ -33,7 +36,8 @@ const useLittera = makeTranslations({
       "Hei",
       "Velkommen",
     ],
-    "nameAge": (name: string, age: number) => `Mitt navn er ${name} og jeg er ${age} år gammel.`
+    "nameAge": (name: string, age: number) => `Mitt navn er ${name} og jeg er ${age} år gammel.`,
+    age: 15,
   },
   "jp_JP": {
     "hello": "こんにちは、世界！",
@@ -41,7 +45,8 @@ const useLittera = makeTranslations({
       "こんにちは、世界",
       "こんばんは、世界",
     ],
-    "nameAge": (name: string, age: number) => `私の名前は${name}です。私は${age}歳です。`
+    "nameAge": function (name: string, age: number) { return `私の名前は${name}です。私は${age}歳です。` },
+    age: 15,
   }
 });
 
@@ -81,7 +86,8 @@ const Header = () => {
       <h1>{translated.hello}</h1>
       <h2>{translated.yes}</h2>
       <h2>{translated.greetings[1]}</h2>
-      <h2>{translated.nameNAge("Pawel", 43)}</h2>
+      <h2>{translated.nameAge("Pawel", 43)}</h2>
+      <h2>{translated.age}</h2>
       <button onClick={switchLocale}>Switch {translated.language}</button>
     </div>
   }
