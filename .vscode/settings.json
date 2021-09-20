@@ -1,7 +1,7 @@
 {
   "search.exclude": {
     "**/node_modules": true,
-    "**/dist": true,
+    "**/dist": false,
     "**/out": true,
     "**/coverage": true,
     ".awcache": true
@@ -13,7 +13,7 @@
     "**/.DS_Store": true,
     "**/node_modules": true,
     "**/out": false,
-    "**/dist": true,
+    "**/dist": false,
     "tslint-rules/**/*.js": true,
     ".awcache": true,
     ".eslintcache": true

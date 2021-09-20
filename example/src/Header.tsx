@@ -1,21 +1,47 @@
 import React from 'react';
 
-import { LitteraService, makeTranslations, useLitteraMethods } from '@assembless/react-littera'
+import { makeTranslations, useLitteraMethods } from './config'
 
 const useLittera = makeTranslations({
   "en_US": {
-    "hello": "Hello world!"
+    "hello": "Hello world!",
+    "greetings": [
+      "Hello",
+      "Greetings",
+    ],
+    "nameNAge": (name: string, age: number) => `My name is ${name} and I'm ${age} years old.` 
   },
   "de_DE": {
-    "hello": "Hallo Welt!"
+    "hello": "Hallo Welt!",
+    "greetings": [
+      "Hallo",
+      "Grüße",
+    ],
+    "nameAge": (name: string, age: number) => `Mein Name ist ${name} und ich bin ${age} Jahre alt.`
   },
   "pl_PL": {
-    "hello": "Witaj świecie!"
+    "hello": "Witaj świecie!",
+    "greetings": [
+      "Witaj",
+      "Dzień dobry",
+    ],
+    "nameAge": (name: string, age: number) => `Moje imię to ${name} i jestem ${age} lat.`
   },
   "no_NO": {
     "hello": "Hei verden!",
+    "greetings": [
+      "Hei",
+      "Velkommen",
+    ],
+    "nameAge": (name: string, age: number) => `Mitt navn er ${name} og jeg er ${age} år gammel.`
   },
   "jp_JP": {
+    "hello": "こんにちは、世界！",
+    "greetings": [
+      "こんにちは、世界",
+      "こんばんは、世界",
+    ],
+    "nameAge": (name: string, age: number) => `私の名前は${name}です。私は${age}歳です。`
   }
 });
 
@@ -53,7 +79,10 @@ const Header = () => {
   
     return <div>
       <h1>{translated.hello}</h1>
+      <h2>{translated.yes}</h2>
+      <h2>{translated.greetings[1]}</h2>
+      <h2>{translated.nameNAge("Pawel", 43)}</h2>
       <button onClick={switchLocale}>Switch {translated.language}</button>
     </div>
   }
-  
+   export default Header;

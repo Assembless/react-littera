@@ -1,9 +1,10 @@
-import React from 'react'
+import React from 'react';
+import Header from './Header';
 
-import { LitteraService, makeTranslations, useLitteraMethods } from '@assembless/react-littera'
+import { LitteraService } from './config'
 
 const App = () => {
-  return <LitteraService preset={PRESET} initialLocale="no_NO" locales={LOCALES}>
+  return <LitteraService initialLocale="no_NO">
     <Header />
   </LitteraService>
 }

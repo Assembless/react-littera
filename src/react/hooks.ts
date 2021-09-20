@@ -1,12 +1,11 @@
 import * as React from 'react'
-import { LitteraContext } from './service'
 import { translate } from '..'
 import {
   deepMerge,
   throwInvalidLocale,
   warnMissingTranslations
 } from '../utils/helpers'
-import { LitteraTranslated, LitteraTranslations } from '../typings'
+import { LitteraContextValue, LitteraTranslations } from '../typings'
 
 /**
  * Method accepting translations object and returning a React hook.
@@ -34,25 +33,25 @@ import { LitteraTranslated, LitteraTranslations } from '../typings'
  *  </div>
  * }
  */
-export const makeTranslations = <T, K extends keyof T>(
-  translations: LitteraTranslations<T>
-) => {
-  warnMissingTranslations(translations)
+export const makeTranslations =
+  <L, P>(LitteraContext: React.Context<LitteraContextValue<L, P>>) =>
+  <T, K extends keyof T>(translations: LitteraTranslations<T>) => {
+    warnMissingTranslations(translations)
 
-  return (locale?: K) => {
-    const service = React.useContext(LitteraContext)
+    return (locale?: K) => {
+      const service = React.useContext(LitteraContext)
 
-    const translationsWithPreset = React.useMemo(
-      () => deepMerge(service.preset, translations),
-      [service.locale]
-    ) as T & typeof service.preset
+      const translationsWithPreset = React.useMemo(
+        () => deepMerge(service.preset, translations),
+        [service.locale]
+      ) as T
 
-    return useLittera<T & typeof service.preset, K>(
-      translationsWithPreset,
-      locale
-    )
+      return useLittera<L, P>(LitteraContext)<T, K>(
+        translationsWithPreset,
+        locale
+      )
+    }
   }
-}
 
 /**
  * @description React hook for translating a component.
@@ -61,65 +60,60 @@ export const makeTranslations = <T, K extends keyof T>(
  * @param locale Optional locale to translate to. Defaults to the current locale.
  * @returns The translations object for the specified locale.
  */
-export const useLittera = <T, K extends keyof T>(
-  translations: LitteraTranslations<T>,
-  locale?: K
-): LitteraTranslated<T, K> => {
-  const service = React.useContext(LitteraContext)
-  const currentLocale: K = locale ?? service.locale
+export const useLittera =
+  <L, P>(LitteraContext: React.Context<LitteraContextValue<L, P>>) =>
+  <T, K extends keyof T>(translations: LitteraTranslations<T>, locale?: K) => {
+    const service = React.useContext(LitteraContext)
+    const currentLocale = (locale ?? service.locale) as K
 
-  React.useEffect(() => {
-    if (locale) throwInvalidLocale(service.locales, locale as unknown as string)
-  }, [locale])
+    React.useEffect(() => {
+      if (locale)
+        throwInvalidLocale(
+          service.locales as unknown as string[],
+          locale as unknown as string
+        )
+    }, [locale])
 
-  return React.useMemo(
-    () => translate<T, K>(translations, currentLocale),
-    [currentLocale]
-  )
-}
-
-type LitteraMethodsReturn = {
-  readonly locale: string
-  readonly locales: string[]
-  readonly setLocale: (locale: string) => void
-  readonly translate: <T, K extends keyof T>(
-    translations: LitteraTranslations<T>,
-    locale?: string
-  ) => LitteraTranslated<T, K>
-}
+    return React.useMemo(
+      () => translate<T, K>(translations, currentLocale),
+      [currentLocale]
+    )
+  }
 
 /**
  * @description React hook exposing methods for current context.
  * @category React
  */
-export const useLitteraMethods = () => {
-  const { setLocale, locale, locales } = React.useContext(LitteraContext)
+export const useLitteraMethods =
+  <L, P>(LitteraContext: React.Context<LitteraContextValue<L, P>>) =>
+  () => {
+    const { setLocale, locale, locales } = React.useContext(LitteraContext)
 
-  const handleLocaleChange = React.useCallback(
-    (nextLocale: string) => {
-      throwInvalidLocale(locales, nextLocale)
+    const handleLocaleChange = React.useCallback(
+      (nextLocale: string) => {
+        throwInvalidLocale(locales as unknown as string[], nextLocale)
 
-      setLocale(nextLocale)
-    },
-    [setLocale]
-  )
+        setLocale(nextLocale)
+      },
+      [setLocale]
+    )
 
-  const translateFn = <T, K extends keyof T>(
-    translations: LitteraTranslations<T>,
-    overrideLocale?: string
-  ) => {
-    const currentLocale = overrideLocale ?? locale ?? locales[0]
+    /*     const translateFn = <T, K extends keyof T>(
+      translations: LitteraTranslations<T>,
+      overrideLocale?: string
+    ) => {
+      const currentLocale = overrideLocale ?? locale ?? locales[0]
 
-    return translate<T, K>(translations, currentLocale)
+      // @ts-ignore
+      return translate<T, K>(translations, currentLocale)
+    } */
+
+    return React.useMemo(
+      () => ({
+        setLocale: handleLocaleChange,
+        locale,
+        locales
+      }),
+      [locale]
+    )
   }
-
-  return React.useMemo<LitteraMethodsReturn>(
-    () => ({
-      setLocale: handleLocaleChange,
-      locale,
-      locales,
-      translate: translateFn
-    }),
-    [locale]
-  )
-}

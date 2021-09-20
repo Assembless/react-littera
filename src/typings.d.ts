@@ -13,9 +13,9 @@ export type LitteraContextValue<T, P = unknown> = {
   locale: T[number]
   locales: T
   setLocale: (locale: string) => void
-  translate: <T, K extends keyof T>(
-    translations: LitteraTranslations<T>,
-    locale: K
-  ) => LitteraTranslated<T, K>
+  // translate: <T, K extends keyof T>(
+  //   translations: LitteraTranslations<T>,
+  //   locale: K
+  // ) => LitteraTranslated<T, K>
   preset: LitteraTranslations<P>
 }

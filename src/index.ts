@@ -2,5 +2,6 @@
 export { translate } from './core/translate'
 
 // React
-export { LitteraService } from './react/service'
-export { useLittera, useLitteraMethods, makeTranslations } from './react/hooks'
+export { createLittera } from './react/service'
+// export { LitteraService } from './react/service'
+// export { useLittera, useLitteraMethods, makeTranslations } from './react/hooks'

@@ -1,41 +1,7 @@
-import { createContext, useState, createElement, useContext, useMemo, useEffect, useCallback } from 'react';
+import { useContext, useMemo, useEffect, useCallback, createContext, createElement, useState } from 'react';
 
 var translate = function translate(translations, locale) {
-  var _translations$locale;
-
-  return (_translations$locale = translations[locale]) != null ? _translations$locale : {};
-};
-
-var LitteraContext = createContext({
-  locale: 'en_US',
-  locales: ['en_US'],
-  setLocale: function setLocale() {},
-  translate: function translate$1(translations, locale) {
-    return translate(translations, locale != null ? locale : 'en_US');
-  },
-  preset: {}
-});
-var LitteraService = function LitteraService(_ref) {
-  var _ref2;
-
-  var children = _ref.children,
-      initialLocale = _ref.initialLocale,
-      locales = _ref.locales,
-      _ref$preset = _ref.preset,
-      preset = _ref$preset === void 0 ? {} : _ref$preset;
-
-  var _React$useState = useState((_ref2 = initialLocale != null ? initialLocale : locales[0]) != null ? _ref2 : 'en_US'),
-      locale = _React$useState[0],
-      setLocale = _React$useState[1];
-
-  return createElement(LitteraContext.Provider, {
-    value: {
-      locale: locale,
-      setLocale: setLocale,
-      locales: locales,
-      preset: preset
-    }
-  }, children);
+  return translations[locale];
 };
 
 var throwInvalidLocale = function throwInvalidLocale(locales, locale) {
@@ -85,53 +51,103 @@ function deepMerge(target) {
   return deepMerge.apply(void 0, [target].concat(sources));
 }
 
-var makeTranslations = function makeTranslations(translations) {
-  warnMissingTranslations(translations);
-  return function (locale) {
-    var service = useContext(LitteraContext);
-    var translationsWithPreset = useMemo(function () {
-      return deepMerge(service.preset, translations);
-    }, [service.locale]);
-    return useLittera(translationsWithPreset, locale);
-  };
-};
-var useLittera = function useLittera(translations, locale) {
-  var service = useContext(LitteraContext);
-  var currentLocale = locale != null ? locale : service.locale;
-  useEffect(function () {
-    if (locale) throwInvalidLocale(service.locales, locale);
-  }, [locale]);
-  return useMemo(function () {
-    return translate(translations, currentLocale);
-  }, [currentLocale]);
-};
-var useLitteraMethods = function useLitteraMethods() {
-  var _React$useContext = useContext(LitteraContext),
-      setLocale = _React$useContext.setLocale,
-      locale = _React$useContext.locale,
-      locales = _React$useContext.locales;
-
-  var handleLocaleChange = useCallback(function (nextLocale) {
-    throwInvalidLocale(locales, nextLocale);
-    setLocale(nextLocale);
-  }, [setLocale]);
-
-  var translateFn = function translateFn(translations, overrideLocale) {
-    var _ref;
-
-    var currentLocale = (_ref = overrideLocale != null ? overrideLocale : locale) != null ? _ref : locales[0];
-    return translate(translations, currentLocale);
-  };
-
-  return useMemo(function () {
-    return {
-      setLocale: handleLocaleChange,
-      locale: locale,
-      locales: locales,
-      translate: translateFn
+var makeTranslations = function makeTranslations(LitteraContext) {
+  return function (translations) {
+    warnMissingTranslations(translations);
+    return function (locale) {
+      var service = useContext(LitteraContext);
+      var translationsWithPreset = useMemo(function () {
+        return deepMerge(service.preset, translations);
+      }, [service.locale]);
+      return useLittera(LitteraContext)(translationsWithPreset, locale);
     };
-  }, [locale]);
+  };
+};
+var useLittera = function useLittera(LitteraContext) {
+  return function (translations, locale) {
+    var service = useContext(LitteraContext);
+    var currentLocale = locale != null ? locale : service.locale;
+    useEffect(function () {
+      if (locale) throwInvalidLocale(service.locales, locale);
+    }, [locale]);
+    return useMemo(function () {
+      return translate(translations, currentLocale);
+    }, [currentLocale]);
+  };
+};
+var useLitteraMethods = function useLitteraMethods(LitteraContext) {
+  return function () {
+    var _React$useContext = useContext(LitteraContext),
+        setLocale = _React$useContext.setLocale,
+        locale = _React$useContext.locale,
+        locales = _React$useContext.locales;
+
+    var handleLocaleChange = useCallback(function (nextLocale) {
+      throwInvalidLocale(locales, nextLocale);
+      setLocale(nextLocale);
+    }, [setLocale]);
+    return useMemo(function () {
+      return {
+        setLocale: handleLocaleChange,
+        locale: locale,
+        locales: locales
+      };
+    }, [locale]);
+  };
 };
 
-export { LitteraService, makeTranslations, translate, useLittera, useLitteraMethods };
+function createLittera(locales, preset) {
+  var _locales$;
+
+  var context = createContext({
+    locale: (_locales$ = locales[0]) != null ? _locales$ : 'en_US',
+    locales: locales,
+    setLocale: function setLocale() {},
+    preset: preset
+  });
+  return {
+    LitteraContext: context,
+    LitteraService: function LitteraService(_ref) {
+      var children = _ref.children,
+          initialLocale = _ref.initialLocale;
+      return createElement(_LitteraService, {
+        initialLocale: initialLocale,
+        preset: preset,
+        locales: locales,
+        Context: context
+      }, children);
+    },
+    makeTranslations: function makeTranslations$1(translations) {
+      return function (locale) {
+        return makeTranslations(context)(translations)(locale);
+      };
+    },
+    useLitteraMethods: useLitteraMethods(context)
+  };
+}
+
+var _LitteraService = function _LitteraService(_ref2) {
+  var _ref3;
+
+  var children = _ref2.children,
+      initialLocale = _ref2.initialLocale,
+      locales = _ref2.locales,
+      preset = _ref2.preset,
+      Context = _ref2.Context;
+
+  var _React$useState = useState((_ref3 = initialLocale != null ? initialLocale : locales[0]) != null ? _ref3 : 'en_US'),
+      locale = _React$useState[0],
+      setLocale = _React$useState[1];
+
+  return createElement(Context.Provider, {
+    value: {
+      locale: locale,
+      setLocale: setLocale,
+      locales: locales,
+      preset: preset != null ? preset : {}
+    }
+  }, children);
+};
+
+export { createLittera, translate };
 //# sourceMappingURL=index.modern.js.map

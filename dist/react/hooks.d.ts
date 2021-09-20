@@ -1,4 +1,5 @@
-import { LitteraTranslated, LitteraTranslations } from '../typings';
+import * as React from 'react';
+import { LitteraContextValue, LitteraTranslations } from '../typings';
 /**
  * Method accepting translations object and returning a React hook.
  * @param translations
@@ -25,7 +26,7 @@ import { LitteraTranslated, LitteraTranslations } from '../typings';
  *  </div>
  * }
  */
-export declare const makeTranslations: <T, K extends keyof T>(translations: LitteraTranslations<T>) => (locale?: string | undefined) => LitteraTranslated<T, K>;
+export declare const makeTranslations: <L, P>(LitteraContext: React.Context<LitteraContextValue<L, P>>) => <T, K extends keyof T>(translations: LitteraTranslations<T>) => (locale?: K | undefined) => import("../typings").LitteraTranslated<T, K>;
 /**
  * @description React hook for translating a component.
  * @category React
@@ -33,16 +34,13 @@ export declare const makeTranslations: <T, K extends keyof T>(translations: Litt
  * @param locale Optional locale to translate to. Defaults to the current locale.
  * @returns The translations object for the specified locale.
  */
-export declare const useLittera: <T, K extends keyof T>(translations: LitteraTranslations<T>, locale?: string | undefined) => LitteraTranslated<T, K>;
-declare type LitteraMethodsReturn = {
-    readonly locale: string;
-    readonly locales: string[];
-    readonly setLocale: (locale: string) => void;
-    readonly translate: <T, K extends keyof T>(translations: LitteraTranslations<T>, locale?: string) => LitteraTranslated<T, K>;
-};
+export declare const useLittera: <L, P>(LitteraContext: React.Context<LitteraContextValue<L, P>>) => <T, K extends keyof T>(translations: LitteraTranslations<T>, locale?: K | undefined) => import("../typings").LitteraTranslated<T, K>;
 /**
  * @description React hook exposing methods for current context.
  * @category React
  */
-export declare const useLitteraMethods: () => LitteraMethodsReturn;
-export {};
+export declare const useLitteraMethods: <L, P>(LitteraContext: React.Context<LitteraContextValue<L, P>>) => () => {
+    setLocale: (nextLocale: string) => void;
+    locale: L[number];
+    locales: L;
+};

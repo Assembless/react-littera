@@ -5,4 +5,4 @@ import { LitteraTranslated, LitteraTranslations } from '../typings';
  * @param translations The translations object.
  * @param locale The locale to return.
  */
-export declare const translate: <T, K extends keyof T>(translations: LitteraTranslations<T>, locale: string) => LitteraTranslated<T, K>;
+export declare const translate: <T, K extends keyof T>(translations: LitteraTranslations<T>, locale: K) => LitteraTranslated<T, K>;
