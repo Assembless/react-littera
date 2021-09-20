@@ -81,9 +81,9 @@ export function createLittera<L extends ReadonlyArray<string>, P>(
      * }
      */
     makeTranslations:
-      <T, Tp extends T & P, TpK extends keyof Tp>(
-        translations: LitteraTranslations<T>
-      ) =>
+      <T, Tp extends T & P, TpK extends keyof Tp>(translations: {
+        [key in keyof T]: T[key]
+      }) =>
       (
         locale?: TpK
       ): {
