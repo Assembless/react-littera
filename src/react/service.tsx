@@ -1,6 +1,6 @@
 import * as React from 'react'
 import { makeTranslations, useLitteraMethods } from './hooks'
-import { LitteraContextValue, LitteraTranslations } from '../typings'
+import { LitteraContextValue } from '../typings'
 
 /**
  * @description Function initializing Littera. Creates a context and exposes Provider and other methods.
@@ -44,16 +44,25 @@ export function createLittera<L extends ReadonlyArray<string>, P>(
     }: {
       children: React.ReactNode
       initialLocale: L[number]
-    }) => (
-      <LitteraService<L, P>
-        initialLocale={initialLocale}
-        preset={preset}
-        locales={locales}
-        Context={context}
-      >
-        {children}
-      </LitteraService>
-    ),
+    }) => {
+      const [locale, setLocale] = React.useState(
+        initialLocale ?? locales[0] ?? 'en_US'
+      )
+      const ContextProvider = context.Provider
+
+      return (
+        <ContextProvider
+          value={{
+            locale,
+            setLocale,
+            locales,
+            preset
+          }}
+        >
+          {children}
+        </ContextProvider>
+      )
+    },
     /**
      * Method accepting translations object and returning a React hook.
      * @param translations
@@ -112,33 +121,33 @@ export function createLittera<L extends ReadonlyArray<string>, P>(
  *    </LitteraService>
  * }
  */
-export const LitteraService = function <L extends ReadonlyArray<unknown>, P>({
-  children,
-  initialLocale,
-  locales,
-  preset,
-  Context
-}: {
-  children: any
-  initialLocale: L[number]
-  locales: L
-  preset: LitteraTranslations<P>
-  Context: React.Context<LitteraContextValue<L, P>>
-}) {
-  const [locale, setLocale] = React.useState(
-    initialLocale ?? locales[0] ?? 'en_US'
-  )
+// export const LitteraService = function <L extends ReadonlyArray<unknown>, P>({
+//   children,
+//   initialLocale,
+//   locales,
+//   preset,
+//   Context
+// }: {
+//   children: any
+//   initialLocale: L[number]
+//   locales: L
+//   preset: LitteraTranslations<P>
+//   Context: React.Context<LitteraContextValue<L, P>>
+// }) {
+//   const [locale, setLocale] = React.useState(
+//     initialLocale ?? locales[0] ?? 'en_US'
+//   )
 
-  return (
-    <Context.Provider
-      value={{
-        locale,
-        setLocale,
-        locales,
-        preset: preset ?? {}
-      }}
-    >
-      {children}
-    </Context.Provider>
-  )
-}
+//   return (
+//     <Context.Provider
+//       value={{
+//         locale,
+//         setLocale,
+//         locales,
+//         preset: preset ?? {}
+//       }}
+//     >
+//       {children}
+//     </Context.Provider>
+//   )
+// }

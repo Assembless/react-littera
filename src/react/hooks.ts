@@ -1,10 +1,6 @@
 import * as React from 'react'
 import { translate } from '..'
-import {
-  deepMerge,
-  throwInvalidLocale,
-  warnMissingTranslations
-} from '../utils/helpers'
+import { throwInvalidLocale, warnMissingTranslations } from '../utils/helpers'
 import { LitteraContextValue, LitteraTranslations } from '../typings'
 
 /**
@@ -41,15 +37,19 @@ export const makeTranslations =
     return (locale?: K) => {
       const service = React.useContext(LitteraContext)
 
-      const translationsWithPreset = React.useMemo(
-        () => deepMerge(service.preset, translations),
-        [service.locale]
-      ) as T
-
-      return useLittera<L, P>(LitteraContext)<T, K>(
-        translationsWithPreset,
-        locale
+      const presetTranslated = React.useMemo(
+        () =>
+          translate(
+            service.preset,
+            (locale ?? service.locale) as unknown as keyof P
+          ),
+        [locale ?? service.locale]
       )
+
+      return {
+        ...presetTranslated,
+        ...useLittera<L, P>(LitteraContext)<T, K>(translations, locale)
+      }
     }
   }
 
