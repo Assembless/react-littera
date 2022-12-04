@@ -1,6 +1,6 @@
 import * as React from 'react'
 import { translate } from '..'
-import { throwInvalidLocale, warnMissingTranslations } from '../utils/helpers'
+import { throwInvalidLocale, raportMissingTranslations } from '../utils/helpers'
 import { LitteraContextValue, LitteraTranslations } from '../typings'
 
 /**
@@ -32,7 +32,7 @@ import { LitteraContextValue, LitteraTranslations } from '../typings'
 export const makeTranslations =
   <L, P>(LitteraContext: React.Context<LitteraContextValue<L, P>>) =>
   <T, K extends keyof T>(translations: LitteraTranslations<T>) => {
-    warnMissingTranslations(translations)
+    raportMissingTranslations(translations)
 
     return (locale?: K) => {
       const service = React.useContext(LitteraContext)
@@ -75,7 +75,7 @@ export const useLittera =
     }, [locale])
 
     return React.useMemo(
-      () => translate<T, K>(translations, currentLocale),
+      () => translate<T>(translations, currentLocale),
       [currentLocale]
     )
   }
@@ -97,16 +97,6 @@ export const useLitteraMethods =
       },
       [setLocale]
     )
-
-    /*     const translateFn = <T, K extends keyof T>(
-      translations: LitteraTranslations<T>,
-      overrideLocale?: string
-    ) => {
-      const currentLocale = overrideLocale ?? locale ?? locales[0]
-
-      // @ts-ignore
-      return translate<T, K>(translations, currentLocale)
-    } */
 
     return React.useMemo(
       () => ({

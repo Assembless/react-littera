@@ -20,7 +20,7 @@ export const throwInvalidLocale = (locales: string[], locale: string) => {
  * Disabled for 'production' environment.
  * @param translations The translations object.
  */
-export const warnMissingTranslations = <T>(
+export const raportMissingTranslations = <T>(
   translations: LitteraTranslations<T>
 ) => {
   if (process.env.NODE_ENV === 'production') return

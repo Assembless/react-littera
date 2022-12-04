@@ -6,7 +6,7 @@ import { LitteraTranslated, LitteraTranslations } from '../typings'
  * @param translations The translations object.
  * @param locale The locale to return.
  */
-export const translate = <T, K extends keyof T>(
+export const translate = <T>(
   translations: LitteraTranslations<T>,
-  locale: K
-): LitteraTranslated<T, K> => translations[locale]
+  locale: keyof T
+): LitteraTranslated<T, keyof T> => translations[locale]
