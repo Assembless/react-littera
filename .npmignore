@@ -1,5 +1,4 @@
-/coverage
-/docs
-/src
-/.vscode
-/types
+**/src
+**/.vscode
+**/example
+**/coverage

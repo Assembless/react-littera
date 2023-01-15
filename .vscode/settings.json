@@ -1,8 +1,9 @@
 {
   "search.exclude": {
     "**/node_modules": true,
-    "**/dist": true,
+    "**/dist": false,
     "**/out": true,
+    "**/coverage": false,
     ".awcache": true
   },
   "files.exclude": {
@@ -12,9 +13,14 @@
     "**/.DS_Store": true,
     "**/node_modules": true,
     "**/out": false,
+    "**/dist": false,
+    "**/coverage": false,
     "tslint-rules/**/*.js": true,
     ".awcache": true,
     ".eslintcache": true
   },
   "editor.tabSize": 2,
+  "editor.codeActionsOnSave": {
+    "source.fixAll": true
+  }
 }
