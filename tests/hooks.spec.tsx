@@ -163,6 +163,16 @@ describe("useLittera", () => {
     // @ts-ignore
     expect(console.warn.mock.calls[0][0]).toBe(`You are missing "simple" in de_DE.`);
   });
+
+  it("should fall back to available locale if translations for active are missing", () => {
+    console.warn = jest.fn();
+    const render = renderHook(() => useLittera(mockMissingTranslations, "de_DE"), { wrapper });
+    const translated = render.result.current;
+
+    const fallbackLocale = Object.keys(mockMissingTranslations.simple)[0];
+
+    expect(translated.simple).toEqual(mockMissingTranslations.simple[fallbackLocale]);
+  });
 });
 
 describe("useLitteraMethods", () => {

@@ -98,5 +98,7 @@ export function translateSingle<T>(translation: T, locale: string) {
   if (isVariableFunction(translation))
     return ((...args: Parameters<typeof translation>) => translation(...args)[locale]) as ISingleTranslated<T>;
 
-  return translation[locale] as ISingleTranslated<T>;
+  const defaultLocale = Object.keys(translation)[0];
+
+  return (translation[locale] || translation[defaultLocale]) as ISingleTranslated<T>;
 }

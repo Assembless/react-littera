@@ -50,7 +50,7 @@ export function useLittera<T extends ITranslations<T>>(t: TTranslationsArg<T, IT
   const locales = context.locales ?? [locale];
   
   const translations = React.useMemo(() => isTransFn<T, ITranslationsPreset<typeof preset>>(t) ? { ...t(preset) } : { ...t }, [t, preset]) as T;
-
+  
   React.useEffect(() => {
     reportMissing(translations, locales)
   }, [translations]);
