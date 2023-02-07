@@ -3,11 +3,14 @@
 All notable changes to this project will be documented in this file.
 
 ## [Unreleased]
+
+## [2.4.0] - 2023-02-07
 ### Fixed
 - Crashes on SSR when detecting locale.
 
 ### Added
 - Support for translation arrays.
+- Fallback for missing translations.
 
 ## [2.2.1] - 2021-05-03
 ### Changed
