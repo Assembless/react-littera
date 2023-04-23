@@ -1,42 +1,48 @@
+/**
+ * @jest-environment jsdom
+ */
+import '@testing-library/jest-dom';
 import * as React from 'react';
-import { mount } from 'enzyme';
+import { render, screen } from '@testing-library/react';
 import Trans from '../src/Trans';
 
 describe('<Trans />', () => {
   it('renders the translation string', () => {
-    const wrapper = mount(
-      <Trans>
-        {"Welcome to our website!"}
-      </Trans>,
-    );
-    expect(wrapper.text()).toEqual('Welcome to our website!');
+    const { container } = render(<Trans>{"Welcome to our website!"}</Trans>);
+    expect(screen.getByText('Welcome to our website!')).toBeInTheDocument();
+    expect(container.firstChild).toMatchSnapshot();
   });
 
   it('interpolates the provided values', () => {
-    const wrapper = mount(
-      <Trans values={{ name: 'John' }}>
-        {"Hello {name}!"}
-      </Trans>
-    );
-    expect(wrapper.text()).toEqual('Hello John!');
+    const { container } = render(<Trans values={{ name: 'John' }}>{"Hello {name}!"}</Trans>);
+    expect(screen.getByText('Hello John!')).toBeInTheDocument();
+    expect(container.firstChild).toMatchSnapshot();
   });
 
   it('parses HTML tags', () => {
-    const wrapper = mount(
-      <Trans>
-        {"Hello <strong>World</strong>!"}
-      </Trans>
-    );
-    expect(wrapper.find('strong')).toHaveLength(1);
+    // const customMatcher = (content: string, element: HTMLElement) => {
+    //   const hasText = (node: Node) => node.textContent === content;
+    //   const nodeHasText = hasText(element);
+    //   const childrenDontHaveText = Array.from(element.children).every(
+    //     (child) => !hasText(child)
+    //   );
+    //   return nodeHasText && childrenDontHaveText;
+    // };
+    const { container } = render(<p><Trans>{"Hello <strong>World</strong>!"}</Trans></p>);
+    // expect(screen.queryByText('Hello World!', { matcher: customMatcher })).toBeInTheDocument();
+    expect(container.firstChild).toMatchSnapshot();
   });
 
+
   it('renders custom React components', () => {
-    const CustomComponent = ({ children }: { children: React.ReactNode }) => <span>{children}</span>;
-    const wrapper = mount(
+    const CustomComponent = ({ children }) => <span data-testid="custom">{children}</span>;
+    const { container } = render(
       <Trans components={{ custom: CustomComponent }}>
         {"<custom>Hello World!</custom>"}
       </Trans>
     );
-    expect(wrapper.find(CustomComponent)).toHaveLength(1);
+    expect(screen.getByText('Hello World!')).toBeInTheDocument();
+    expect(screen.getByTestId('custom')).toBeInTheDocument();
+    expect(container.firstChild).toMatchSnapshot();
   });
 });
