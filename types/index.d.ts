@@ -117,3 +117,11 @@ export function useLitteraMethods(): {
 export const withLittera: <T>(translations: ITranslations<T>) => (Component: React.FunctionComponent<LitteraProps<T>>) => (props: any) => JSX.Element
 export const LitteraContext: React.Context<ILitteraProvider>
 export const LitteraProvider: (props: ILitteraProviderProps & {children: JSX.Element | JSX.Element[]}) => JSX.Element
+
+export interface TransProps {
+  children: React.ReactNode;
+  values?: Record<string, string | React.ReactNode>;
+  components?: Record<string, React.ElementType | string>;
+}
+
+export const Trans: React.FC<TransProps>
