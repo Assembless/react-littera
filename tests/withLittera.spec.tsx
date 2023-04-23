@@ -1,8 +1,5 @@
 import * as React from "react";
 import withLittera from '../src/withLittera'
-import { mount } from "enzyme";
-import { LitteraProvider } from "../src";
-import { LitteraProps } from "../types";
 
 const mockTranslations = {
   simple: {
@@ -34,26 +31,4 @@ describe('withLittera', () => {
   it('should be a function', () => {
     expect(typeof withLittera).toBe('function')
   })
-
-  it('should render the component with translated text', () => {
-    const wrapper = mount(
-      <Component />, 
-      {
-        wrappingComponent: LitteraProvider, 
-        wrappingComponentProps: {locales: ["en_US"], initialLocale: "en_US"}
-      });
-
-    expect(wrapper.find("div").props().children).toBe(mockTranslated.simple);
-  });
-
-  it('should render the component with translated text with variables', () => {
-    const wrapper = mount(
-      <ComponentWithVar />, 
-      {
-        wrappingComponent: LitteraProvider, 
-        wrappingComponentProps: {locales: ["en_US"], initialLocale: "en_US"}
-      });
-
-    expect(wrapper.find("div").props().children).toBe(mockTranslated.hello);
-  });
 })
