@@ -1,1 +1,1 @@
-declare module "react-littera";
+declare module "@assembless/react-littera";
