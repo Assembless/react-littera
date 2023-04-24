@@ -10,7 +10,7 @@ export const validateLocale = (l: string, p: RegExp) => {
 
 /**
  * Detects the preferred locale and parses it.
- * @returns Detected browser locale or null.
+ * @returns {any} Detected browser locale or null.
  */
 export const detectDeviceLocale = () => {
   let browserLocale = null;
@@ -29,7 +29,7 @@ export const detectDeviceLocale = () => {
 /**
  * Tries parsing locale from a string. (eg. de-DE or de => de_DE)
  * @param locale Locale string. (eg. de)
- * @returns Parsed locale string or null. (eg. de_DE)
+ * @returns {string} Parsed locale string or null. (eg. de_DE)
  */
 export const tryParseLocale = (locale: string) => {
   if(!locale) return null;
@@ -74,7 +74,6 @@ export const lookForMissingKeys = reportMissing;
 /**
  * Checks if value is a translation object.
  * @param value 
- * @returns 
  */
  export function isTranslation(value: unknown): value is ITranslation {
   return typeof (value as ITranslation) === "object";
@@ -83,7 +82,6 @@ export const lookForMissingKeys = reportMissing;
 /**
  * Checks if value is a variable function.
  * @param value 
- * @returns 
  */
 export function isVariableFunction(value: unknown): value is ITranslationVarFn {
   return typeof (value as ITranslationVarFn) === "function";
@@ -92,7 +90,6 @@ export function isVariableFunction(value: unknown): value is ITranslationVarFn {
 /**
  * Checks if value is a translations array.
  * @param value 
- * @returns 
  */
 export function isTransArrayFunction(value: unknown): value is ITranslationsArr {
   return (value as ITranslationsArr) instanceof Array &&

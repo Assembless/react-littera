@@ -1,10 +1,8 @@
 import * as React from "react";
 import { TransProps } from "../types";
 
-/**
- * This object contains the default HTML elements that can be parsed and rendered.
- */
-const DEFAULT_ELEMENTS = {
+// This object contains the default HTML elements that can be parsed and rendered.
+const DEFAULT_ELEMENTS = Object.freeze({
   a: "a",
   b: "b",
   i: "i",
@@ -23,7 +21,7 @@ const DEFAULT_ELEMENTS = {
   h5: "h5",
   h6: "h6",
   br: "br",
-};
+});
 
 /**
  * Trans is a custom translation component that can interpolate variables and parse HTML elements.
