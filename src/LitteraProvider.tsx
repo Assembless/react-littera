@@ -1,4 +1,4 @@
-import * as React from "react";
+import React from "react";
 import { ILitteraProvider, ILitteraProviderProps } from "../types/index.d";
 import { localePattern, detectDeviceLocale } from "./utils/methods";
 
@@ -54,7 +54,7 @@ export function LitteraProvider({
         setLocale: handleLocale,
         pattern,
         locales
-      }}
+      }} 
     >
       {children}
     </LitteraContext.Provider>

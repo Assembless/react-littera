@@ -38,4 +38,4 @@ export { default as withLittera } from "./withLittera";
 export { useLittera, useLitteraMethods } from "./hooks";
 export { default as Trans } from './Trans';
 
-export { ILitteraProvider, ITranslations, ITranslated } from "../types/index.d";
+export type { ILitteraProvider, ITranslations, ITranslated } from "../types/index.d";
