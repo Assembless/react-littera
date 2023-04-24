@@ -19,20 +19,17 @@ describe('<Trans />', () => {
     expect(container.firstChild).toMatchSnapshot();
   });
 
-  it('parses HTML tags', () => {
-    // const customMatcher = (content: string, element: HTMLElement) => {
-    //   const hasText = (node: Node) => node.textContent === content;
-    //   const nodeHasText = hasText(element);
-    //   const childrenDontHaveText = Array.from(element.children).every(
-    //     (child) => !hasText(child)
-    //   );
-    //   return nodeHasText && childrenDontHaveText;
-    // };
+  it('parses HTML tags in translation strings', () => {
     const { container } = render(<p><Trans>{"Hello <strong>World</strong>!"}</Trans></p>);
-    // expect(screen.queryByText('Hello World!', { matcher: customMatcher })).toBeInTheDocument();
     expect(container.firstChild).toMatchSnapshot();
+    expect(container.querySelector('strong')).toBeInTheDocument();
   });
 
+  it('parses HTML tags from nodes', () => {
+    const { container } = render(<p><Trans values={{ name: "Jack" }}>Hello <strong>{`{name}`}</strong>!</Trans></p>);
+    expect(container.firstChild).toMatchSnapshot();
+    expect(container.querySelector('strong')).toBeInTheDocument();
+  });
 
   it('renders custom React components', () => {
     const CustomComponent = ({ children }) => <span data-testid="custom">{children}</span>;
