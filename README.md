@@ -93,7 +93,7 @@ Here we have two options:
 -   **Hooks** (recommended)
 -   **HOC** (deprecated)
 
-#### Hooks Example
+#### Hooks
 
 ##### Basic
 ```javascript
@@ -184,7 +184,7 @@ const ExampleComponent = () => {
 export default ExampleComponent;
 ```
 
-#### HOC Example
+#### HOC
 
 ```javascript
 import React from "react";
@@ -215,6 +215,84 @@ class ExampleComponent extends React.Component {
 }
 
 export default withLittera(translation)(ExampleComponent);
+```
+
+#### Trans Component
+
+The Trans component is a custom translation component that can interpolate variables and parse HTML elements.
+
+:warning: If possible, avoid using the component. It is slower and will drastically decrease performance when nesting components. Use the `useLittera` hook, take a look at the variable translations example above.
+
+##### Props
+The Trans component takes the following props:
+
+ **`children` (required)**
+The children prop is the translation string to be rendered. It should be a string or a React element. You can pass a translated string directly to the component from `useLittera`.
+
+**`values` (optional)**
+The values prop is an object containing values to be interpolated in the translation string. The keys of the object should match the variable names in the translation string, and the values should be the values to be substituted. It should be an object where the keys are strings and the values are either strings or React elements.
+
+**`components` (optional)**
+The components prop is an object containing custom React components or HTML tags to be parsed and rendered. The keys of the object should match the HTML tag names, and the values should be the React components to be used instead. It should be an object where the keys are strings and the values are either strings or React elements.
+
+##### Examples
+Here's an example of how to use the Trans component:
+
+```jsx
+import React from "react";
+import { Trans, useLittera } from "@assembless/react-littera";
+
+const translations = {
+  welcome: {
+    en_US: "Welcome <strong>{name}</strong>!",
+    de_DE: "Willkommen <strong>{name}</strong>!",
+    pl_PL: "Witaj <strong>{name}</strong>!",
+  },
+};
+
+function App() {
+  const translated = useLittera(translations);
+
+  return <Trans values={{ name: "Jack" }}>{translated.welcome}</Trans>;
+}
+```
+In this example, the `useLittera` hook is used to get the translated string. The values prop is used to interpolate the name variable in the translated string, and the Trans component is used to parse and render the HTML tags.
+
+Here's another example with custom components:
+
+```jsx
+import React from "react";
+import { Trans, useLittera } from "@assembless/react-littera";
+
+const translations = {
+  welcome: {
+    en_US: "Welcome <strong>{name}</strong> to <magic>{town}</magic>!",
+    de_DE: "Willkommen <strong>{name}</strong> in <magic>{town}</magic>!",
+    pl_PL: "Witaj <strong>{name}</strong> w <magic>{town}</magic>!",
+  },
+  warsaw: {
+    en_US: "Warsaw",
+    de_DE: "Warschau",
+    pl_PL: "Warszawa",
+  },
+};
+
+function App() {
+  const translated = useLittera(translations);
+
+  return (
+    <Trans
+      values={{ name: "Jack", town: translated.warsaw }}
+      components={{ magic: MagicComponent }}
+    >
+      {translated.welcome}
+    </Trans>
+  );
+}
+
+function MagicComponent({ children }) {
+  return <span style={{ color: "red" }}>{children}</span>;
+}
 ```
 
 ## API
@@ -404,13 +482,13 @@ const { locale, setLocale, pattern, setPattern, validateLocale } = useLitteraMet
 
 ## FAQ
 
-#### Will I need to type all the translations by myself?
+#### Do I have to type all the translations by myself?
 Yes, we have not implemented a translator to keep this package simple and lightweight also providing the translations manually guarantees a better user experience.
 
 #### Does react-littera work with React Native?
 React Native compatibility has not been tested but the community reported 100% usability.
 
-#### You can easily transfer translations with a component.
+#### You can easily transport translations with a component.
 Just define the translations object in your components file or directory. It will travel with your component, just remember to add @assembless/react-littera as a dependency!
 
 ## License
