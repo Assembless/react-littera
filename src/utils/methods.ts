@@ -1,11 +1,11 @@
-import { ITranslation, ITranslations, ITranslationsArr, ITranslationVarFn } from "../../types";
+import { ITranslation, ITranslations, ITranslationsArr, ITranslationVarFn, TValidateLocale } from "../../types";
 
 export const localePattern = /[a-z]{2}_[A-Z]{2}/gi;
 
-export const validateLocale = (l: string, p: RegExp) => {
-  const _p = p || localePattern;
+export const validateLocale: TValidateLocale = (locale: string, pattern?: RegExp) => {
+  const _pattern = pattern || localePattern;
 
-  return Boolean(new RegExp(_p).test(l));
+  return Boolean(new RegExp(_pattern).test(locale));
 }
 
 /**
@@ -51,11 +51,11 @@ export const tryParseLocale = (locale: string) => {
  */
 export const reportMissing = <T>(translations: ITranslations<T>, locales: string[]) => {
   Object.keys(translations).forEach(key => {
-    if(typeof translations[key] === "function") return; // TODO: Detect missing translations for variable functions.
-    if(translations[key] instanceof Array) return; // TODO: Detect missing translations for arrays.
+    if(typeof translations[key as keyof typeof translations] === "function") return; // TODO: Detect missing translations for variable functions.
+    if(translations[key as keyof typeof translations] instanceof Array) return; // TODO: Detect missing translations for arrays.
     
     locales.forEach(locale => {
-
+      // @ts-ignore
       if (typeof translations[key][locale] !== "string") 
         console.warn(`You are missing "${key}" in ${locale}.`);
     });

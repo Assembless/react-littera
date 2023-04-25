@@ -97,7 +97,7 @@ const Trans: React.FC<TransProps> = ({ children, values = {}, components = {} })
             if (htmlTagRegex.test(parts[index - 1] || "")) {
               // This part is an HTML tag, so convert it to a React component
               const tagName = parts[index - 1].replace(/<|>/g, "");
-              const Component = components[tagName] || DEFAULT_ELEMENTS[tagName];
+              const Component = components[tagName] || DEFAULT_ELEMENTS[tagName as keyof typeof DEFAULT_ELEMENTS];
               if (Component) {
                 return <Component key={index}>{interpolate(part)}</Component>;
               }
@@ -110,7 +110,7 @@ const Trans: React.FC<TransProps> = ({ children, values = {}, components = {} })
         const { type, props } = child;
         const Component =
           typeof type === "string"
-            ? components[type.toLowerCase()] ?? DEFAULT_ELEMENTS[type.toLowerCase()]
+            ? components[type.toLowerCase()] ?? DEFAULT_ELEMENTS[type.toLowerCase() as keyof typeof DEFAULT_ELEMENTS]
             : type;
         // Parse the child nodes.
         const childNodes = React.Children.map(props.children, renderChild);

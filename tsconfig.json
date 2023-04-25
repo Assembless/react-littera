@@ -1,19 +1,11 @@
 {
   "compilerOptions": {
     "outDir": "./dist",
-    "target": "es5",
-    "lib": ["dom", "dom.iterable", "esnext"],
     "allowJs": true,
-    "skipLibCheck": true,
-    "esModuleInterop": true,
-    "allowSyntheticDefaultImports": true,
-    "forceConsistentCasingInFileNames": true,
-    "noFallthroughCasesInSwitch": true,
-    "module": "esnext",
-    "moduleResolution": "node",
-    "resolveJsonModule": true,
-    "isolatedModules": true,
-    "jsx": "react-jsx"
+    "target": "es5",
+    "lib": ["es6", "dom", "es2017", "ESNext"],
+    "jsx": "react",
+    "types": ["jest", "node", "@testing-library/jest-dom"]
   },
   "include": ["./src/**/*"],
   "exclude": ["node_modules", "**/*.test.*", "**/*.spec.*"]

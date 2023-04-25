@@ -1,4 +1,4 @@
-import React from "react";
+import * as React from "react";
 import { ILitteraProvider, ILitteraProviderProps } from "../types/index.d";
 import { localePattern, detectDeviceLocale } from "./utils/methods";
 

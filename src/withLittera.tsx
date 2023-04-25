@@ -13,7 +13,7 @@ import { translate } from './utils/translate';
 const withLittera = <T extends ITranslations<T>>(translations: T | ((preset?: ITranslationsPreset) => T)) => (
   Component: React.FunctionComponent<LitteraProps<T>>
 ) =>
-  function WrapperComponent(props) {
+  function WrapperComponent(props: any) {
     return (
       <LitteraContext.Consumer>
         {state => {
@@ -23,7 +23,7 @@ const withLittera = <T extends ITranslations<T>>(translations: T | ((preset?: IT
             ? { ...translations(state.preset) }
             : { ...translations }
           
-          const translated = translate(transes, state.locale);
+          const translated = translate(transes, state.locale as string);
 
           return (
             <Component
