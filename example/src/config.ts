@@ -30,6 +30,6 @@ const PRESET = {
     no: "いいえ",
   }
 }
-const { LitteraService, makeTranslations, useLitteraMethods} = createLittera(LOCALES, PRESET);
+const { LitteraService, makeTranslations, useLitteraMethods, useLitteraRemote } = createLittera(LOCALES, PRESET);
 
-export { LitteraService, makeTranslations, useLitteraMethods };
+export { LitteraService, makeTranslations, useLitteraMethods, useLitteraRemote };

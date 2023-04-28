@@ -1,4 +1,5 @@
 import * as React from 'react'
+import useSWR from 'swr';
 import { translate } from '..'
 import { throwInvalidLocale, raportMissingTranslations } from '../utils/helpers'
 import { LitteraContextValue, LitteraTranslations } from '../typings'
@@ -79,6 +80,21 @@ export const useLittera =
       [currentLocale]
     )
   }
+
+export const useLitteraRemote =
+<L, P>(LitteraContext: React.Context<LitteraContextValue<L, P>>) =>
+<T, K extends keyof T>(path: string, _locale?: K) => {
+  const service = React.useContext(LitteraContext)
+  // const currentLocale = (locale ?? service.locale);
+  
+  const url = `${service.remote?.url}/${path}`;
+  const request = useSWR(url, service.remote?.fetcher as any);
+
+  return React.useMemo(
+    () => request.data ?? {},
+    [request.data]
+  );
+}
 
 /**
  * @description React hook exposing methods for current context.

@@ -77,5 +77,6 @@
     "multilingual"
   ],
   "dependencies": {
+    "swr": "^2.1.5"
   }
 }
