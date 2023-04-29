@@ -61,7 +61,7 @@ const useLittera = makeTranslations({
 const Header = () => {
   const translated = useLittera();
   const { locale, setLocale } = useLitteraMethods();
-  const translatedRemote = useLitteraRemote(locale + "/account/personal");
+  const translatedRemote = useLitteraRemote("account/personal");
 
   const switchLocale = () => {
     switch(locale) {
