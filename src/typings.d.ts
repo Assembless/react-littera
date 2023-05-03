@@ -18,10 +18,4 @@ export type LitteraContextValue<T, P = unknown> = {
   //   locale: K
   // ) => LitteraTranslated<T, K>
   preset: LitteraTranslations<P>
-  remote?: LitteraRemoteOptions<P>;
 }
-
-type LitteraRemoteOptions<P=unknown> = {
-  url: string;
-  fetcher: ((arg: string) => FetcherResponse<LitteraTranslations<P>>);
-};

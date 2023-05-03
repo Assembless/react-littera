@@ -1,13 +1,6 @@
 import * as React from 'react'
-import { makeTranslations, useLitteraMethods, useLitteraRemote } from './hooks'
-import { LitteraContextValue, LitteraRemoteOptions } from '../typings'
-
-const defaultFetcher = async (url: string) => {
-  const response = await fetch(url)
-  const data = await response.json()
-
-  return data
-};
+import { makeTranslations, useLitteraMethods } from './hooks'
+import { LitteraContextValue } from '../typings'
 
 /**
  * @description Function initializing Littera. Creates a context and exposes Provider and other methods.
@@ -17,17 +10,14 @@ const defaultFetcher = async (url: string) => {
  */
 export function createLittera<L extends ReadonlyArray<string>, P>(
   locales: L,
-  preset: P,
+  preset: P
 ) {
-  const contextState: LitteraContextValue<L, P> = {
+  const context = React.createContext<LitteraContextValue<L, P>>({
     locale: (locales[0] ?? 'en_US') as L[number],
     locales: locales as L,
     setLocale: () => {},
-    preset,
-    remote: undefined
-  };
-
-  const context = React.createContext(contextState);
+    preset
+  })
 
   return {
     LitteraContext: context,
@@ -50,12 +40,10 @@ export function createLittera<L extends ReadonlyArray<string>, P>(
      */
     LitteraService: ({
       children,
-      initialLocale,
-      remote
+      initialLocale
     }: {
       children: React.ReactNode
-      initialLocale: L[number],
-      remote?: LitteraRemoteOptions<P>,
+      initialLocale: L[number]
     }) => {
       const [locale, setLocale] = React.useState(
         initialLocale ?? locales[0] ?? 'en_US'
@@ -68,9 +56,7 @@ export function createLittera<L extends ReadonlyArray<string>, P>(
             locale,
             setLocale,
             locales,
-            preset,
-            // @ts-ignore
-            remote: remote ? { fetcher: defaultFetcher, ...remote } : undefined
+            preset
           }}
         >
           {children}
@@ -114,7 +100,6 @@ export function createLittera<L extends ReadonlyArray<string>, P>(
       } =>
         // @ts-ignore
         makeTranslations<L, P>(context)<Tp, TpK>(translations)(locale),
-    useLitteraMethods: useLitteraMethods<L, P>(context),
-    useLitteraRemote: useLitteraRemote<L, P>(context)
+    useLitteraMethods: useLitteraMethods<L, P>(context)
   }
 }

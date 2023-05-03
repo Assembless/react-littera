@@ -1,6 +1,6 @@
 import React from 'react';
 
-import { makeTranslations, useLitteraMethods, useLitteraRemote } from './config'
+import { makeTranslations, useLitteraMethods } from './config'
 
 const useLittera = makeTranslations({
   "en_US": {
@@ -61,7 +61,6 @@ const useLittera = makeTranslations({
 const Header = () => {
   const translated = useLittera();
   const { locale, setLocale } = useLitteraMethods();
-  const translatedRemote = useLitteraRemote(locale + "/account/personal");
 
   const switchLocale = () => {
     switch(locale) {
@@ -90,10 +89,6 @@ const Header = () => {
       <h2>{translated.nameAge("Pawel", 43)}</h2>
       <h2>{translated.age}</h2>
       <button onClick={switchLocale}>Switch {translated.language}</button>
-      <button onClick={() => setLocale("en_US")}>Switch to US</button>
-      <button onClick={() => setLocale("de_DE")}>Switch to DE</button>
-      <button onClick={() => setLocale("pl_PL")}>Switch to PL</button>
-      <h2>{translatedRemote.age}</h2>
     </div>
   }
    export default Header;
