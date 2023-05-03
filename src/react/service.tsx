@@ -1,22 +1,13 @@
 import * as React from 'react'
 import { makeTranslations, useLitteraMethods, useLitteraRemote } from './hooks'
 import { LitteraContextValue, LitteraRemoteOptions } from '../typings'
-import { parseRemoteOptions } from '../utils/remote';
-import { SWRConfig } from 'swr';
 
-function localStorageProvider() {
-  // When initializing, we restore the data from `localStorage` into a map.
-  const map = new Map(JSON.parse(localStorage.getItem('app-cache') || '[]'))
+const defaultFetcher = async (url: string) => {
+  const response = await fetch(url)
+  const data = await response.json()
 
-  // Before unloading the app, we write back all the data into `localStorage`.
-  window.addEventListener('beforeunload', () => {
-    const appCache = JSON.stringify(Array.from(map.entries()))
-    localStorage.setItem('app-cache', appCache)
-  })
-
-  // We still use the map for write & read for performance.
-  return map
-}
+  return data
+};
 
 /**
  * @description Function initializing Littera. Creates a context and exposes Provider and other methods.
@@ -31,7 +22,7 @@ export function createLittera<L extends ReadonlyArray<string>, P>(
   const contextState: LitteraContextValue<L, P> = {
     locale: (locales[0] ?? 'en_US') as L[number],
     locales: locales as L,
-    setLocale: () => { },
+    setLocale: () => {},
     preset,
     remote: undefined
   };
@@ -72,20 +63,18 @@ export function createLittera<L extends ReadonlyArray<string>, P>(
       const ContextProvider = context.Provider
 
       return (
-        // @ts-ignore
-        <SWRConfig value={{ provider: localStorageProvider }}>
-          <ContextProvider
-            value={{
-              locale,
-              setLocale,
-              locales,
-              preset,
-              remote: parseRemoteOptions<P>(remote, locale)
-            }}
-          >
-            {children}
-          </ContextProvider>
-        </SWRConfig>
+        <ContextProvider
+          value={{
+            locale,
+            setLocale,
+            locales,
+            preset,
+            // @ts-ignore
+            remote: remote ? { fetcher: defaultFetcher, ...remote } : undefined
+          }}
+        >
+          {children}
+        </ContextProvider>
       )
     },
     /**
@@ -118,34 +107,14 @@ export function createLittera<L extends ReadonlyArray<string>, P>(
       <T, Tp extends T & P, TpK extends keyof Tp>(translations: {
         [key in keyof T]: T[key]
       }) =>
-        (
-          locale?: TpK
-        ): {
-            [key in keyof Tp[TpK]]: Tp[TpK][key]
-          } =>
-          // @ts-ignore
-          makeTranslations<L, P>(context)<Tp, TpK>(translations)(locale),
-    /**
-     * @description React hook exposing methods for current context.
-     * @category React
-     */
+      (
+        locale?: TpK
+      ): {
+        [key in keyof Tp[TpK]]: Tp[TpK][key]
+      } =>
+        // @ts-ignore
+        makeTranslations<L, P>(context)<Tp, TpK>(translations)(locale),
     useLitteraMethods: useLitteraMethods<L, P>(context),
-    /**
-     * @description React hook for translating a component from remote source.
-     * @category React
-     * @param path Path to the remote source.
-     * @param locale Optional locale to translate to. Defaults to the current locale.
-     * @returns The translations object for the specified locale.
-     * @example
-     * const Component = () => {
-     *      const translated = useLitteraRemote("account/personal");
-     * 
-     *      return <div>
-     *           <h1>{translated.firstName}</h1>
-     *           <h2>{translated.age}</h2>
-     *      </div>
-     * }
-     */
     useLitteraRemote: useLitteraRemote<L, P>(context)
   }
 }

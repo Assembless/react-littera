@@ -1,5 +1,3 @@
-import React from "react"
-
 /**
  * Object including each language and respective translations.
  */

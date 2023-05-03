@@ -1,6 +1,6 @@
 import * as React from 'react'
-import useSWR from 'swr'
-import { translate } from '../core/translate'
+import useSWR from 'swr';
+import { translate } from '..'
 import { throwInvalidLocale, raportMissingTranslations } from '../utils/helpers'
 import { LitteraContextValue, LitteraTranslations } from '../typings'
 
@@ -81,36 +81,19 @@ export const useLittera =
     )
   }
 
-/**
- * @description React hook for translating a component from remote source.
- * @category React
- * @param path Path to the remote source.
- * @param locale Optional locale to translate to. Defaults to the current locale.
- * @returns The translations object for the specified locale.
- * @todo TODO: Add caching to the remote source.
- * @todo TODO: Ensure that the hook's API is enough for most localization services.
- * @example
- * const Component = () => {
- *      const translated = useLitteraRemote("account/personal");
- * 
- *      return <div>
- *           <h1>{translated.firstName}</h1>
- *           <h2>{translated.age}</h2>
- *      </div>
- * }
- */
 export const useLitteraRemote =
 <L, P>(LitteraContext: React.Context<LitteraContextValue<L, P>>) =>
 <T, K extends keyof T>(path: string, _locale?: K) => {
-  const service = React.useContext(LitteraContext);
+  const service = React.useContext(LitteraContext)
+  // const currentLocale = (locale ?? service.locale);
   
   const url = `${service.remote?.url}/${path}`;
   const request = useSWR(url, service.remote?.fetcher as any);
 
-  if(request.error) 
-    console.error(request.error);
-
-  return (request.data ?? {}) as LitteraTranslations<T>;
+  return React.useMemo(
+    () => request.data ?? {},
+    [request.data]
+  );
 }
 
 /**
