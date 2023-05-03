@@ -1,5 +1,5 @@
 import * as React from 'react'
-import { translate } from '..'
+import { translate } from '../core/translate';
 import { throwInvalidLocale, raportMissingTranslations } from '../utils/helpers'
 import { LitteraContextValue, LitteraTranslations } from '../typings'
 
