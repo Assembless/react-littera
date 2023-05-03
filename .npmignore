@@ -2,3 +2,17 @@
 **/.vscode
 **/example
 **/coverage
+**/node_modules
+yarn.lock
+**/.git
+**/.github
+*.ts
+*.test.*
+*.md
+*.json
+*.lock
+.eslintrc
+.eslintignore
+.editorconfig
+.prettierrc
+.gitignore

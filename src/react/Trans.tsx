@@ -142,7 +142,7 @@ const Trans: React.FC<TransProps> = ({
     [children, renderChild]
   )
 
-  return <>{renderedChildren}</>
+  return <React.Fragment>{renderedChildren}</React.Fragment>
 }
 
 export default Trans

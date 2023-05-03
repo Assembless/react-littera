@@ -27,12 +27,14 @@ export const raportMissingTranslations = <T>(
 
   const keys: string[] = []
   Object.keys(translations).forEach((locale) => {
+    // @ts-ignore
     Object.keys(translations[locale]).forEach((key) => {
       if (!keys.includes(key)) keys.push(key)
     })
 
     keys.forEach((key) => {
       // console.warn if key is missing in a locale.
+      // @ts-ignore
       if (!Object.keys(translations[locale]).includes(key)) {
         console.warn(`Key ${key} is missing in locale ${locale}`)
       }
