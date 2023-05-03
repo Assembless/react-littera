@@ -1,0 +1,35 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`<Trans /> interpolates the provided values 1`] = `Hello John!`
+
+exports[`<Trans /> parses HTML tags from nodes 1`] = `
+<p>
+  Hello 
+  <strong>
+    Jack
+  </strong>
+  !
+</p>
+`
+
+exports[`<Trans /> parses HTML tags in translation strings 1`] = `
+<p>
+  Hello 
+  <strong>
+    World
+  </strong>
+  !
+</p>
+`
+
+exports[`<Trans /> renders custom React components 1`] = `
+<span
+  data-testid="custom"
+>
+  Hello World!
+</span>
+`
+
+exports[
+  `<Trans /> renders the translation string 1`
+] = `Welcome to our website!`

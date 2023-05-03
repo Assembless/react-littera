@@ -20,6 +20,7 @@
     "start:lib": "microbundle-crl watch --no-compress --format modern,cjs",
     "start:example": "cd example && yarn start",
     "prepare": "run-s build",
+    "lint": "eslint src/**",
     "test": "run-s test:unit test:lint test:build",
     "test:build": "run-s build",
     "test:lint": "eslint src/**",
@@ -31,7 +32,6 @@
   "devDependencies": {
     "@testing-library/jest-dom": "^5.16.5",
     "@testing-library/react": "^14.0.0",
-    "@testing-library/react-hooks": "^8.0.1",
     "@testing-library/user-event": "^14.4.3",
     "@types/jest": "^29.5.1",
     "@types/node": "^18.16.3",
@@ -46,7 +46,6 @@
     "eslint-config-standard": "^17.0.0",
     "eslint-config-standard-react": "^13.0.0",
     "eslint-plugin-import": "^2.27.5",
-    "eslint-plugin-node": "^11.0.0",
     "eslint-plugin-prettier": "^4.2.1",
     "eslint-plugin-promise": "^6.1.1",
     "eslint-plugin-react": "^7.32.2",

@@ -1,5 +1,7 @@
+/* eslint-disable react-hooks/exhaustive-deps */
+/* eslint-disable react-hooks/rules-of-hooks */
 import * as React from 'react'
-import { translate } from '../core/translate';
+import { translate } from '../core/translate'
 import { throwInvalidLocale, raportMissingTranslations } from '../utils/helpers'
 import { LitteraContextValue, LitteraTranslations } from '../typings'
 

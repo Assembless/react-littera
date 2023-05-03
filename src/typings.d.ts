@@ -21,7 +21,7 @@ export type LitteraContextValue<T, P = unknown> = {
 }
 
 export interface TransProps {
-  children: React.ReactNode;
-  values?: Record<string, string | React.ReactNode>;
-  components?: Record<string, React.ElementType | string>;
+  children: React.ReactNode
+  values?: Record<string, string | React.ReactNode>
+  components?: Record<string, React.ElementType | string>
 }

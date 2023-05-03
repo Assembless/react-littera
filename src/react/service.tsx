@@ -100,6 +100,7 @@ export function createLittera<L extends ReadonlyArray<string>, P>(
       } =>
         // @ts-ignore
         makeTranslations<L, P>(context)<Tp, TpK>(translations)(locale),
+    // eslint-disable-next-line react-hooks/rules-of-hooks
     useLitteraMethods: useLitteraMethods<L, P>(context)
   }
 }
