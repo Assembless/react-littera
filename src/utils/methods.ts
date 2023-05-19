@@ -1,16 +1,16 @@
-import { ITranslation, ITranslations, ITranslationsArr, ITranslationVarFn } from "../../types";
+import { ITranslation, ITranslations, ITranslationsArr, ITranslationVarFn, TValidateLocale } from "../../types";
 
 export const localePattern = /[a-z]{2}_[A-Z]{2}/gi;
 
-export const validateLocale = (l: string, p: RegExp) => {
-  const _p = p || localePattern;
+export const validateLocale: TValidateLocale = (locale: string, pattern?: RegExp) => {
+  const _pattern = pattern || localePattern;
 
-  return Boolean(new RegExp(_p).test(l));
+  return Boolean(new RegExp(_pattern).test(locale));
 }
 
 /**
  * Detects the preferred locale and parses it.
- * @returns Detected browser locale or null.
+ * @returns {any} Detected browser locale or null.
  */
 export const detectDeviceLocale = () => {
   let browserLocale = null;
@@ -29,7 +29,7 @@ export const detectDeviceLocale = () => {
 /**
  * Tries parsing locale from a string. (eg. de-DE or de => de_DE)
  * @param locale Locale string. (eg. de)
- * @returns Parsed locale string or null. (eg. de_DE)
+ * @returns {string} Parsed locale string or null. (eg. de_DE)
  */
 export const tryParseLocale = (locale: string) => {
   if(!locale) return null;
@@ -51,11 +51,11 @@ export const tryParseLocale = (locale: string) => {
  */
 export const reportMissing = <T>(translations: ITranslations<T>, locales: string[]) => {
   Object.keys(translations).forEach(key => {
-    if(typeof translations[key] === "function") return; // TODO: Detect missing translations for variable functions.
-    if(translations[key] instanceof Array) return; // TODO: Detect missing translations for arrays.
+    if(typeof translations[key as keyof typeof translations] === "function") return; // TODO: Detect missing translations for variable functions.
+    if(translations[key as keyof typeof translations] instanceof Array) return; // TODO: Detect missing translations for arrays.
     
     locales.forEach(locale => {
-
+      // @ts-ignore
       if (typeof translations[key][locale] !== "string") 
         console.warn(`You are missing "${key}" in ${locale}.`);
     });
@@ -74,7 +74,6 @@ export const lookForMissingKeys = reportMissing;
 /**
  * Checks if value is a translation object.
  * @param value 
- * @returns 
  */
  export function isTranslation(value: unknown): value is ITranslation {
   return typeof (value as ITranslation) === "object";
@@ -83,7 +82,6 @@ export const lookForMissingKeys = reportMissing;
 /**
  * Checks if value is a variable function.
  * @param value 
- * @returns 
  */
 export function isVariableFunction(value: unknown): value is ITranslationVarFn {
   return typeof (value as ITranslationVarFn) === "function";
@@ -92,7 +90,6 @@ export function isVariableFunction(value: unknown): value is ITranslationVarFn {
 /**
  * Checks if value is a translations array.
  * @param value 
- * @returns 
  */
 export function isTransArrayFunction(value: unknown): value is ITranslationsArr {
   return (value as ITranslationsArr) instanceof Array &&

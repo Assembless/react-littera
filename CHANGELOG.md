@@ -3,6 +3,8 @@
 All notable changes to this project will be documented in this file.
 
 ## [Unreleased]
+### Added
+- Trans component for interpolating translations and parsing HTML tags.
 
 ## [2.4.0] - 2023-02-07
 ### Fixed

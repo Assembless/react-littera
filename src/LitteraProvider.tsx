@@ -54,7 +54,7 @@ export function LitteraProvider({
         setLocale: handleLocale,
         pattern,
         locales
-      }}
+      }} 
     >
       {children}
     </LitteraContext.Provider>

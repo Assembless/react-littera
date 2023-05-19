@@ -86,7 +86,7 @@ const mockPreset = {
   }
 };
 
-const wrapper = ({ children }) => {
+const wrapper = ({ children }: any) => {
   return (
     <LitteraProvider
       initialLocale="pl_PL"
@@ -132,6 +132,7 @@ describe("useLittera", () => {
   });
 
   it("should return correct translation from preset", () => {
+    // @ts-ignore
     const render = renderHook(() => useLittera(mockTranslationsFunc), { wrapper });
     const translated = render.result.current;
 
@@ -171,6 +172,7 @@ describe("useLittera", () => {
 
     const fallbackLocale = Object.keys(mockMissingTranslations.simple)[0];
 
+    // @ts-ignore
     expect(translated.simple).toEqual(mockMissingTranslations.simple[fallbackLocale]);
   });
 });

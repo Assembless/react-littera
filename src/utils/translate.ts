@@ -33,7 +33,7 @@ import { isTransArrayFunction, isVariableFunction } from "./methods";
  * translated.slogans[0] // => "Welcome to the show"
  * @returns {ITranslated}
  */
-export function translate<T, K extends keyof T>(
+export function translate<T extends Record<string, object>, K extends keyof T>(
   translations: T,
   locale: string
 ) {
@@ -91,7 +91,7 @@ export function translate<T, K extends keyof T>(
  * translatedArr[0] // => "Welcome to the show"
  * @returns {ISingleTranslated}
  */
-export function translateSingle<T>(translation: T, locale: string) {
+export function translateSingle<T extends object>(translation: T, locale: string): ISingleTranslated<T> {
   if(isTransArrayFunction(translation))
     return translation.map(t => translateSingle(t, locale)) as ISingleTranslated<T>;
 
@@ -100,5 +100,6 @@ export function translateSingle<T>(translation: T, locale: string) {
 
   const defaultLocale = Object.keys(translation)[0];
 
+  // @ts-ignore
   return (translation[locale] || translation[defaultLocale]) as ISingleTranslated<T>;
 }

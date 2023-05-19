@@ -92,7 +92,7 @@ export function useLitteraMethods() {
   const _setLocale:TSetLocale = React.useCallback((locale: string) => {
     if(!_validateLocale(locale)) throw new Error(`Locale does not match the pattern.`);
     
-    setLocale(locale);
+    setLocale && setLocale(locale);
   }, [locale]);
 
   const _validateLocale:TValidateLocale = React.useCallback(validateLocale, [pattern]);

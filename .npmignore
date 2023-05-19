@@ -3,3 +3,9 @@
 /src
 /.vscode
 /types
+/tests
+/CNAME
+/CODE_OF_CONDUCT.md
+/.yarn
+/public
+/yarn-error.log
