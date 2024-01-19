@@ -14,7 +14,8 @@
     "react-dom": "file:../node_modules/react-dom",
     "react-scripts": "5.0.1",
     "typescript": "file:../node_modules/typescript",
-    "web-vitals": "^2.1.4"
+    "web-vitals": "^2.1.4",
+    "@assembless/react-littera": "link:@assembless/react-littera"
   },
   "scripts": {
     "start": "react-scripts start",
