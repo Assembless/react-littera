@@ -1,6 +1,6 @@
-import * as React from 'react'
 import { makeTranslations, useLitteraMethods } from './hooks'
-import { LitteraContextValue } from '../typings'
+import type { LitteraContextValue } from '../typings'
+import { createContext, useState, type ReactNode } from 'react'
 
 /**
  * @description Function initializing Littera. Creates a context and exposes Provider and other methods.
@@ -12,7 +12,7 @@ export function createLittera<L extends ReadonlyArray<string>, P>(
   locales: L,
   preset: P
 ) {
-  const context = React.createContext<LitteraContextValue<L, P>>({
+  const context = createContext<LitteraContextValue<L, P>>({
     locale: (locales[0] ?? 'en_US') as L[number],
     locales: locales as L,
     setLocale: () => {},
@@ -42,10 +42,10 @@ export function createLittera<L extends ReadonlyArray<string>, P>(
       children,
       initialLocale
     }: {
-      children: React.ReactNode
+      children: ReactNode
       initialLocale: L[number]
     }) => {
-      const [locale, setLocale] = React.useState(
+      const [locale, setLocale] = useState(
         initialLocale ?? locales[0] ?? 'en_US'
       )
       const ContextProvider = context.Provider

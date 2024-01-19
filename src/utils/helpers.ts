@@ -1,4 +1,4 @@
-import { LitteraTranslations } from '../typings'
+import type { LitteraTranslations } from '../typings'
 
 /**
  * Throws an error if the given locale is not contained in the list of locales.

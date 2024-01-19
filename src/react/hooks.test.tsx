@@ -1,6 +1,7 @@
 import * as React from 'react'
+import { expect, describe, it, jest } from "bun:test";
 import { renderHook, act } from '@testing-library/react'
-import { createLittera } from '..'
+import { createLittera } from './service'
 
 const mockPreset = {
   en_US: {
@@ -168,7 +169,7 @@ describe('useLitteraMethods', () => {
     const render = renderHook(() => useLitteraMethods(), { wrapper })
     const { setLocale } = render.result.current
 
-    expect(() => setLocale('jp_JP')).toThrowError(
+    expect(() => setLocale('jp_JP')).toThrow(
       `Invalid locale provided. Expected [en_US, de_DE, pl_PL], got jp_JP`
     )
   })

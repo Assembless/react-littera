@@ -1,5 +1,4 @@
-import { createLittera } from "@assembless/react-littera"
-
+import { createLittera, Trans } from "@assembless/react-littera"
 
 const LOCALES = [ "en_US", "de_DE", "pl_PL", "no_NO", "jp_JP" ] as const;
 
@@ -32,4 +31,4 @@ const PRESET = {
 }
 const { LitteraService, makeTranslations, useLitteraMethods } = createLittera(LOCALES, PRESET);
 
-export { LitteraService, makeTranslations, useLitteraMethods };
+export { LitteraService, makeTranslations, useLitteraMethods, Trans };

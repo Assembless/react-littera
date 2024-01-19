@@ -1,4 +1,4 @@
-import { LitteraTranslated, LitteraTranslations } from '../typings'
+import type { LitteraTranslated, LitteraTranslations } from '../typings'
 
 /**
  * Reduces a translations object, returning translations for the specified locale.

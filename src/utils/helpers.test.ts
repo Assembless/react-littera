@@ -1,3 +1,4 @@
+import { expect, describe, it, test } from "bun:test";
 import { deepMerge, throwInvalidLocale } from './helpers'
 
 describe('throwInvalidLocale', () => {
@@ -5,7 +6,7 @@ describe('throwInvalidLocale', () => {
     expect(throwInvalidLocale(['en_US', 'de_DE', 'pl_PL'], 'pl_PL')).toBe(true)
   })
   it('should throw if locale is included in locales', () => {
-    expect(() => throwInvalidLocale(['en_US', 'de_DE'], 'pl_PL')).toThrowError(
+    expect(() => throwInvalidLocale(['en_US', 'de_DE'], 'pl_PL')).toThrow(
       'Invalid locale provided. Expected [en_US, de_DE], got pl_PL'
     )
   })

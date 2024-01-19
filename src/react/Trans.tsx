@@ -1,5 +1,5 @@
 import * as React from 'react'
-import { TransProps } from '../typings.d'
+import type { TransProps } from '../typings.d'
 
 // This object contains the default HTML elements that can be parsed and rendered.
 const DEFAULT_ELEMENTS = Object.freeze({

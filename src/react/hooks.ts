@@ -3,7 +3,7 @@
 import * as React from 'react'
 import { translate } from '../core/translate'
 import { throwInvalidLocale, raportMissingTranslations } from '../utils/helpers'
-import { LitteraContextValue, LitteraTranslations } from '../typings'
+import type { LitteraContextValue, LitteraTranslations } from '../typings'
 
 /**
  * Method accepting translations object and returning a React hook.

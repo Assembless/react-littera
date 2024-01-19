@@ -8,76 +8,37 @@
     "type": "git",
     "url": "git+https://github.com/Assembless/react-littera.git"
   },
+  "module": "src/index.ts",
   "main": "dist/index.js",
-  "module": "dist/index.modern.js",
   "source": "src/index.ts",
-  "engines": {
-    "node": ">=10"
-  },
+  "typings": "dist/index.d.ts",
+  "type": "module",
   "scripts": {
-    "build": "microbundle-crl --no-compress --format modern,cjs",
-    "start": "run-p start:example start:lib",
-    "start:lib": "microbundle-crl watch --no-compress --format modern,cjs",
-    "start:example": "cd example && yarn start",
-    "prepare": "run-s build",
-    "lint": "eslint src/**",
-    "test": "run-s test:unit test:lint test:build",
-    "test:build": "run-s build",
-    "test:lint": "eslint src/**",
-    "test:unit": "cross-env CI=1 react-scripts test --env=jsdom --coverage",
-    "test:watch": "react-scripts test --env=jsdom",
-    "predeploy": "cd example && yarn && yarn build",
-    "deploy": "gh-pages -d example/build",
-    "postinstall": "cd example && yarn"
+    "start:example": "cd example && bun run start",
+    "build": "bun run build:src && bun run build:declarations",
+    "build:declarations": "tsc --emitDeclarationOnly",
+    "build:src": "bun build ./src/index.ts --outdir ./dist --target browser --sourceMap --minify",
+    "test": "bun test"
   },
   "devDependencies": {
-    "@testing-library/jest-dom": "^6.2.0",
+    "@happy-dom/global-registrator": "^13.2.0",
     "@testing-library/react": "^14.1.2",
-    "@testing-library/user-event": "^14.5.2",
-    "@types/jest": "^29.5.11",
-    "@types/node": "^20.11.0",
-    "@types/react": "^18.2.47",
-    "@types/react-dom": "^18.2.18",
-    "@typescript-eslint/eslint-plugin": "^6.18.1",
-    "@typescript-eslint/parser": "^6.18.1",
-    "babel-eslint": "^10.1.0",
-    "cross-env": "^7.0.3",
-    "eslint": "^8.56.0",
-    "eslint-config-prettier": "^9.1.0",
-    "eslint-config-standard": "^17.1.0",
-    "eslint-config-standard-react": "^13.0.0",
-    "eslint-plugin-import": "^2.29.1",
-    "eslint-plugin-prettier": "^5.1.3",
-    "eslint-plugin-promise": "^6.1.1",
-    "eslint-plugin-react": "^7.33.2",
-    "eslint-plugin-standard": "^5.0.0",
-    "gh-pages": "^6.1.1",
-    "microbundle-crl": "^0.13.11",
-    "npm-run-all": "^4.1.5",
-    "prettier": "^3.2.2",
-    "react": "^18.2.0",
-    "react-dom": "^18.2.0",
-    "react-scripts": "^5.0.1",
-    "typescript": "^5.3.3"
+    "@types/bun": "latest",
+    "@types/react": "^18.2.48"
   },
   "peerDependencies": {
     "react": "^18.2.0",
-    "react-dom": "^18.2.0"
+    "react-dom": "^18.2.0",
+    "typescript": "^5.0.0"
   },
-  "files": [
-    "dist"
-  ],
   "keywords": [
     "translation",
     "language",
     "internationalization",
-    "local",
     "localization",
     "i18n",
-    "translate",
-    "multilingual"
-  ],
-  "dependencies": {
-    "eslint-plugin-react-hooks": "^4.6.0"
-  }
+    "languages",
+    "multilingual",
+    "react"
+  ]
 }

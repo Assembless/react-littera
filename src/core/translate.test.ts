@@ -1,3 +1,4 @@
+import { expect, describe, it } from "bun:test";
 import { translate } from './translate'
 
 const translations = {

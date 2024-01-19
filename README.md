@@ -214,7 +214,7 @@ Build:
 Test the library:
 `yarn test`
 
-## Migration 1.X => 2.X
+## Migration 2.X => 3.X
 
 ℹ Migration from 2.X to 3.X coming soon!
 
